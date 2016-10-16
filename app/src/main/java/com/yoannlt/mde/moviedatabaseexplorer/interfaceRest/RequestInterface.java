@@ -24,8 +24,8 @@ public interface RequestInterface {
     @GET("search/movie/{movie}")
     Call<JSONResponse> getMovies(@Path("movie") String movie);
 
-    @GET("movie/{id}")
-    Call<MovieComplete> getMovieById(@Path("id") int id);
+    //@GET("movie/{id}")
+    //Call<MovieComplete> getMovieById(@Path("id") int id);
 
     @GET("movie/credit/{id}")
     Call<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
@@ -46,5 +46,9 @@ public interface RequestInterface {
     // API TMDB DIRECT
     @GET("search/movie")
     Call<JSONResponse> movieSearchTmdb(@Query("query") String query);
+
+    // API TMDB DIRECT
+    @GET("movie/{id}")
+    Call<MovieComplete> getMovieById(@Path("id") int id);
 
 }

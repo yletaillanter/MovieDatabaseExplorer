@@ -46,11 +46,15 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.1.15:5001/";
     private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
     private final String API_KEY_PARAM = "api_key";
-    private final String API_KEY = "YOUR_API_KEY";
+    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
 
     @BindView(R.id.MyToolbar2) Toolbar toolbar;
     @BindView(R.id.card_recycler_view) RecyclerView recyclerView;
     @BindView(R.id.search_input) EditText searchInput;
+
+    private OkHttpClient okHttpClient2;
+    private Retrofit retrofit;
+    private RequestInterface request;
 
     ListSearchAdapter adapter;
     ArrayList<Movie> movies;
@@ -109,17 +113,8 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
             }
         });
-    }
 
-    private void searchMovie(String searchValue) {
-
-        // Interceptor + Http Client DEBUG
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
-
-        //
-        OkHttpClient okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
@@ -136,8 +131,17 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        request = retrofit.create(RequestInterface.class);
 
-        RequestInterface request = retrofit.create(RequestInterface.class);
+    }
+
+    private void searchMovie(String searchValue) {
+
+        // Interceptor + Http Client DEBUG
+        /*
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build(); */
 
         Call<JSONResponse> call = request.movieSearchTmdb(searchValue);
         call.enqueue(new Callback<JSONResponse>() {
@@ -160,6 +164,22 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     }
 
     private void loadCompleteMovie(int id) {
+
+        Call<MovieComplete> call = request.getMovieById(id);
+        call.enqueue(new Callback<MovieComplete>() {
+            @Override
+            public void onResponse(Call<MovieComplete> call, Response<MovieComplete> response) {
+                movie = response.body();
+                startActivity();
+            }
+
+            @Override
+            public void onFailure(Call<MovieComplete> call, Throwable t) {
+                Log.d("Retrofit Error", t.getMessage());
+            }
+        });
+
+        /*
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL_PHYSICAL_DEVICE)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -180,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 Log.d("Retrofit Error", t.getMessage());
             }
         });
+        */
+
+
     }
 
     @Override
