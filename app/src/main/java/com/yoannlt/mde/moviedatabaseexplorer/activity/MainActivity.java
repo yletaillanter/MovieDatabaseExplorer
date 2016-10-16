@@ -12,21 +12,26 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ListSearchAdapter;
-import com.yoannlt.mde.moviedatabaseexplorer.model.JSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -35,10 +40,13 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
 
-    final String LOG_TAG = getClass().getSimpleName();
-    final String TITLE = "Movie Explorer";
-    final String BASE_URL_EMULATOR = "http://10.0.2.2:5001/";
-    private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.0.16:5001/";
+    private final String LOG_TAG = getClass().getSimpleName();
+    private final String TITLE = "Movie Explorer";
+    private final String BASE_URL_EMULATOR = "http://10.0.2.2:5001/";
+    private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.1.15:5001/";
+    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
+    private final String API_KEY_PARAM = "api_key";
+    private final String API_KEY = "YOUR_API_KEY";
 
     @BindView(R.id.MyToolbar2) Toolbar toolbar;
     @BindView(R.id.card_recycler_view) RecyclerView recyclerView;
@@ -89,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Start the searching when the search get over two characters
                 if (searchInput.getText().toString().length()>1) {
-                    loadJSON(searchInput.getText().toString());
+                    searchMovie(searchInput.getText().toString());
                 } else {
                     // Else empty the result list (when deleting the search input)
                     adapter.replace(new ArrayList<Movie>());
@@ -103,16 +111,35 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         });
     }
 
-    private void loadJSON(String searchValue) {
+    private void searchMovie(String searchValue) {
 
+        // Interceptor + Http Client DEBUG
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
+
+        //
+        OkHttpClient okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
+                request = request.newBuilder().url(url).build();
+                return chain.proceed(request);
+            }
+        }).build();
+
+        // API rest retrofit
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_PHYSICAL_DEVICE)
+                .client(okHttpClient2)
+                .baseUrl(BASE_URL_TMDB)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+
         RequestInterface request = retrofit.create(RequestInterface.class);
 
-        Call<JSONResponse> call = request.getMovies(searchValue);
+        Call<JSONResponse> call = request.movieSearchTmdb(searchValue);
         call.enqueue(new Callback<JSONResponse>() {
             @Override
             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
@@ -129,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 Log.d("Retrofit Error", t.getMessage());
             }
         });
+
     }
 
     private void loadCompleteMovie(int id) {

@@ -1,12 +1,9 @@
 package com.yoannlt.mde.moviedatabaseexplorer.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,26 +11,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
-import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.OtherMoviesAdapter;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonImagesJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
-import com.yoannlt.mde.moviedatabaseexplorer.model.CastPersonJSONResponse;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-import com.yoannlt.mde.moviedatabaseexplorer.model.PersonCreditsJSONResponse;
-import com.yoannlt.mde.moviedatabaseexplorer.model.SimilarJSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonCreditsJSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.model.ProductionCompany;
+import com.yoannlt.mde.moviedatabaseexplorer.model.Profiles;
 
-import org.w3c.dom.Text;
-
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,7 +39,7 @@ import retrofit2.Retrofit;
 public class DetailPerson extends AppCompatActivity implements ClickListener {
 
     final String BASE_URL_EMULATOR = "http://10.0.2.2:5001/";
-    private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.0.16:5001/";
+    private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.1.15:5001/";
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
 
     @BindView(R.id.collapse_toolbar_person) CollapsingToolbarLayout collapsingToolbarLayout;
@@ -63,6 +54,8 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
 
     MovieComplete movie;
 
+    private ArrayList<Profiles> profiles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +67,7 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbarLayout.setTitle(person.getName());
 
@@ -92,6 +85,9 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         adapter.setClickListener(this);
         recyclerViewOther.setAdapter(adapter);
         loadOtherMoviesFromPerson(person.getId());
+
+        //Chargement des images profile
+        loadProfiles(person.getId());
 
         // TODO : Implement color for detail person
         // COULEUR TOOLBAR
@@ -176,6 +172,37 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
                 Log.d("Retrofit Error", t.getMessage());
             }
         });
+    }
+
+    // Charge la liste d'images attachées à la personne
+    private void loadProfiles(int id) {
+
+        Log.d("PROFILETEST debut : ", "test");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL_PHYSICAL_DEVICE)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+
+        Call<PersonImagesJSONResponse> call = requestInterface.getPersonImages(id);
+        call.enqueue(new Callback<PersonImagesJSONResponse>() {
+            @Override
+            public void onResponse(Call<PersonImagesJSONResponse> call, Response<PersonImagesJSONResponse> response) {
+                PersonImagesJSONResponse imagesJSONResponse = response.body();
+                if(imagesJSONResponse!= null && imagesJSONResponse.count() >= 1) {
+                    profiles = new ArrayList<>(Arrays.asList(imagesJSONResponse.getProfiles()));
+                    Log.d("PROFILETEST Response : ", profiles.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PersonImagesJSONResponse> call, Throwable t) {
+                Log.d(this.getClass().getSimpleName(), "LoadProfiles failes");
+            }
+        });
+
     }
 
     private void startMovieActivity(){

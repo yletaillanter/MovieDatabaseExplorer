@@ -25,6 +25,7 @@ public class Movie implements Parcelable {
     private List<Integer> genre_ids = new ArrayList<Integer>();
     private boolean video;
     private boolean adult;
+    //private int vote_count;
 
     public Movie() {
     }

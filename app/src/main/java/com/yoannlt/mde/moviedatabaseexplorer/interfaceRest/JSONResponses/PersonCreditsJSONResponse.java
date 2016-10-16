@@ -1,4 +1,6 @@
-package com.yoannlt.mde.moviedatabaseexplorer.model;
+package com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses;
+
+import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 
 /**
  * Created by yoannlt on 03/07/2016.

@@ -25,11 +25,11 @@ import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
-import com.yoannlt.mde.moviedatabaseexplorer.model.CastPersonJSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-import com.yoannlt.mde.moviedatabaseexplorer.model.SimilarJSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -49,7 +49,7 @@ import retrofit2.Retrofit;
 public class DetailActivity extends AppCompatActivity implements ClickListener {
 
     /*private final String BASE_URL = "http://10.0.2.2:5001/";*/
-    private final String BASE_URL = "http://192.168.0.16:5001/";
+    private final String BASE_URL = "http://192.168.1.15:5001/";
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
     private final String HORIZONTAL_RECYCLER_ADAPTER = "HorizontalRecyclerAdapter";
     private final String CASTING_RECYCLER_ADAPTER = "CastingRecyclerAdapter";
@@ -94,7 +94,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.MyToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // SLIDE OVERVIEW
         Slide slide = new Slide(Gravity.BOTTOM);
