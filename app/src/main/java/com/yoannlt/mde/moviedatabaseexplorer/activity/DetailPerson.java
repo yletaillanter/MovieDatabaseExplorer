@@ -22,14 +22,18 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonCreditsJSONResponse;
-import com.yoannlt.mde.moviedatabaseexplorer.model.ProductionCompany;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Profiles;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -38,9 +42,14 @@ import retrofit2.Retrofit;
 
 public class DetailPerson extends AppCompatActivity implements ClickListener {
 
-    final String BASE_URL_EMULATOR = "http://10.0.2.2:5001/";
-    private final String BASE_URL_PHYSICAL_DEVICE = "http://192.168.1.15:5001/";
+    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
+    private final String API_KEY_PARAM = "api_key";
+    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
+
+    private Retrofit retrofit;
+    private RequestInterface request;
+    private OkHttpClient okHttpClient2;
 
     @BindView(R.id.collapse_toolbar_person) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.picture_person) ImageView picture;
@@ -62,6 +71,24 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         setContentView(R.layout.activity_detail_person);
 
         ButterKnife.bind(this);
+
+        // Init interceptor retrofit + rest interface
+        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
+                request = request.newBuilder().url(url).build();
+                return chain.proceed(request);
+            }
+        }).build();
+
+        retrofit = new Retrofit.Builder()
+                .client(okHttpClient2)
+                .baseUrl(BASE_URL_TMDB)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        request = retrofit.create(RequestInterface.class);
 
         Person person = getIntent().getParcelableExtra("person");
 
@@ -124,12 +151,6 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
     }
 
     private void loadOtherMoviesFromPerson(int id) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_PHYSICAL_DEVICE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
 
         Call<PersonCreditsJSONResponse> call = request.getOtherMovies(id);
         call.enqueue(new Callback<PersonCreditsJSONResponse>() {
@@ -152,12 +173,6 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
     }
 
     private void loadCompleteMovie(int id) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_PHYSICAL_DEVICE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
 
         Call<MovieComplete> call = request.getMovieById(id);
         call.enqueue(new Callback<MovieComplete>() {
@@ -177,16 +192,7 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
     // Charge la liste d'images attachées à la personne
     private void loadProfiles(int id) {
 
-        Log.d("PROFILETEST debut : ", "test");
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL_PHYSICAL_DEVICE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-
-        Call<PersonImagesJSONResponse> call = requestInterface.getPersonImages(id);
+        Call<PersonImagesJSONResponse> call = request.getPersonImages(id);
         call.enqueue(new Callback<PersonImagesJSONResponse>() {
             @Override
             public void onResponse(Call<PersonImagesJSONResponse> call, Response<PersonImagesJSONResponse> response) {

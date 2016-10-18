@@ -1,14 +1,21 @@
 <resources>
     <string name="app_name">Movie Database Explorer</string>
-    <string name="language_label">Language</string>
-    <string name="original_title">Original Title</string>
-    <string name="vote_average">Vote Average</string>
-    <string name="release_date">Release date</string>
-    <string name="hint_search">Search</string>
+    <string name="language_label">Langue</string>
+    <string name="original_title">Titre Original</string>
+    <string name="vote_average">Moyenne des votes</string>
+    <string name="release_date">Date de sortie</string>
+    <string name="hint_search">Rechercher</string>
     <string name="label_cast">Casting</string>
     <string name="label_similar">Films Similaires</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </string>
     <string name="label_other_movies">Autres Films</string>
 
     <string name="label_ne">Né le :</string>
+
+    <string name="status_label">Status</string>
+    <string name="original_language_label">Langue originale</string>
+    <string name="budget_label">Budget</string>
+    <string name="revenue_label">Bénéfices</string>
+    <string name="production_companies_label">Société de production</string>
+
 </resources>

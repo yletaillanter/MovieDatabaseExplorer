@@ -5,18 +5,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -31,6 +34,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,6 +44,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -48,11 +56,16 @@ import retrofit2.Retrofit;
 
 public class DetailActivity extends AppCompatActivity implements ClickListener {
 
-    /*private final String BASE_URL = "http://10.0.2.2:5001/";*/
-    private final String BASE_URL = "http://192.168.1.15:5001/";
+    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
     private final String HORIZONTAL_RECYCLER_ADAPTER = "HorizontalRecyclerAdapter";
     private final String CASTING_RECYCLER_ADAPTER = "CastingRecyclerAdapter";
+    private final String API_KEY_PARAM = "api_key";
+    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
+
+    private Retrofit retrofit;
+    private RequestInterface request;
+    private OkHttpClient okHttpClient2;
 
     @BindView(R.id.recycler_similar) RecyclerView recyclerView;
     @BindView(R.id.recycler_casting) RecyclerView recyclerViewCasting;
@@ -66,6 +79,13 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     @BindView(R.id.genre_three) TextView genre_three;
     @BindView(R.id.releasedate) TextView release_date;
     @BindView(R.id.original_title) TextView original_title;
+    @BindView(R.id.original_language) TextView original_language;
+    @BindView(R.id.status) TextView status;
+    @BindView(R.id.budget) TextView budget;
+    @BindView(R.id.revenue) TextView revenue;
+    @BindView(R.id.production_companies) TextView production_companies;
+
+
 
     public CollapsingToolbarLayout collapsingToolbarLayout;
     private Map<Integer, String> genres = new HashMap<Integer, String>();
@@ -81,6 +101,9 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     // PERSON OBJECT PARCELABLE
     private Person person = new Person();
 
+    //LE MOVIE DE LA PAGE
+    private MovieComplete currentMovie;
+
     // MOVIE COMPLETE PARCELABLE
     MovieComplete movie;
 
@@ -89,6 +112,24 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+
+        // Init interceptor retrofit + rest interface
+        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
+                request = request.newBuilder().url(url).build();
+                return chain.proceed(request);
+            }
+        }).build();
+
+        retrofit = new Retrofit.Builder()
+                .client(okHttpClient2)
+                .baseUrl(BASE_URL_TMDB)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        request = retrofit.create(RequestInterface.class);
 
         //initGenreMap();
 
@@ -104,23 +145,40 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         slide.setDuration(200);
         getWindow().setEnterTransition(slide);
 
-        MovieComplete movie = getIntent().getParcelableExtra("movie");
+        // Get the movie
+        currentMovie = getIntent().getParcelableExtra("movie");
+
+        Log.d("kikou", currentMovie.toString());
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
-        collapsingToolbarLayout.setTitle(movie.getTitle());
+        collapsingToolbarLayout.setTitle(currentMovie.getTitle());
 
-        overview.setText(movie.getOverview());
-        rate.setText("" + movie.getVote_average());
-        language.setText(movie.getOriginal_language());
-        release_date.setText(movie.getRelease_date());
-        original_title.setText(movie.getOriginal_title());
+        overview.setText(currentMovie.getOverview());
+        rate.setText("" + currentMovie.getVote_average());
+        language.setText(currentMovie.getOriginal_language());
+        release_date.setText(currentMovie.getRelease_date());
+        original_title.setText(currentMovie.getOriginal_title());
+        original_language.setText(currentMovie.getOriginal_language());
+        status.setText(currentMovie.getStatus());
+        budget.setText(""+currentMovie.getBudget());
+        revenue.setText(""+currentMovie.getRevenue());
+        if(currentMovie.getProduction_companies() != null && currentMovie.getProduction_companies().length > 0) {
+            production_companies.setText(currentMovie.getProduction_companies()[0].getName());
+        }
 
-        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + movie.getBackdrop_path()).into(back);
-        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + movie.getPoster_path()).into(poster);
+        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
+        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
+
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFullScreenActivity();
+            }
+        });
 
         try {
-            if(movie.getBackdrop_path() != "") {
-                InputStream imageStream = new URL(BASE_IMAGE_URL + movie.getBackdrop_path()).openStream();
+            if(currentMovie.getBackdrop_path() != "") {
+                InputStream imageStream = new URL(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).openStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
 
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
@@ -165,7 +223,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         recyclerView.setAdapter(adapter);
 
         // Init Similar Movie
-        loadSimilar(movie.getId());
+        loadSimilar(currentMovie.getId());
 
         // Init recyclar casting
         castPersons = new ArrayList<CastPerson>();
@@ -176,7 +234,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         recyclerViewCasting.setAdapter(adapterCasting);
 
         // Init credits call
-        loadCredits(movie.getId());
+        loadCredits(currentMovie.getId());
     }
 
     // Get Colors from palette
@@ -225,13 +283,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
 
     private void loadSimilar(int movieId) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
-
         Call<SimilarJSONResponse> call = request.getSimilarMovies(movieId);
         call.enqueue(new Callback<SimilarJSONResponse>() {
             @Override
@@ -239,7 +290,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
                 SimilarJSONResponse jsonResponse = response.body();
                 if(jsonResponse.count() > 1) {
                     similarMovies = new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
-                    Log.d("Retrofit Response : ", similarMovies.toString());
+                    Log.d("Similar Response : ", similarMovies.toString());
                     adapter.replace(similarMovies);
                     adapter.notifyDataSetChanged();
                 }
@@ -254,17 +305,12 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
 
     private void loadCredits(int movieId) {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
-
         Call<CastPersonJSONResponse> call = request.getMovieCredits(movieId);
         call.enqueue(new Callback<CastPersonJSONResponse>() {
             @Override
             public void onResponse(Call<CastPersonJSONResponse> call, Response<CastPersonJSONResponse> response) {
+                //Log.d("loadCredits response: ", response.body().toString());
+
                 CastPersonJSONResponse jsonResponse = response.body();
                 if(jsonResponse.count() > 1) {
                     castPersons = new ArrayList<>(Arrays.asList(jsonResponse.getCast()));
@@ -282,12 +328,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     }
 
     private void loadPerson(int id){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
 
         Call<Person> call = request.getPerson(id);
         call.enqueue(new Callback<Person>() {
@@ -305,12 +345,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     }
 
     private void loadCompleteMovie(int id) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface request = retrofit.create(RequestInterface.class);
 
         Call<MovieComplete> call = request.getMovieById(id);
         call.enqueue(new Callback<MovieComplete>() {
@@ -330,7 +364,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     @Override
     public void itemClicked(View view, int position, String recycler) {
         if (CASTING_RECYCLER_ADAPTER.equals(recycler)) {
-            //Toast.makeText(getApplicationContext(), castPersons.get(position).getId()+"", Toast.LENGTH_LONG).show();
             loadPerson(castPersons.get(position).getId());
         } else if(HORIZONTAL_RECYCLER_ADAPTER.equals(recycler)) {
             loadCompleteMovie(similarMovies.get(position).getId());
@@ -348,5 +381,14 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         Intent intent = new Intent(DetailActivity.this, DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
+    }
+
+    private void startFullScreenActivity(){
+
+        if(currentMovie != null) {
+            Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
+            i.putExtra("img", currentMovie.getPoster_path());
+            startActivity(i);
+        }
     }
 }

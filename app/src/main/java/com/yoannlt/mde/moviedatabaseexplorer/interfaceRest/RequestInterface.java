@@ -21,34 +21,47 @@ import rx.Observable;
 public interface RequestInterface {
 
     // DEPRECATED
-    @GET("search/movie/{movie}")
-    Call<JSONResponse> getMovies(@Path("movie") String movie);
+    //@GET("search/movie/{movie}")
+    //Call<JSONResponse> getMovies(@Path("movie") String movie);
 
     //@GET("movie/{id}")
     //Call<MovieComplete> getMovieById(@Path("id") int id);
 
-    @GET("movie/credit/{id}")
-    Call<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
+    //@GET("movie/credit/{id}")
+    //Call<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
 
-    @GET("movie/similar/{id}")
+    //@GET("movie/similar/{id}")
+    //Call<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
+
+    //@GET("person/{id}")
+    //Call<Person> getPerson(@Path("id") int id);
+
+    //@GET("person/{id}/movie_credits")
+    //Call<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
+
+    //@GET("person/{id}/images")
+    //Call<PersonImagesJSONResponse> getPersonImages(@Path("id") int id);
+
+
+    //  ######## API TMDB DIRECT #########
+    @GET("search/movie")
+    Call<JSONResponse> movieSearchTmdb(@Query("query") String query);
+
+    @GET("movie/{id}")
+    Call<MovieComplete> getMovieById(@Path("id") int id);
+
+    @GET("movie/{id}/similar")
     Call<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
 
     @GET("person/{id}")
     Call<Person> getPerson(@Path("id") int id);
 
-    @GET("person/credits/{id}")
+    @GET("movie/{id}/credits")
+    Call<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
+
+    @GET("person/{id}/movie_credits")
     Call<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
 
-    @GET("person/images/{id}")
+    @GET("person/{id}/images")
     Call<PersonImagesJSONResponse> getPersonImages(@Path("id") int id);
-
-
-    // API TMDB DIRECT
-    @GET("search/movie")
-    Call<JSONResponse> movieSearchTmdb(@Query("query") String query);
-
-    // API TMDB DIRECT
-    @GET("movie/{id}")
-    Call<MovieComplete> getMovieById(@Path("id") int id);
-
 }
