@@ -23,7 +23,8 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity android:name=".activity.DetailPerson" />
-        <activity android:name=".activity.FullScreenImageViewActivity"></activity>
+        <activity android:name=".activity.FullScreenImageViewActivity" />
+        <activity android:name=".activity.GalleryActivity"></activity>
     </application>
 
 </manifest>

@@ -1,24 +1,26 @@
 package com.yoannlt.mde.moviedatabaseexplorer.model;
 
 /**
- * Created by yoannlt on 10/09/2016.
+ * Created by yoannlt on 18/10/2016.
  */
-public class Profiles {
 
-    private float aspect_ratio;
+public class Image {
+
+    public float aspect_ratio;
     private String file_path;
     private int height;
+    private String iso_639_1;
     private float vote_average;
-    private int vote_count;
+    private float vote_count;
     private int width;
 
-    public Profiles() {
-    }
+    public Image(){};
 
-    public Profiles(float aspect_ratio, String file_path, int height, float vote_average, int vote_count, int width) {
+    public Image(float aspect_ratio, String file_path, int height, String iso_639_1, float vote_average, float vote_count, int width) {
         this.aspect_ratio = aspect_ratio;
         this.file_path = file_path;
         this.height = height;
+        this.iso_639_1 = iso_639_1;
         this.vote_average = vote_average;
         this.vote_count = vote_count;
         this.width = width;
@@ -48,6 +50,14 @@ public class Profiles {
         this.height = height;
     }
 
+    public String getIso_639_1() {
+        return iso_639_1;
+    }
+
+    public void setIso_639_1(String iso_639_1) {
+        this.iso_639_1 = iso_639_1;
+    }
+
     public float getVote_average() {
         return vote_average;
     }
@@ -56,11 +66,11 @@ public class Profiles {
         this.vote_average = vote_average;
     }
 
-    public int getVote_count() {
+    public float getVote_count() {
         return vote_count;
     }
 
-    public void setVote_count(int vote_count) {
+    public void setVote_count(float vote_count) {
         this.vote_count = vote_count;
     }
 

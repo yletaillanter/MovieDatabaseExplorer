@@ -196,4 +196,22 @@ public class Person implements Parcelable {
             return new Person[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", imdb_id='" + imdb_id + '\'' +
+                ", name='" + name + '\'' +
+                ", also_known_as=" + also_known_as +
+                ", biography='" + biography + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", deathday='" + deathday + '\'' +
+                ", place_of_birth='" + place_of_birth + '\'' +
+                ", popularity=" + popularity +
+                ", profile_path='" + profile_path + '\'' +
+                ", homepage='" + homepage + '\'' +
+                ", adult=" + adult +
+                '}';
+    }
 }

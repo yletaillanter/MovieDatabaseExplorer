@@ -1,6 +1,8 @@
 package com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses;
 
-import com.yoannlt.mde.moviedatabaseexplorer.model.Profiles;
+import com.yoannlt.mde.moviedatabaseexplorer.model.Image;
+
+import java.util.Arrays;
 
 /**
  * Created by yoannlt on 10/09/2016.
@@ -8,7 +10,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Profiles;
 public class PersonImagesJSONResponse  {
 
     private int id;
-    private Profiles[] profiles;
+    private Image[] profiles;
 
     public int getId() {
         return id;
@@ -18,15 +20,23 @@ public class PersonImagesJSONResponse  {
         this.id = id;
     }
 
-    public Profiles[] getProfiles() {
+    public Image[] getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(Profiles[] profiles) {
+    public void setProfiles(Image[] profiles) {
         this.profiles = profiles;
     }
 
     public int count() {
         return profiles.length;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonImagesJSONResponse{" +
+                "id=" + id +
+                ", profiles=" + Arrays.toString(profiles) +
+                '}';
     }
 }

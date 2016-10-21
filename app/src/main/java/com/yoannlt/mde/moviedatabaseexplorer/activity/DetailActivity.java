@@ -5,27 +5,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.CastingRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONImagesResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
@@ -84,6 +82,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     @BindView(R.id.budget) TextView budget;
     @BindView(R.id.revenue) TextView revenue;
     @BindView(R.id.production_companies) TextView production_companies;
+    @BindView(R.id.gallery) ImageView galleryButton;
 
 
 
@@ -173,6 +172,16 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
             @Override
             public void onClick(View v) {
                 startFullScreenActivity();
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "gallery", Toast.LENGTH_LONG).show();
+                //TODO : lancer la requête pour recup la gallery du film.
+                loadGallery(currentMovie.getId());
+
             }
         });
 
@@ -357,6 +366,22 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
             @Override
             public void onFailure(Call<MovieComplete> call, Throwable t) {
                 Log.d("Retrofit Error", t.getMessage());
+            }
+        });
+    }
+
+    private void loadGallery(int id) {
+        Call<JSONImagesResponse> call = request.getMovieGalery(id);
+        call.enqueue(new Callback<JSONImagesResponse>() {
+            @Override
+            public void onResponse(Call<JSONImagesResponse> call, Response<JSONImagesResponse> response) {
+                JSONImagesResponse gallery = response.body();
+                Log.d("gallery : ", gallery.toString());
+            }
+
+            @Override
+            public void onFailure(Call<JSONImagesResponse> call, Throwable t) {
+                Log.d("Gallery failure: ", t.getMessage());
             }
         });
     }

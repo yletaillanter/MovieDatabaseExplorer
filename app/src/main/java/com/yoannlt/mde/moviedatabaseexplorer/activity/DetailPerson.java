@@ -22,7 +22,6 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonCreditsJSONResponse;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Profiles;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +33,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
@@ -57,13 +57,14 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
     @BindView(R.id.birthplace) TextView birtplace;
     @BindView(R.id.biography) TextView biograhy;
     @BindView(R.id.recycler_other) RecyclerView recyclerViewOther;
+    @BindView(R.id.gallery) ImageView gallery;
+
 
     private ArrayList<OtherMoviesFromPerson> otherMovies;
     private OtherMoviesAdapter adapter;
 
-    MovieComplete movie;
-
-    private ArrayList<Profiles> profiles;
+    private MovieComplete movie;
+    private Person person;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,16 +73,21 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
 
         ButterKnife.bind(this);
 
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         // Init interceptor retrofit + rest interface
         okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
+
                 request = request.newBuilder().url(url).build();
                 return chain.proceed(request);
             }
-        }).build();
+        }).addInterceptor(logging).build();
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient2)
@@ -90,7 +96,7 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
                 .build();
         request = retrofit.create(RequestInterface.class);
 
-        Person person = getIntent().getParcelableExtra("person");
+        person = getIntent().getParcelableExtra("person");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar_detail);
         setSupportActionBar(toolbar);
@@ -114,7 +120,17 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         loadOtherMoviesFromPerson(person.getId());
 
         //Chargement des images profile
-        loadProfiles(person.getId());
+        //loadProfiles(person.getId());
+
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+                i.putExtra("person", person);
+                startActivity(i);
+                //loadImages(person.getId());
+            }
+        });
 
         // TODO : Implement color for detail person
         // COULEUR TOOLBAR
@@ -159,7 +175,6 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
                 PersonCreditsJSONResponse jsonResponse = response.body();
                 if(jsonResponse.count() > 1) {
                     otherMovies = new ArrayList<>(Arrays.asList(jsonResponse.getCast()));
-                    Log.d("Retrofit Response : ", otherMovies.toString());
                     adapter.replace(otherMovies);
                     adapter.notifyDataSetChanged();
                 }
@@ -189,67 +204,26 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         });
     }
 
-    // Charge la liste d'images attachées à la personne
-    private void loadProfiles(int id) {
-
-        Call<PersonImagesJSONResponse> call = request.getPersonImages(id);
-        call.enqueue(new Callback<PersonImagesJSONResponse>() {
-            @Override
-            public void onResponse(Call<PersonImagesJSONResponse> call, Response<PersonImagesJSONResponse> response) {
-                PersonImagesJSONResponse imagesJSONResponse = response.body();
-                if(imagesJSONResponse!= null && imagesJSONResponse.count() >= 1) {
-                    profiles = new ArrayList<>(Arrays.asList(imagesJSONResponse.getProfiles()));
-                    Log.d("PROFILETEST Response : ", profiles.toString());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PersonImagesJSONResponse> call, Throwable t) {
-                Log.d(this.getClass().getSimpleName(), "LoadProfiles failes");
-            }
-        });
-
-    }
-
     private void startMovieActivity(){
         Intent intent = new Intent(DetailPerson.this, DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
     }
 
-/*    private void loadPerson(int id){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private void loadImages(int id) {
 
-        RequestInterface request = retrofit.create(RequestInterface.class);
-
-        Call<Person> call = request.getPerson(id);
-        call.enqueue(new Callback<Person>() {
+        Call<PersonImagesJSONResponse> call = request.getPersonImage(id);
+        call.enqueue(new Callback<PersonImagesJSONResponse>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
-                person = response.body();
-                initViewElements();
-
+            public void onResponse(Call<PersonImagesJSONResponse> call, Response<PersonImagesJSONResponse> response) {
+                Log.d("loadImages() response: ", response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
+            public void onFailure(Call<PersonImagesJSONResponse> call, Throwable t) {
+                Log.d("Gallery failure: ", t.getMessage());
             }
         });
-    }*/
+    }
 
-/*    private void setToolbarTitle() {
-        collapsingToolbarLayout.setTitle(person.getName());
-    }*/
-
-/*    private void initViewElements(){
-        setToolbarTitle();
-        Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + person.getProfile_path()).fit().into(picture);
-        birtdate.setText(person.getBirthday());
-        birtplace.setText(person.getPlace_of_birth());
-        biograhy.setText(person.getBiography());
-    }*/
 }

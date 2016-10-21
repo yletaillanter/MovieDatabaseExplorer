@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
             @Override
             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
                 JSONResponse jsonResponse = response.body();
-                if(jsonResponse.count() > 1) {
+                if(jsonResponse.count() >= 1) {
                     movies = new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
                     adapter.replace(movies);
                     adapter.notifyDataSetChanged();

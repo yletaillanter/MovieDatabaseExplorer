@@ -1,6 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.interfaceRest;
 
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONImagesResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonImagesJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
@@ -20,30 +21,6 @@ import rx.Observable;
  */
 public interface RequestInterface {
 
-    // DEPRECATED
-    //@GET("search/movie/{movie}")
-    //Call<JSONResponse> getMovies(@Path("movie") String movie);
-
-    //@GET("movie/{id}")
-    //Call<MovieComplete> getMovieById(@Path("id") int id);
-
-    //@GET("movie/credit/{id}")
-    //Call<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
-
-    //@GET("movie/similar/{id}")
-    //Call<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
-
-    //@GET("person/{id}")
-    //Call<Person> getPerson(@Path("id") int id);
-
-    //@GET("person/{id}/movie_credits")
-    //Call<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
-
-    //@GET("person/{id}/images")
-    //Call<PersonImagesJSONResponse> getPersonImages(@Path("id") int id);
-
-
-    //  ######## API TMDB DIRECT #########
     @GET("search/movie")
     Call<JSONResponse> movieSearchTmdb(@Query("query") String query);
 
@@ -62,6 +39,10 @@ public interface RequestInterface {
     @GET("person/{id}/movie_credits")
     Call<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
 
-    @GET("person/{id}/images")
-    Call<PersonImagesJSONResponse> getPersonImages(@Path("id") int id);
+    @GET("/movie/{id}/images")
+    Call<JSONImagesResponse> getMovieGalery(@Path("id") int id);
+
+    @GET("3/person/{id}/images")
+    Call<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
+
 }
