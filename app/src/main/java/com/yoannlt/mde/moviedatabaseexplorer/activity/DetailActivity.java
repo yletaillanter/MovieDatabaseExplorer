@@ -180,8 +180,10 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "gallery", Toast.LENGTH_LONG).show();
                 //TODO : lancer la requête pour recup la gallery du film.
-                loadGallery(currentMovie.getId());
-
+                Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+                i.putExtra("from", "movie");
+                i.putExtra("movie", currentMovie);
+                startActivity(i);
             }
         });
 
@@ -366,22 +368,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
             @Override
             public void onFailure(Call<MovieComplete> call, Throwable t) {
                 Log.d("Retrofit Error", t.getMessage());
-            }
-        });
-    }
-
-    private void loadGallery(int id) {
-        Call<JSONImagesResponse> call = request.getMovieGalery(id);
-        call.enqueue(new Callback<JSONImagesResponse>() {
-            @Override
-            public void onResponse(Call<JSONImagesResponse> call, Response<JSONImagesResponse> response) {
-                JSONImagesResponse gallery = response.body();
-                Log.d("gallery : ", gallery.toString());
-            }
-
-            @Override
-            public void onFailure(Call<JSONImagesResponse> call, Throwable t) {
-                Log.d("Gallery failure: ", t.getMessage());
             }
         });
     }

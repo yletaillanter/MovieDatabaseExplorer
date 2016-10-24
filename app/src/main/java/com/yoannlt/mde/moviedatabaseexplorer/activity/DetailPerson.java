@@ -126,9 +126,9 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), GalleryActivity.class);
+                i.putExtra("from", "person");
                 i.putExtra("person", person);
                 startActivity(i);
-                //loadImages(person.getId());
             }
         });
 
@@ -208,22 +208,6 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         Intent intent = new Intent(DetailPerson.this, DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
-    }
-
-    private void loadImages(int id) {
-
-        Call<PersonImagesJSONResponse> call = request.getPersonImage(id);
-        call.enqueue(new Callback<PersonImagesJSONResponse>() {
-            @Override
-            public void onResponse(Call<PersonImagesJSONResponse> call, Response<PersonImagesJSONResponse> response) {
-                Log.d("loadImages() response: ", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<PersonImagesJSONResponse> call, Throwable t) {
-                Log.d("Gallery failure: ", t.getMessage());
-            }
-        });
     }
 
 }

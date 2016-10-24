@@ -39,10 +39,10 @@ public interface RequestInterface {
     @GET("person/{id}/movie_credits")
     Call<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
 
-    @GET("/movie/{id}/images")
-    Call<JSONImagesResponse> getMovieGalery(@Path("id") int id);
+    @GET("3/movie/{id}/images")
+    Observable<JSONImagesResponse> getMovieImage(@Path("id") int id);
 
     @GET("3/person/{id}/images")
-    Call<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
+    Observable<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
 
 }
