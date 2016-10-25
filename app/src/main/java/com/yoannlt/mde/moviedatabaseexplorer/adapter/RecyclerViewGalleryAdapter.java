@@ -80,8 +80,7 @@ public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerVie
         @Override
         public void onClick(View v) {
             if (clickListener != null) {
-                //clickListener.itemClicked(v,getPosition());
-                Toast.makeText(context, "clique on : "+image.getFile_path(), Toast.LENGTH_SHORT).show();
+                clickListener.itemClicked(v,getAdapterPosition(), null);
             }
         }
 

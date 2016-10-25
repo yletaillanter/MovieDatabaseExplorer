@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.OtherMoviesAdapter;
-import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonImagesJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
@@ -34,11 +32,12 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
-import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DetailPerson extends AppCompatActivity implements ClickListener {
 
@@ -92,6 +91,7 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient2)
                 .baseUrl(BASE_URL_TMDB)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         request = retrofit.create(RequestInterface.class);
@@ -132,6 +132,13 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
             }
         });
 
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startFullScreenActivity();
+            }
+        });
+
         // TODO : Implement color for detail person
         // COULEUR TOOLBAR
 /*        try {
@@ -160,48 +167,55 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
     @Override
     public void itemClicked(View view, int position, String recycler) {
         loadCompleteMovie(Integer.parseInt(otherMovies.get(position).getId()));
-/*        Intent intent = new Intent(DetailActivity.this, DetailActivity.class);
-        Movie movieParcelable = otherMovies.get(position);
-        intent.putExtra("movie", movieParcelable);
-        startActivity(intent);*/
     }
 
     private void loadOtherMoviesFromPerson(int id) {
 
-        Call<PersonCreditsJSONResponse> call = request.getOtherMovies(id);
-        call.enqueue(new Callback<PersonCreditsJSONResponse>() {
-            @Override
-            public void onResponse(Call<PersonCreditsJSONResponse> call, Response<PersonCreditsJSONResponse> response) {
-                PersonCreditsJSONResponse jsonResponse = response.body();
-                if(jsonResponse.count() > 1) {
-                    otherMovies = new ArrayList<>(Arrays.asList(jsonResponse.getCast()));
-                    adapter.replace(otherMovies);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-            @Override
-            public void onFailure(Call<PersonCreditsJSONResponse> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+        request.getOtherMovies(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PersonCreditsJSONResponse>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PersonCreditsJSONResponse personCreditsJSONResponse) {
+                        otherMovies = new ArrayList<>(Arrays.asList(personCreditsJSONResponse.getCast()));
+                        adapter.replace(otherMovies);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void loadCompleteMovie(int id) {
 
-        Call<MovieComplete> call = request.getMovieById(id);
-        call.enqueue(new Callback<MovieComplete>() {
-            @Override
-            public void onResponse(Call<MovieComplete> call, Response<MovieComplete> response) {
-                movie = response.body();
-                startMovieActivity();
-            }
+        request.getMovieById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieComplete>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<MovieComplete> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieComplete movieComplete) {
+                        movie = movieComplete;
+                        startMovieActivity();
+                    }
+                });
     }
 
     private void startMovieActivity(){
@@ -210,4 +224,11 @@ public class DetailPerson extends AppCompatActivity implements ClickListener {
         startActivity(intent);
     }
 
+    private void startFullScreenActivity(){
+        if(person != null) {
+            Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
+            i.putExtra("img", person.getProfile_path());
+            startActivity(i);
+        }
+    }
 }

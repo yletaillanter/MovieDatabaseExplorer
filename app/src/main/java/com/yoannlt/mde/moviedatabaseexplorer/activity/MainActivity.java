@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -22,6 +23,8 @@ import com.yoannlt.mde.moviedatabaseexplorer.adapter.ListSearchAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
+import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularContract;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +41,10 @@ import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
 
@@ -50,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     @BindView(R.id.MyToolbar2) Toolbar toolbar;
     @BindView(R.id.card_recycler_view) RecyclerView recyclerView;
     @BindView(R.id.search_input) EditText searchInput;
+
+    //For test
+    @BindView(R.id.buttonMVP) Button buttonMVP;
 
     private OkHttpClient okHttpClient2;
     private Retrofit retrofit;
@@ -87,6 +97,14 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         adapter = new ListSearchAdapter(getApplicationContext(), movies);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+
+        buttonMVP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), PopularActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void initSearch() {
@@ -131,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient2)
                 .baseUrl(BASE_URL_TMDB)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -140,47 +159,54 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
     private void searchMovie(String searchValue) {
 
-        // Interceptor + Http Client DEBUG
-        /*
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build(); */
 
-        Call<JSONResponse> call = request.movieSearchTmdb(searchValue);
-        call.enqueue(new Callback<JSONResponse>() {
-            @Override
-            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-                JSONResponse jsonResponse = response.body();
-                if(jsonResponse.count() >= 1) {
-                    movies = new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
-                    adapter.replace(movies);
-                    adapter.notifyDataSetChanged();
-                }
-            }
+        request.movieSearchTmdb(searchValue)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<JSONResponse> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(JSONResponse jsonResponse) {
+                        if (jsonResponse != null && jsonResponse.count() >= 1) {
+                            movies = new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
+                            adapter.replace(movies);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
     private void loadCompleteMovie(int id) {
 
-        Call<MovieComplete> call = request.getMovieById(id);
-        call.enqueue(new Callback<MovieComplete>() {
-            @Override
-            public void onResponse(Call<MovieComplete> call, Response<MovieComplete> response) {
-                movie = response.body();
-                startActivity();
-            }
+        request.getMovieById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieComplete>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<MovieComplete> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieComplete movieComplete) {
+                        movie = movieComplete;
+                        startActivity();
+                    }
+                });
     }
 
     @Override

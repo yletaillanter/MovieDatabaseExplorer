@@ -19,6 +19,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <Button
+        android:id="@+id/buttonMVP"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="GOGOGO"/>
     <EditText
         android:id="@+id/search_input"
         android:layout_width="match_parent"

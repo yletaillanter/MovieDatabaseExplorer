@@ -1,11 +1,10 @@
 package com.yoannlt.mde.moviedatabaseexplorer.activity;
 
-import android.provider.MediaStore;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -29,10 +28,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
@@ -176,7 +172,9 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
 
     @Override
     public void itemClicked(View view, int position, String recycler) {
-
+        Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
+        i.putExtra("img", images.get(position).getFile_path());
+        startActivity(i);
     }
 
     private ArrayList<Image> concatArrayAsArrayList(Image[] poster, Image[] backdrop) {
@@ -193,7 +191,3 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         return imgReturn;
     }
 }
-
-
-// https://api.themoviedb.org/person/819/images?api_key=a1c65ce9d24b2d4ed117f413bb94a122&include_image_language=en,null
-// https://api.themoviedb.org/3/person/819/images?api_key=a1c65ce9d24b2d4ed117f413bb94a122&include_image_language=en,null

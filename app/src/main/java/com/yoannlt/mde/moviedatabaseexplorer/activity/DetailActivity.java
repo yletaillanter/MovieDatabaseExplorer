@@ -51,6 +51,10 @@ import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class DetailActivity extends AppCompatActivity implements ClickListener {
 
@@ -126,6 +130,7 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient2)
                 .baseUrl(BASE_URL_TMDB)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         request = retrofit.create(RequestInterface.class);
@@ -294,82 +299,104 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
 
     private void loadSimilar(int movieId) {
 
-        Call<SimilarJSONResponse> call = request.getSimilarMovies(movieId);
-        call.enqueue(new Callback<SimilarJSONResponse>() {
-            @Override
-            public void onResponse(Call<SimilarJSONResponse> call, Response<SimilarJSONResponse> response) {
-                SimilarJSONResponse jsonResponse = response.body();
-                if(jsonResponse.count() > 1) {
-                    similarMovies = new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
-                    Log.d("Similar Response : ", similarMovies.toString());
-                    adapter.replace(similarMovies);
-                    adapter.notifyDataSetChanged();
-                }
-            }
+        request.getSimilarMovies(movieId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SimilarJSONResponse>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<SimilarJSONResponse> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SimilarJSONResponse similarJSONResponse) {
+                        if(similarJSONResponse != null && similarJSONResponse.count() > 1) {
+                            similarMovies = new ArrayList<>(Arrays.asList(similarJSONResponse.getResults()));
+                            Log.d("Similar Response : ", similarMovies.toString());
+                            adapter.replace(similarMovies);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 
     private void loadCredits(int movieId) {
 
-        Call<CastPersonJSONResponse> call = request.getMovieCredits(movieId);
-        call.enqueue(new Callback<CastPersonJSONResponse>() {
-            @Override
-            public void onResponse(Call<CastPersonJSONResponse> call, Response<CastPersonJSONResponse> response) {
-                //Log.d("loadCredits response: ", response.body().toString());
+        request.getMovieCredits(movieId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<CastPersonJSONResponse>() {
+                @Override
+                public void onCompleted() {
 
-                CastPersonJSONResponse jsonResponse = response.body();
-                if(jsonResponse.count() > 1) {
-                    castPersons = new ArrayList<>(Arrays.asList(jsonResponse.getCast()));
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(CastPersonJSONResponse castPersonJSONResponse) {
+                    castPersons = new ArrayList<>(Arrays.asList(castPersonJSONResponse.getCast()));
                     Log.d("Retrofit Response : ", castPersons.toString());
                     adapterCasting.replace(castPersons);
                     adapterCasting.notifyDataSetChanged();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<CastPersonJSONResponse> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+            });
     }
 
     private void loadPerson(int id){
 
-        Call<Person> call = request.getPerson(id);
-        call.enqueue(new Callback<Person>() {
-            @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
-                person = response.body();
-                startPersonActivity();
-            }
+        request.getPerson(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Person>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<Person> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Person personResult) {
+                        person = personResult;
+                        startPersonActivity();
+                    }
+                });
     }
 
     private void loadCompleteMovie(int id) {
 
-        Call<MovieComplete> call = request.getMovieById(id);
-        call.enqueue(new Callback<MovieComplete>() {
-            @Override
-            public void onResponse(Call<MovieComplete> call, Response<MovieComplete> response) {
-                movie = response.body();
-                startMovieActivity();
-            }
+        request.getMovieById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieComplete>() {
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onFailure(Call<MovieComplete> call, Throwable t) {
-                Log.d("Retrofit Error", t.getMessage());
-            }
-        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieComplete movieComplete) {
+                        movie = movieComplete;
+                        startMovieActivity();
+                    }
+                });
     }
 
     @Override
@@ -395,7 +422,6 @@ public class DetailActivity extends AppCompatActivity implements ClickListener {
     }
 
     private void startFullScreenActivity(){
-
         if(currentMovie != null) {
             Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
             i.putExtra("img", currentMovie.getPoster_path());
