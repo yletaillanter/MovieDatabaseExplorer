@@ -1,4 +1,4 @@
-package com.yoannlt.mde.moviedatabaseexplorer.activity;
+package com.yoannlt.mde.moviedatabaseexplorer.fullscreen;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

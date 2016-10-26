@@ -2,29 +2,27 @@ package com.yoannlt.mde.moviedatabaseexplorer.activity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
+import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ListSearchAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularContract;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,10 +34,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.GsonConverterFactory;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
@@ -54,12 +49,11 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     private final String API_KEY_PARAM = "api_key";
     private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
 
-    @BindView(R.id.MyToolbar2) Toolbar toolbar;
+    //@BindView(R.id.MyToolbar2) Toolbar toolbar;
     @BindView(R.id.card_recycler_view) RecyclerView recyclerView;
     @BindView(R.id.search_input) EditText searchInput;
-
-    //For test
-    @BindView(R.id.buttonMVP) Button buttonMVP;
+    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation) NavigationView navigationView;
 
     private OkHttpClient okHttpClient2;
     private Retrofit retrofit;
@@ -73,16 +67,16 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle(TITLE);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        setSupportActionBar(toolbar);
+        //toolbar.setTitle(TITLE);
+        //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        //setSupportActionBar(toolbar);
 
         init();
         initSearch();
@@ -98,11 +92,22 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        buttonMVP.setOnClickListener(new View.OnClickListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), PopularActivity.class);
-                startActivity(i);
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.accueil:
+                        Intent intent = new Intent(getApplicationContext(), PopularActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.search:
+                        break;
+                    default:
+                        break;
+                }
+                item.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                return true;
             }
         });
     }

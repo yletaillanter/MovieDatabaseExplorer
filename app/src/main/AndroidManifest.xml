@@ -17,14 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetailActivity">
+        <activity android:name=".detailmovie.DetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.DetailPerson" />
-        <activity android:name=".activity.FullScreenImageViewActivity" />
-        <activity android:name=".activity.GalleryActivity" />
+        <activity android:name=".detailperson.DetailPerson" />
+        <activity android:name=".fullscreen.FullScreenImageViewActivity" />
+        <activity android:name=".gallery.GalleryActivity" />
         <activity android:name=".popular.PopularActivity"></activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.yoannlt.mde.moviedatabaseexplorer.activity;
+package com.yoannlt.mde.moviedatabaseexplorer.detailperson;
 
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
+import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.OtherMoviesAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;

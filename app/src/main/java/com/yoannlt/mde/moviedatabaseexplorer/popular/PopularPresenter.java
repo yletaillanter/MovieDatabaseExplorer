@@ -1,5 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.popular;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -39,6 +40,8 @@ public class PopularPresenter implements PopularContract.Presenter {
     private static Retrofit retrofit;
     private static RequestInterface request;
     private static OkHttpClient okHttpClient2;
+
+    MovieComplete movieComplete;
 
     //@NonNull
     //private TmdbRepository repository;
@@ -91,7 +94,26 @@ public class PopularPresenter implements PopularContract.Presenter {
     }
 
     @Override
-    public void openMovieDetail(@NonNull MovieComplete movieComplete) {
+    public void getMovieComplete(@NonNull int id) {
+        request.getMovieById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MovieComplete>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieComplete movieResponse) {
+                        mView.launchDetailMovie(movieResponse);
+                    }
+                });
 
     }
 

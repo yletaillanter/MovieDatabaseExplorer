@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
+import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import butterknife.BindView;
@@ -33,14 +34,11 @@ public class PopularActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
-                        Toast.makeText(getApplicationContext(), "accueil", Toast.LENGTH_SHORT).show();
                         // Do nothing, we're already on that screen
                         break;
                     case R.id.search:
-                        Toast.makeText(getApplicationContext(), "search", Toast.LENGTH_SHORT).show();
-                        //Intent intent = new Intent(TasksActivity.this, StatisticsActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK                                       | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        //startActivity(intent);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                         break;
                     default:
                         break;
@@ -50,10 +48,6 @@ public class PopularActivity extends AppCompatActivity {
                 return true;
             }
         });
-/*         mDrawerLayout.addView(navigationView);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }*/
 
         PopularFragment fragment = (PopularFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (fragment == null ) {
@@ -66,31 +60,4 @@ public class PopularActivity extends AppCompatActivity {
 
         fragment.setPresenter(presenter);
     }
-
-    /*
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.accueil:
-                                // Do nothing, we're already on that screen
-                                break;
-                            case R.id.search:
-                                //Intent intent = new Intent(TasksActivity.this, StatisticsActivity.class);
-                                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK                                       | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                //startActivity(intent);
-                                break;
-                            default:
-                                break;
-                        }
-                        // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
-    */
 }

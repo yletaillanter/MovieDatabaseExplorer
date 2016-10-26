@@ -1,4 +1,4 @@
-package com.yoannlt.mde.moviedatabaseexplorer.activity;
+package com.yoannlt.mde.moviedatabaseexplorer.gallery;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
+import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.RecyclerViewGalleryAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONImagesResponse;

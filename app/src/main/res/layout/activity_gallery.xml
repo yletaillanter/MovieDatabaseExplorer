@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yoannlt.mde.moviedatabaseexplorer.activity.GalleryActivity"
+    tools:context="com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity"
     android:id="@+id/activity_gallery">
 
     <android.support.v7.widget.RecyclerView
