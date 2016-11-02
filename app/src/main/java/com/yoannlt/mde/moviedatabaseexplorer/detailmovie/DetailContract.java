@@ -8,7 +8,6 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularContract;
 
 import java.util.ArrayList;
 
@@ -18,11 +17,13 @@ import java.util.ArrayList;
 
 public class DetailContract {
 
-    interface View extends BaseView<DetailContract.Presenter> {
+    interface View extends BaseView<Presenter> {
         void setSimilarMovies(@NonNull ArrayList<Movie> movies);
         void setCasting(@NonNull ArrayList<CastPerson> cast);
         void setPerson(@NonNull Person person);
         void setCompleteMovie(@NonNull MovieComplete movie);
+        void showDetailPerson(@NonNull Person person);
+        void showDetailMovie(@NonNull MovieComplete movie);
 
     }
 

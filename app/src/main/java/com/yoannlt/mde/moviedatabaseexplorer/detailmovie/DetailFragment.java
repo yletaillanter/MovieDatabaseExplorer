@@ -8,9 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.CastingRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
+import com.yoannlt.mde.moviedatabaseexplorer.detailperson.DetailPersonActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
@@ -58,16 +62,14 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     private ArrayList<CastPerson> castPersons;
     private CastingRecyclerAdapter adapterCasting;
 
-    //@BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.recycler_similar)
-    RecyclerView recyclerView;
+    @BindView(R.id.MyToolbar) Toolbar toolbar;
+    @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.recycler_similar) RecyclerView recyclerView;
     @BindView(R.id.recycler_casting) RecyclerView recyclerViewCasting;
-    @BindView(R.id.overview)
-    TextView overview;
+    @BindView(R.id.overview) TextView overview;
     @BindView(R.id.rate) TextView rate;
     @BindView(R.id.language) TextView language;
-    //@BindView(R.id.bgheader)
-    ImageView back;
+    @BindView(R.id.bgheader) ImageView back;
     @BindView(R.id.poster) ImageView poster;
     @BindView(R.id.genre_one) TextView genre_one;
     @BindView(R.id.genre_two) TextView genre_two;
@@ -114,7 +116,13 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, root);
 
-        //collapsingToolbarLayout.setTitle(currentMovie.getTitle());
+        //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        //getActivity().setActionBar(toolbar);
+        collapsingToolbarLayout.setTitle(currentMovie.getTitle());
+        collapsingToolbarLayout.setExpandedTitleColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+
+
 
         overview.setText(currentMovie.getOverview());
         rate.setText("" + currentMovie.getVote_average());
@@ -129,24 +137,25 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
             production_companies.setText(currentMovie.getProduction_companies()[0].getName());
         }
 
-        //Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
+        Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
         Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
 
         poster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startFullScreenActivity();
+                Intent i = new Intent(getActivity(), FullScreenImageViewActivity.class);
+                i.putExtra("img", currentMovie.getPoster_path());
+                startActivity(i);
             }
         });
 
         galleryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "gallery", Toast.LENGTH_LONG).show();
-                //Intent i = new Intent(getActivity().getApplicationContext(), GalleryActivity.class);
-                //i.putExtra("from", "movie");
-                //i.putExtra("movie", currentMovie);
-                //startActivity(i);
+                Intent i = new Intent(getActivity().getApplicationContext(), GalleryActivity.class);
+                i.putExtra("from", "movie");
+                i.putExtra("movie", currentMovie);
+                startActivity(i);
             }
         });
 
@@ -159,11 +168,11 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
                     @Override
                     public void onGenerated(Palette palette) {
                         if (palette.getVibrantSwatch() != null) {
-                            //collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
+                            collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
                         } else if (palette.getDarkVibrantSwatch() != null) {
-                            //collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
+                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
                         } else if (palette.getLightVibrantSwatch() != null) {
-                            //collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
+                            collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
                         }
                     }
                 });
@@ -181,7 +190,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         recyclerView.setAdapter(adapter);
 
         // Init Similar Movie
-        //loadSimilar(currentMovie.getId());
         presenter.loadSimilar(currentMovie.getId());
 
         // Init recyclar casting
@@ -193,7 +201,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         recyclerViewCasting.setAdapter(adapterCasting);
 
         // Init credits call
-        //loadCredits(currentMovie.getId());
         presenter.loadCredits(currentMovie.getId());
 
         return root;
@@ -201,10 +208,11 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
     @Override
     public void itemClicked(View view, int position, String recycler) {
+        Log.d("DetailFragment", "CLICKLISTENER");
         if (CASTING_RECYCLER_ADAPTER.equals(recycler)) {
-            //loadPerson(castPersons.get(position).getId());
+            presenter.loadPerson(castPersons.get(position).getId());
         } else if(HORIZONTAL_RECYCLER_ADAPTER.equals(recycler)) {
-            //loadCompleteMovie(similarMovies.get(position).getId());
+            presenter.loadCompleteMovie(similarMovies.get(position).getId());
         }
     }
 
@@ -216,12 +224,14 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
     @Override
     public void setSimilarMovies(@NonNull ArrayList<Movie> movies) {
+        this.similarMovies = movies;
         adapter.replace(movies);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void setCasting(@NonNull ArrayList<CastPerson> cast) {
+        this.castPersons = cast;
         adapterCasting.replace(cast);
         adapterCasting.notifyDataSetChanged();
     }
@@ -229,6 +239,20 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     @Override
     public void setPerson(@NonNull Person person) {
         this.person = person;
+    }
+
+    @Override
+    public void showDetailPerson(@NonNull Person person) {
+        Intent i = new Intent(getActivity(), DetailPersonActivity.class);
+        i.putExtra("person", person);
+        startActivity(i);
+    }
+
+    @Override
+    public void showDetailMovie(@NonNull MovieComplete movie) {
+        Intent i = new Intent(getActivity(), DetailActivity.class);
+        i.putExtra("movie", movie);
+        startActivity(i);
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class PopularActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setUpAnimation();
         setContentView(R.layout.activity_popular);
         ButterKnife.bind(this);
 
@@ -59,5 +62,10 @@ public class PopularActivity extends AppCompatActivity {
         presenter = new PopularPresenter(fragment);
 
         fragment.setPresenter(presenter);
+    }
+
+    public void setUpAnimation(){
+        Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.slide);
+        getWindow().setExitTransition(slide);
     }
 }

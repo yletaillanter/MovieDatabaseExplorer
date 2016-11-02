@@ -1,65 +1,22 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.adapter.CastingRecyclerAdapter;
-import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
-import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
-import com.yoannlt.mde.moviedatabaseexplorer.detailperson.DetailPerson;
-import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
-import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
-import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
-import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -68,7 +25,6 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.navigation) NavigationView navigationView;
 
     private DetailPresenter presenter;
-
     private Map<Integer, String> genres = new HashMap<Integer, String>();
 
     @Override
@@ -76,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
-
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -114,15 +69,15 @@ public class DetailActivity extends AppCompatActivity {
         //final Toolbar toolbar = (Toolbar) findViewById(R.id.MyToolbar);
         //setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-/*
+
         // SLIDE OVERVIEW
+        /*
         Slide slide = new Slide(Gravity.BOTTOM);
         slide.addTarget(R.id.overview_layout);
-        slide.setInterpolator(
-                AnimationUtils.loadInterpolator(this, android.R.interpolator.linear_out_slow_in));
-        slide.setDuration(200);
+        slide.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.interpolator.linear_out_slow_in));
+        slide.setDuration(300);
         getWindow().setEnterTransition(slide);
-*/
+        */
 
 
         // TODO : fix genres list
@@ -141,27 +96,8 @@ public class DetailActivity extends AppCompatActivity {
         }*/
 
     }
+/*
 
-    // Get Colors from palette
-    HashMap<String,Integer> processPalette (Palette p) {
-        HashMap<String, Integer> map = new HashMap<>();
-
-        if (p.getVibrantSwatch() != null)
-            map.put("Vibrant", p.getVibrantSwatch().getRgb());
-        if (p.getDarkVibrantSwatch() != null)
-            map.put("DarkVibrant", p.getDarkVibrantSwatch().getRgb());
-        if (p.getLightVibrantSwatch() != null)
-            map.put("LightVibrant", p.getLightVibrantSwatch().getRgb());
-
-        if (p.getMutedSwatch() != null)
-            map.put("Muted", p.getMutedSwatch().getRgb());
-        if (p.getDarkMutedSwatch() != null)
-            map.put("DarkMuted", p.getDarkMutedSwatch().getRgb());
-        if (p.getLightMutedSwatch() != null)
-            map.put("LightMuted", p.getLightMutedSwatch().getRgb());
-
-        return map;
-    }
 
     private void initGenreMap() {
         genres.put(28, "Action");
@@ -185,7 +121,7 @@ public class DetailActivity extends AppCompatActivity {
         genres.put(10742, "War");
         genres.put(37, "Western");
     }
-
+*/
 /*
     private void startPersonActivity(){
         Intent intent = new Intent(getApplicationContext(), DetailPerson.class);

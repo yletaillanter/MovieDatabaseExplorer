@@ -139,7 +139,7 @@ public class DetailPresenter implements DetailContract.Presenter {
                     @Override
                     public void onNext(Person personResult) {
                         mView.setPerson(personResult);
-                        //startPersonActivity();
+                        mView.showDetailPerson(personResult);
                     }
                 });
     }
@@ -163,7 +163,7 @@ public class DetailPresenter implements DetailContract.Presenter {
                     @Override
                     public void onNext(MovieComplete movieComplete) {
                         mView.setCompleteMovie(movieComplete);
-                        //startMovieActivity();
+                        mView.showDetailMovie(movieComplete);
                     }
                 });
     }

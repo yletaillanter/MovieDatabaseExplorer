@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 <!--
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -26,7 +27,7 @@
                 android:titleTextColor="@color/colorAccent" />
 
         </android.support.design.widget.AppBarLayout>
-        -->
+-->
 
         <EditText
             android:id="@+id/search_input"

@@ -1,5 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.popular;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -98,8 +99,9 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
 
     @Override
     public void launchDetailMovie(@NonNull MovieComplete movie) {
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle();
         Intent i = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
         i.putExtra("movie", movie);
-        startActivity(i);
+        startActivity(i,bundle);
     }
 }
