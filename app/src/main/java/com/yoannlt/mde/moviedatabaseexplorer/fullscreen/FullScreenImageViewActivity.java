@@ -22,17 +22,11 @@ public class FullScreenImageViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_image_view);
-
         ButterKnife.bind(this);
 
         String imgPath = getIntent().getStringExtra("img");
-
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-
         Picasso.with(getApplicationContext()).load(BASE_IMAGE_URL + imgPath).into(image);
     }
 }

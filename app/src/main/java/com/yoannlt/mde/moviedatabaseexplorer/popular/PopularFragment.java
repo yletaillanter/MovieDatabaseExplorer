@@ -2,7 +2,9 @@ package com.yoannlt.mde.moviedatabaseexplorer.popular;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toolbar;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
@@ -22,6 +25,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
 import java.util.ArrayList;
 
+import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,6 +38,8 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     @BindView(R.id.popular_recyclerview) RecyclerView recyclerView;
     private PopularContract.Presenter presenter;
     private ListSearchAdapter adapter;
+    Resources res;
+    @BindBool(R.bool.is_720) boolean is_720;
 
 
     public PopularFragment() {
@@ -46,6 +52,7 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         adapter = new ListSearchAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>());
         adapter.setClickListener(this);
     }
@@ -71,7 +78,6 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_popular, container, false);
-        //View root = super.onCreateView(inflater, container, savedInstanceState);
 
         ButterKnife.bind(this, root);
 
@@ -85,7 +91,6 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
 
     @Override
     public void showPopularMovies(ArrayList<Movie> movies) {
-        Log.d("fragment", movies.toString());
         adapter.replace(movies);
         adapter.notifyDataSetChanged();
 
@@ -94,14 +99,27 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     @Override
     public void itemClicked(View view, int position, String recycler) {
         presenter.getMovieComplete(adapter.getmDataset().get(position).getId());
-
     }
 
     @Override
     public void launchDetailMovie(@NonNull MovieComplete movie) {
-        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle();
-        Intent i = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
-        i.putExtra("movie", movie);
-        startActivity(i,bundle);
+
+        // Si petit écran on lauch l'activity normalement
+        if(!is_720) {
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle();
+            Intent i = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
+            i.putExtra("movie", movie);
+            startActivity(i,bundle);
+        } else { // Sinon on laisse l'activité charger le deuxième fragment
+            Log.d("popularFragment", "callback");
+            ((PopularFragment.Callback) getActivity()).onItemSelected(movie);
+        }
+    }
+
+    public interface Callback {
+        /**
+         * PopularFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(MovieComplete movie);
     }
 }

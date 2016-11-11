@@ -12,11 +12,10 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import java.util.ArrayList;
 
 /**
- * Created by yoannlt on 26/10/2016.
+ * Created by yoannlt on 11/11/2016.
  */
 
-public class DetailContract {
-
+public interface DetailContract {
     interface View extends BaseView<Presenter> {
         void setSimilarMovies(@NonNull ArrayList<Movie> movies);
         void setCasting(@NonNull ArrayList<CastPerson> cast);
@@ -32,5 +31,7 @@ public class DetailContract {
         void loadCredits(@NonNull int movieId);
         void loadPerson(@NonNull int id);
         void loadCompleteMovie(@NonNull int movieId);
+        MovieComplete getMovieFromActivityCallback();
+        void setCompleteMovie(@NonNull MovieComplete movie);
     }
 }

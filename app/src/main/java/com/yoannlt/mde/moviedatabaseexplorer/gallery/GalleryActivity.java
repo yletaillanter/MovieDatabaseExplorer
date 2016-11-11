@@ -52,26 +52,96 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
     private RequestInterface request;
     private OkHttpClient okHttpClient2;
 
+    private String from;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_gallery);
         ButterKnife.bind(this);
 
-        String from = getIntent().getStringExtra("from");
+        getParcelableExtraFromIntent();
+        initRecyclerView();
+        initHttp();
 
         if (from != null) {
             if (from.equals("movie")) {
-                movie = getIntent().getParcelableExtra("movie");
+                loadImagesMovie(movie.getId());
             } else {
-                person = getIntent().getParcelableExtra("person");
+                loadImagesPerson(person.getId());
             }
         }
 
+
+    }
+
+    private void loadImagesPerson(int id) {
+        request.getPersonImage(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PersonImagesJSONResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
+                        PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
+                        images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
+                        adapter.replace(images);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    private void loadImagesMovie(int id) {
+        request.getMovieImage(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<JSONImagesResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(JSONImagesResponse jsonImagesResponse) {
+                        JSONImagesResponse jsonResponse = jsonImagesResponse;
+                        images = concatArrayAsArrayList(jsonResponse.getPosters(), jsonResponse.getBackdrops());
+                        adapter.replace(images);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    @Override
+    public void itemClicked(View view, int position, String recycler) {
+        Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
+        i.putExtra("img", images.get(position).getFile_path());
+        startActivity(i);
+    }
+
+    private ArrayList<Image> concatArrayAsArrayList(Image[] poster, Image[] backdrop) {
+        ArrayList<Image> imgReturn = new ArrayList<Image>();
+        for (Image item : poster) {
+            imgReturn.add(item);
+        }
+
+        for (Image item : backdrop) {
+            imgReturn.add(item);
+        }
+
+        return imgReturn;
+    }
+
+    private void initRecyclerView(){
         images = new ArrayList<Image>();
         GridLayoutManager layoutManagerGallery = new GridLayoutManager(GalleryActivity.this, 3);
         recyclerView.setLayoutManager(layoutManagerGallery);
@@ -79,7 +149,9 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         adapter = new RecyclerViewGalleryAdapter(getApplicationContext(), images);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+    }
 
+    private void initHttp(){
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -107,88 +179,18 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
                 .build();
 
         request = retrofit.create(RequestInterface.class);
+    }
 
+
+
+    private void getParcelableExtraFromIntent(){
+        from = getIntent().getStringExtra("from");
         if (from != null) {
             if (from.equals("movie")) {
-                loadImagesMovie(movie.getId());
+                movie = getIntent().getParcelableExtra("movie");
             } else {
-                loadImagesPerson(person.getId());
+                person = getIntent().getParcelableExtra("person");
             }
         }
-
-
-    }
-
-    private void loadImagesPerson(int id) {
-
-        request.getPersonImage(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonImagesJSONResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
-                        PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
-                        images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
-                        adapter.replace(images);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-    }
-
-    private void loadImagesMovie(int id) {
-
-        request.getMovieImage(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JSONImagesResponse>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(JSONImagesResponse jsonImagesResponse) {
-                        JSONImagesResponse jsonResponse = jsonImagesResponse;
-                        images = concatArrayAsArrayList(jsonResponse.getPosters(), jsonResponse.getBackdrops());
-                        adapter.replace(images);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-    }
-
-    @Override
-    public void itemClicked(View view, int position, String recycler) {
-        Intent i = new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
-        i.putExtra("img", images.get(position).getFile_path());
-        startActivity(i);
-    }
-
-    private ArrayList<Image> concatArrayAsArrayList(Image[] poster, Image[] backdrop) {
-        ArrayList<Image> imgReturn = new ArrayList<Image>();
-
-        for (Image item : poster) {
-            imgReturn.add(item);
-        }
-
-        for (Image item : backdrop) {
-            imgReturn.add(item);
-        }
-
-        return imgReturn;
     }
 }

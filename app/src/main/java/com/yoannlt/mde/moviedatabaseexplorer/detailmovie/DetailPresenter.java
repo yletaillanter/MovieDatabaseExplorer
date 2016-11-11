@@ -43,6 +43,8 @@ public class DetailPresenter implements DetailContract.Presenter {
     private RequestInterface request;
     private OkHttpClient okHttpClient2;
 
+    private MovieComplete movie;
+
     public DetailPresenter(@NonNull DetailContract.View mView) {
         this.mView = mView;
 
@@ -170,11 +172,19 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void subscribe() {
-
     }
 
     @Override
     public void unsubscribe() {
+    }
 
+    @Override
+    public void setCompleteMovie(MovieComplete movie){
+        this.movie = movie;
+    }
+
+    @Override
+    public MovieComplete getMovieFromActivityCallback(){
+        return movie;
     }
 }

@@ -37,9 +37,7 @@ public class CastingRecyclerAdapter extends RecyclerView.Adapter<CastingRecycler
 
     @Override
     public CastingRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_horizontal_casting, parent, false);
-        // set the view's size, margins, paddings and layout parameters
         return new ViewHolder(v);
     }
 

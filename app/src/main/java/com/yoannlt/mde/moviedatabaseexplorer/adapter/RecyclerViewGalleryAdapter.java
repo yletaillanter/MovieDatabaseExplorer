@@ -47,13 +47,9 @@ public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         image = images.get(position);
-
-
         // Set l'affichage
         Picasso.with(context).load(BASE_IMAGE_URL + image.getFile_path()).into(holder.poster);
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

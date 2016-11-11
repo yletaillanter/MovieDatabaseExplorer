@@ -4,6 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+
+import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
+import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
 /**
  * Created by yoannlt on 25/10/2016.
@@ -24,4 +28,31 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+    public static void replaceFragmentToActivity(@NonNull FragmentManager fragmentManager,
+                                                 @NonNull Fragment fragment, int frameId) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(frameId, fragment);
+        transaction.commit();
+    }
+
+    public static void removeFragment(@NonNull FragmentManager fragmentManager,
+                                      @NonNull Fragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commit();
+    }
+
+    public static Movie movieCompleteToMovie(@NonNull MovieComplete movieComplete) {
+        Movie movie = new Movie();
+        movie.setId(movieComplete.getId());
+        movie.setTitle(movieComplete.getTitle());
+        movie.setPoster_path(movieComplete.getPoster_path());
+        movie.setBackdrop_path(movieComplete.getBackdrop_path());
+        movie.setVote_average(movieComplete.getVote_average());
+
+        Log.d("Utils: overview:", movieComplete.getOverview());
+        movie.setOverview(movieComplete.getOverview());
+        Log.d("Utils: overview:", movie.toString());
+        return movie;
+    }
 }

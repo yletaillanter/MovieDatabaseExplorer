@@ -17,5 +17,8 @@
     <string name="budget_label">Budget</string>
     <string name="revenue_label">Bénéfices</string>
     <string name="production_companies_label">Société de production</string>
-
+    <string name="popular_title">Films populaires</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="favorite_title">Favoris</string>
 </resources>

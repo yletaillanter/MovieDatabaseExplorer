@@ -1,20 +1,20 @@
-package com.yoannlt.mde.moviedatabaseexplorer.model;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by yoannlt on 09/04/2016.
+ * Created by yoannlt on 05/11/2016.
  */
-public class Movie extends RealmObject implements Parcelable {
 
+public class Favorite extends RealmObject {
+
+    @PrimaryKey
     private int id;
+    private int movieId;
     private String original_title;
     private String title;
     private String original_language;
@@ -24,16 +24,15 @@ public class Movie extends RealmObject implements Parcelable {
     private Double popularity;
     private Double vote_average;
     private String release_date;
-    //private List<Integer> genre_ids = new ArrayList<Integer>();
     private boolean video;
     private boolean adult;
-    //private int vote_count;
 
-    public Movie() {
+    public Favorite() {
     }
 
-    public Movie(int id, String original_title, String title, String original_language, String overview, String poster_path, String backdrop_path, Double popularity, Double vote_average, String release_date, /*List<Integer>  genre_ids,*/ boolean video, boolean adult) {
+    public Favorite(int id, int movieId, String original_title, String title, String original_language, String overview, String poster_path, String backdrop_path, Double popularity, Double vote_average, String release_date, boolean video, boolean adult) {
         this.id = id;
+        this.movieId = movieId;
         this.original_title = original_title;
         this.title = title;
         this.original_language = original_language;
@@ -43,7 +42,6 @@ public class Movie extends RealmObject implements Parcelable {
         this.popularity = popularity;
         this.vote_average = vote_average;
         this.release_date = release_date;
-        //this.genre_ids = this.genre_ids;
         this.video = video;
         this.adult = adult;
     }
@@ -54,6 +52,14 @@ public class Movie extends RealmObject implements Parcelable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getOriginal_title() {
@@ -127,15 +133,8 @@ public class Movie extends RealmObject implements Parcelable {
     public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
-/*
-    public List<Integer> getGenre_ids() {
-        return genre_ids;
-    }
 
-    public void setGenre_ids(List<Integer> genre_ids) {
-        this.genre_ids = genre_ids;
-    }
-*/
+
     public boolean isVideo() {
         return video;
     }
@@ -154,8 +153,9 @@ public class Movie extends RealmObject implements Parcelable {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "Favorite{" +
                 "id=" + id +
+                ", movieId=" + movieId +
                 ", original_title='" + original_title + '\'' +
                 ", title='" + title + '\'' +
                 ", original_language='" + original_language + '\'' +
@@ -164,82 +164,9 @@ public class Movie extends RealmObject implements Parcelable {
                 ", backdrop_path='" + backdrop_path + '\'' +
                 ", popularity=" + popularity +
                 ", vote_average=" + vote_average +
-                /*", genre_ids=" + genre_ids.toString() +*/
+                ", release_date='" + release_date + '\'' +
                 ", video=" + video +
                 ", adult=" + adult +
                 '}';
     }
-
-    protected Movie(Parcel in) {
-        id = in.readInt();
-        original_title = in.readString();
-        title = in.readString();
-        original_language = in.readString();
-        overview = in.readString();
-        poster_path = in.readString();
-        backdrop_path = in.readString();
-        release_date = in.readString();
-        popularity = in.readByte() == 0x00 ? null : in.readDouble();
-        vote_average = in.readByte() == 0x00 ? null : in.readDouble();
-        /*
-        if (in.readByte() == 0x01) {
-            genre_ids = new ArrayList<Integer>();
-            in.readList(genre_ids, Integer.class.getClassLoader());
-        } else {
-            genre_ids = null;
-        }*/
-        video = in.readByte() != 0x00;
-        adult = in.readByte() != 0x00;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(original_title);
-        dest.writeString(title);
-        dest.writeString(original_language);
-        dest.writeString(overview);
-        dest.writeString(poster_path);
-        dest.writeString(backdrop_path);
-        dest.writeString(release_date);
-        if (popularity == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(popularity);
-        }
-        if (vote_average == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeDouble(vote_average);
-        }
-        /*
-        if (genre_ids == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeList(genre_ids);
-        }*/
-        dest.writeByte((byte) (video ? 0x01 : 0x00));
-        dest.writeByte((byte) (adult ? 0x01 : 0x00));
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 }

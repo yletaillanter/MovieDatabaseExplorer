@@ -61,7 +61,6 @@ public class DetailPersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_person);
         ButterKnife.bind(this);
 
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -91,32 +90,5 @@ public class DetailPersonActivity extends AppCompatActivity {
 
         presenter = new DetailPersonPresenter(fragment);
         fragment.setPresenter(presenter);
-
-        //Chargement des images profile
-        //loadProfiles(person.getId());
-
-        // TODO : Implement color for detail person
-        // COULEUR TOOLBAR
-/*        try {
-            if(movie.getBackdrop_path() != "") {
-                InputStream imageStream = new URL(BASE_IMAGE_URL + movie.getBackdrop_path()).openStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                    @Override
-                    public void onGenerated(Palette palette) {
-                        if (palette.getVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
-                        } else if (palette.getDarkVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
-                        } else if (palette.getLightVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
-                        }
-                    }
-                });
-            }
-        } catch (Exception ex) {
-            Log.e("Error on Palette", ""+ex);
-        }*/
     }
 }

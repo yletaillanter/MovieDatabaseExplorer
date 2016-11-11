@@ -47,5 +47,4 @@ public interface RequestInterface {
 
     @GET("3/person/{id}/images")
     Observable<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
-
 }

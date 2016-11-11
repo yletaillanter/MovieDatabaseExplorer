@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-                <color name="colorPrimary">#212439</color>
-                <color name="colorPrimaryDark">#0a0c12</color>
-                <color name="colorAccent">#424973</color>
-        <!--
-                        <color name="mypalette_50">#c3c7dd</color>
-                        <color name="mypalette_100">#9399c1</color>
-                        <color name="mypalette_200">#6f78ad</color>
-                        <color name="mypalette_300">#4d5687</color>
-                        <color name="mypalette_400">#424973</color>
-                        <color name="mypalette_500">#373d60</color>
-                        <color name="mypalette_600">#2c314d</color>
-                        <color name="mypalette_700">#212439</color>
-                        <color name="mypalette_800">#161826</color>
-                        <color name="mypalette_900">#0a0c12</color>
-                        <color name="mypalette_A100">#c3c7dd</color>
-                        <color name="mypalette_A200">#9399c1</color>
-                        <color name="mypalette_A400">#424973</color>
-                        <color name="mypalette_A700">#212439</color> -->
+    <color name="colorPrimary">#6F1A07</color>
+    <color name="colorPrimaryDark">#490E00</color>
+    <color name="colorAccent">#F7F3E3</color>
+    <color name="yellow">#B3AA10</color>
 </resources>

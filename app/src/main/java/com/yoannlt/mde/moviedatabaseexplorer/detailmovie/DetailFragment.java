@@ -1,12 +1,16 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.graphics.Palette;
@@ -17,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,13 +37,20 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
+import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularFragment;
+import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+import butterknife.BindBool;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 /**
  * Created by yoannlt on 26/10/2016.
@@ -62,28 +74,37 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     private ArrayList<CastPerson> castPersons;
     private CastingRecyclerAdapter adapterCasting;
 
-    @BindView(R.id.MyToolbar) Toolbar toolbar;
-    @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Nullable @BindView(R.id.MyToolbar) Toolbar toolbar;
+    @Nullable @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.recycler_similar) RecyclerView recyclerView;
     @BindView(R.id.recycler_casting) RecyclerView recyclerViewCasting;
     @BindView(R.id.overview) TextView overview;
     @BindView(R.id.rate) TextView rate;
     @BindView(R.id.language) TextView language;
-    @BindView(R.id.bgheader) ImageView back;
+    @Nullable @BindView(R.id.bgheader) ImageView back;
     @BindView(R.id.poster) ImageView poster;
-    @BindView(R.id.genre_one) TextView genre_one;
-    @BindView(R.id.genre_two) TextView genre_two;
-    @BindView(R.id.genre_three) TextView genre_three;
     @BindView(R.id.releasedate) TextView release_date;
     @BindView(R.id.original_title) TextView original_title;
     @BindView(R.id.original_language) TextView original_language;
     @BindView(R.id.status) TextView status;
     @BindView(R.id.budget) TextView budget;
-    @BindView(R.id.revenue) TextView revenue;
-    @BindView(R.id.production_companies) TextView production_companies;
-    @BindView(R.id.gallery) ImageView galleryButton;
 
+    @BindView(R.id.revenue_label) TextView revenueLabel;
+    @BindView(R.id.revenue) TextView revenue;
+    @BindView(R.id.production_companies_label) TextView productionCompaniesLabel;
+    @BindView(R.id.production_companies) TextView production_companies;
+
+    //Buttons
+    @BindView(R.id.gallery) ImageView galleryButton;
+    @BindView(R.id.video) ImageView videoButton;
+    @BindView(R.id.http) ImageView httpButton;
+    @BindView(R.id.favorite) FloatingActionButton favorite;
+
+    private Window window;
     private DetailContract.Presenter presenter;
+    private Realm realm;
+
+    @BindBool(R.bool.is_720) boolean is_720;
 
     public DetailFragment() {
     }
@@ -95,9 +116,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Get the movie
-        currentMovie = getActivity().getIntent().getParcelableExtra("movie");
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -116,14 +135,31 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(this, root);
 
+        if(!is_720) {
+            Log.d("ici", "je passe ici");
+            currentMovie = getActivity().getIntent().getParcelableExtra("movie");
+        } else {
+            currentMovie = presenter.getMovieFromActivityCallback();
+        }
+
+        if(!is_720) {
+            initToolbar();
+            initPalettePersonalization();
+        }
+        initLayoutComponents();
+        initRecyclerView();
+
+        return root;
+    }
+
+    private void initToolbar() {
         //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        //getActivity().setActionBar(toolbar);
         collapsingToolbarLayout.setTitle(currentMovie.getTitle());
         collapsingToolbarLayout.setExpandedTitleColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
         collapsingToolbarLayout.setCollapsedTitleTextColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+    }
 
-
-
+    private void initLayoutComponents() {
         overview.setText(currentMovie.getOverview());
         rate.setText("" + currentMovie.getVote_average());
         language.setText(currentMovie.getOriginal_language());
@@ -131,56 +167,101 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         original_title.setText(currentMovie.getOriginal_title());
         original_language.setText(currentMovie.getOriginal_language());
         status.setText(currentMovie.getStatus());
-        budget.setText(""+currentMovie.getBudget());
-        revenue.setText(""+currentMovie.getRevenue());
-        if(currentMovie.getProduction_companies() != null && currentMovie.getProduction_companies().length > 0) {
+        budget.setText("" + currentMovie.getBudget());
+        if (currentMovie.getRevenue() == 0) {
+            revenueLabel.setVisibility(View.GONE);
+        } else {
+            revenue.setText("" + currentMovie.getRevenue());
+        }
+        if (currentMovie.getProduction_companies() != null && currentMovie.getProduction_companies().length > 0) {
             production_companies.setText(currentMovie.getProduction_companies()[0].getName());
+        } else {
+            productionCompaniesLabel.setVisibility(View.GONE);
         }
 
-        Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
+        if(!is_720)
+            Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
         Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
 
-        poster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), FullScreenImageViewActivity.class);
-                i.putExtra("img", currentMovie.getPoster_path());
-                startActivity(i);
-            }
-        });
+        if (checkIfExists(currentMovie)) {
+            favorite.setImageDrawable(getResources().getDrawable(R.drawable.star_yellow));
+        } else {
+            favorite.setImageDrawable(getResources().getDrawable(R.drawable.star));
+        }
+    }
 
-        galleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity().getApplicationContext(), GalleryActivity.class);
-                i.putExtra("from", "movie");
-                i.putExtra("movie", currentMovie);
-                startActivity(i);
-            }
-        });
+    @OnClick(R.id.poster)
+    public void fullScreenPoster() {
+        Intent i = new Intent(getActivity(), FullScreenImageViewActivity.class);
+        i.putExtra("img", currentMovie.getPoster_path());
+        startActivity(i);
+    }
 
+    @OnClick(R.id.gallery)
+    public void openGallery() {
+        Intent i = new Intent(getActivity().getApplicationContext(), GalleryActivity.class);
+        i.putExtra("from", "movie");
+        i.putExtra("movie", currentMovie);
+        startActivity(i);
+    }
+
+    @OnClick(R.id.http)
+    public void launchImdb() {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://www.imdb.com/title/" + currentMovie.getImdb_id()));
+        startActivity(i);
+    }
+
+    @OnClick(R.id.favorite)
+    public void setFavorite() {
+        realm.beginTransaction();
+        if (checkIfExists(currentMovie)) {
+            favorite.setImageDrawable(getResources().getDrawable(R.drawable.star));
+            RealmResults<Movie> rows = realm.where(Movie.class).equalTo("id", currentMovie.getId()).findAll();
+            rows.deleteFromRealm(0);
+        } else {
+            favorite.setImageDrawable(getResources().getDrawable(R.drawable.star_yellow));
+            realm.insert(ActivityUtils.movieCompleteToMovie(currentMovie));
+        }
+        realm.commitTransaction();
+    }
+
+    private void initPalettePersonalization(){
         try {
-            if(currentMovie.getBackdrop_path() != "") {
+            window = getActivity().getWindow();
+            if (currentMovie.getBackdrop_path() != "") {
                 InputStream imageStream = new URL(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).openStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
 
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                     @Override
                     public void onGenerated(Palette palette) {
-                        if (palette.getVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
-                        } else if (palette.getDarkVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
-                        } else if (palette.getLightVibrantSwatch() != null) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
+
+                        if (palette.getVibrantSwatch() != null && palette.getVibrantSwatch().getRgb() == 0) {
+                            int color = palette.getVibrantSwatch().getRgb();
+                            collapsingToolbarLayout.setContentScrimColor(color);
+                            window.setStatusBarColor(color - (color / 200));
+                        } else if (palette.getDarkVibrantSwatch() != null && palette.getDarkVibrantSwatch().getRgb() == 0) {
+                            int color = palette.getVibrantSwatch().getRgb();
+                            collapsingToolbarLayout.setContentScrimColor(color);
+                            window.setStatusBarColor(color - (color / 200));
+                        } else if (palette.getLightVibrantSwatch() != null && palette.getLightVibrantSwatch().getRgb() == 0) {
+                            int color = palette.getVibrantSwatch().getRgb();
+                            collapsingToolbarLayout.setContentScrimColor(color);
+                            window.setStatusBarColor(color - (color / 200));
+                        } else {
+                            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
                         }
                     }
                 });
             }
         } catch (Exception ex) {
-            Log.e("Error on Palette", ""+ex);
+            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+            Log.e("Error on Palette", "" + ex);
         }
+    }
 
+    private void initRecyclerView(){
         //Init du recyclerView similar
         similarMovies = new ArrayList<Movie>();
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -202,8 +283,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
         // Init credits call
         presenter.loadCredits(currentMovie.getId());
-
-        return root;
     }
 
     @Override
@@ -250,13 +329,25 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
     @Override
     public void showDetailMovie(@NonNull MovieComplete movie) {
-        Intent i = new Intent(getActivity(), DetailActivity.class);
-        i.putExtra("movie", movie);
-        startActivity(i);
+        if (!is_720) {
+            Intent i = new Intent(getActivity(), DetailActivity.class);
+            i.putExtra("movie", movie);
+            startActivity(i);
+        } else {
+            ((PopularFragment.Callback) getActivity()).onItemSelected(movie);
+        }
     }
 
     @Override
     public void setCompleteMovie(@NonNull MovieComplete movie) {
         this.currentMovie = movie;
+    }
+
+    public boolean checkIfExists(MovieComplete movie){
+
+        RealmQuery<Movie> query = realm.where(Movie.class)
+                .equalTo("id", movie.getId());
+
+        return query.count() != 0;
     }
 }
