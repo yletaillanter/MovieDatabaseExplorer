@@ -3,12 +3,16 @@ package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -34,35 +38,12 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     private RealmResults<Movie> moviesRealm;
     private ArrayList<Movie> movies = new ArrayList<Movie>();
 
-    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
-    private final String API_KEY_PARAM = "api_key";
-    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
+    @Inject RequestInterface request;
 
-    private static Retrofit retrofit;
-    private static RequestInterface request;
-    private static OkHttpClient okHttpClient2;
 
     public FavoritePresenter(@NonNull FavoriteContract.View mView) {
         this.mView = mView;
-
-        // Init interceptor retrofit + rest interface
-        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
-                request = request.newBuilder().url(url).build();
-                return chain.proceed(request);
-            }
-        }).build();
-
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient2)
-                .baseUrl(BASE_URL_TMDB)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        request = retrofit.create(RequestInterface.class);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
     }
 
     @Override

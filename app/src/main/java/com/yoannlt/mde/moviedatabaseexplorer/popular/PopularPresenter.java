@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
@@ -13,13 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -30,43 +27,14 @@ import rx.schedulers.Schedulers;
 
 public class PopularPresenter implements PopularContract.Presenter {
 
-    @NonNull
-    private final PopularContract.View mView;
-
-    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
-    private final String API_KEY_PARAM = "api_key";
-    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
-
-    private static Retrofit retrofit;
-    private static RequestInterface request;
-    private static OkHttpClient okHttpClient2;
+    @NonNull private final PopularContract.View mView;
+    @Inject RequestInterface request;
 
     MovieComplete movieComplete;
 
-    //@NonNull
-    //private TmdbRepository repository;
-
     public PopularPresenter(@NonNull PopularContract.View mView) {
         this.mView = mView;
-
-        // Init interceptor retrofit + rest interface
-        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
-                request = request.newBuilder().url(url).build();
-                return chain.proceed(request);
-            }
-        }).build();
-
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient2)
-                .baseUrl(BASE_URL_TMDB)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        request = retrofit.create(RequestInterface.class);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
     }
 
     @Override

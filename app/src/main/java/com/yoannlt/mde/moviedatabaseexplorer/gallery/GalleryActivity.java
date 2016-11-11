@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
@@ -21,6 +22,9 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,19 +42,13 @@ import rx.schedulers.Schedulers;
 
 public class GalleryActivity extends AppCompatActivity implements ClickListener {
 
-    private final String BASE_URL_TMDB = "https://api.themoviedb.org/";
-    private final String API_KEY_PARAM = "api_key";
-    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
-
     @BindView(R.id.gallery_recyclerview) RecyclerView recyclerView;
+    @Inject RequestInterface request;
+
     private RecyclerViewGalleryAdapter adapter;
     private Person person;
     private MovieComplete movie;
     private ArrayList<Image> images;
-
-    private Retrofit retrofit;
-    private RequestInterface request;
-    private OkHttpClient okHttpClient2;
 
     private String from;
 
@@ -59,20 +57,10 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
         ButterKnife.bind(this);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
 
         getParcelableExtraFromIntent();
         initRecyclerView();
-        initHttp();
-
-        if (from != null) {
-            if (from.equals("movie")) {
-                loadImagesMovie(movie.getId());
-            } else {
-                loadImagesPerson(person.getId());
-            }
-        }
-
-
     }
 
     private void loadImagesPerson(int id) {
@@ -149,39 +137,15 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         adapter = new RecyclerViewGalleryAdapter(getApplicationContext(), images);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-    }
 
-    private void initHttp(){
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        // Init interceptor retrofit + rest interface
-        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                HttpUrl url = request.url().newBuilder()
-                        .addQueryParameter(API_KEY_PARAM, API_KEY)
-                        .addQueryParameter("include_image_language", "en,null")
-                        .build();
-
-                request = request.newBuilder().url(url).build();
-                return chain.proceed(request);
+        if (from != null) {
+            if (from.equals("movie")) {
+                loadImagesMovie(movie.getId());
+            } else {
+                loadImagesPerson(person.getId());
             }
-        }).addInterceptor(logging).build();
-
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient2)
-                .baseUrl(BASE_URL_TMDB)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        request = retrofit.create(RequestInterface.class);
+        }
     }
-
-
 
     private void getParcelableExtraFromIntent(){
         from = getIntent().getStringExtra("from");

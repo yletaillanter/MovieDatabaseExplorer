@@ -135,6 +135,7 @@ public class PopularActivity extends AppCompatActivity implements PopularFragmen
     @Override
     protected void onPause() {
         super.onPause();
-        ActivityUtils.removeFragment(getSupportFragmentManager(),detailFragment);
+        if (is_720)
+            ActivityUtils.removeFragment(getSupportFragmentManager(),detailFragment);
     }
 }

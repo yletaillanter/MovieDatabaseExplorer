@@ -136,7 +136,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         ButterKnife.bind(this, root);
 
         if(!is_720) {
-            Log.d("ici", "je passe ici");
             currentMovie = getActivity().getIntent().getParcelableExtra("movie");
         } else {
             currentMovie = presenter.getMovieFromActivityCallback();

@@ -3,6 +3,7 @@ package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
@@ -12,6 +13,9 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -30,42 +34,14 @@ import rx.schedulers.Schedulers;
 
 public class DetailPresenter implements DetailContract.Presenter {
 
-    @NonNull
-    private DetailContract.View mView;
-
-    private final String BASE_URL_TMDB = "https://api.themoviedb.org/3/";
-    private final String HORIZONTAL_RECYCLER_ADAPTER = "HorizontalRecyclerAdapter";
-    private final String CASTING_RECYCLER_ADAPTER = "CastingRecyclerAdapter";
-    private final String API_KEY_PARAM = "api_key";
-    private final String API_KEY = "a1c65ce9d24b2d4ed117f413bb94a122";
-
-    private Retrofit retrofit;
-    private RequestInterface request;
-    private OkHttpClient okHttpClient2;
+    @NonNull private DetailContract.View mView;
+    @Inject RequestInterface request;
 
     private MovieComplete movie;
 
     public DetailPresenter(@NonNull DetailContract.View mView) {
         this.mView = mView;
-
-        // Init interceptor retrofit + rest interface
-        okHttpClient2 = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request();
-                HttpUrl url = request.url().newBuilder().addQueryParameter(API_KEY_PARAM, API_KEY).build();
-                request = request.newBuilder().url(url).build();
-                return chain.proceed(request);
-            }
-        }).build();
-
-        retrofit = new Retrofit.Builder()
-                .client(okHttpClient2)
-                .baseUrl(BASE_URL_TMDB)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        request = retrofit.create(RequestInterface.class);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
     }
 
     @Override
@@ -88,9 +64,6 @@ public class DetailPresenter implements DetailContract.Presenter {
                     public void onNext(SimilarJSONResponse similarJSONResponse) {
                         if(similarJSONResponse != null && similarJSONResponse.count() > 1) {
                             mView.setSimilarMovies(new ArrayList<>(Arrays.asList(similarJSONResponse.getResults())));
-                            //Log.d("Similar Response : ", similarMovies.toString());
-                            //adapter.replace(similarMovies);
-                            //adapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -115,9 +88,6 @@ public class DetailPresenter implements DetailContract.Presenter {
                     @Override
                     public void onNext(CastPersonJSONResponse castPersonJSONResponse) {
                         mView.setCasting(new ArrayList<>(Arrays.asList(castPersonJSONResponse.getCast())));
-                        //Log.d("Retrofit Response : ", castPersons.toString());
-                        //adapterCasting.replace(castPersons);
-                        //adapterCasting.notifyDataSetChanged();
                     }
                 });
     }

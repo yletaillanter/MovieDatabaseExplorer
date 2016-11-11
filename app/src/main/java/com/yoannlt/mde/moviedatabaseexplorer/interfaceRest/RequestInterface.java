@@ -21,25 +21,25 @@ import rx.Observable;
  */
 public interface RequestInterface {
 
-    @GET("search/movie")
+    @GET("3/search/movie")
     Observable<JSONResponse> movieSearchTmdb(@Query("query") String query);
 
-    @GET("movie/popular")
+    @GET("3/movie/popular")
     Observable<JSONResponse> getPopular();
 
-    @GET("movie/{id}")
+    @GET("3/movie/{id}")
     Observable<MovieComplete> getMovieById(@Path("id") int id);
 
-    @GET("movie/{id}/similar")
+    @GET("3/movie/{id}/similar")
     Observable<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
 
-    @GET("person/{id}")
+    @GET("3/person/{id}")
     Observable<Person> getPerson(@Path("id") int id);
 
-    @GET("movie/{id}/credits")
+    @GET("3/movie/{id}/credits")
     Observable<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
 
-    @GET("person/{id}/movie_credits")
+    @GET("3/person/{id}/movie_credits")
     Observable<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
 
     @GET("3/movie/{id}/images")
