@@ -3,6 +3,7 @@ package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.CastingRecyclerAdapter;
@@ -36,6 +38,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
+import com.yoannlt.mde.moviedatabaseexplorer.palette.PaletteTransformation;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import java.io.InputStream;
@@ -139,12 +142,13 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
             currentMovie = presenter.getMovieFromActivityCallback();
         }
 
+        initLayoutComponents();
+        initRecyclerView();
+
         if(!is_720) {
             initToolbar();
             initPalettePersonalization();
         }
-        initLayoutComponents();
-        initRecyclerView();
 
         return root;
     }
@@ -178,7 +182,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
         if(!is_720)
             Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
-        Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
+            Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
 
         if (checkIfExists(currentMovie)) {
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.star_yellow));
@@ -224,38 +228,37 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     }
 
     private void initPalettePersonalization(){
-        try {
-            window = getActivity().getWindow();
-            if (currentMovie.getBackdrop_path() != "") {
-                InputStream imageStream = new URL(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).openStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
 
-                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+        window = getActivity().getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+
+        Picasso
+                .with(getActivity().getApplicationContext())
+                .load(BASE_IMAGE_URL + currentMovie.getBackdrop_path())
+                .fit().centerCrop()
+                .transform(PaletteTransformation.instance())
+                .into(back, new Callback.EmptyCallback() {
                     @Override
-                    public void onGenerated(Palette palette) {
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) back.getDrawable()).getBitmap();
+                        Palette palette = PaletteTransformation.getPalette(bitmap);
 
-                        if (palette.getVibrantSwatch() != null && palette.getVibrantSwatch().getRgb() == 0) {
-                            int color = palette.getVibrantSwatch().getRgb();
-                            collapsingToolbarLayout.setContentScrimColor(color);
-                            window.setStatusBarColor(color - (color / 200));
-                        } else if (palette.getDarkVibrantSwatch() != null && palette.getDarkVibrantSwatch().getRgb() == 0) {
-                            int color = palette.getVibrantSwatch().getRgb();
-                            collapsingToolbarLayout.setContentScrimColor(color);
-                            window.setStatusBarColor(color - (color / 200));
-                        } else if (palette.getLightVibrantSwatch() != null && palette.getLightVibrantSwatch().getRgb() == 0) {
-                            int color = palette.getVibrantSwatch().getRgb();
-                            collapsingToolbarLayout.setContentScrimColor(color);
-                            window.setStatusBarColor(color - (color / 200));
-                        } else {
-                            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+                        if (palette.getVibrantSwatch() != null) {
+                            collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
+                            window.setStatusBarColor(palette.getVibrantSwatch().getTitleTextColor());
+                            original_title.setTextColor(palette.getVibrantSwatch().getTitleTextColor());
+                        } else if (palette.getDarkVibrantSwatch() != null){
+                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkMutedSwatch().getRgb());
+                            window.setStatusBarColor(palette.getDarkMutedSwatch().getRgb()-20);
+                            original_title.setTextColor(palette.getDarkMutedSwatch().getTitleTextColor());
+                        } else if (palette.getLightVibrantSwatch() != null) {
+                            collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
+                            window.setStatusBarColor(palette.getDarkMutedSwatch().getRgb()-20);
+                            original_title.setTextColor(palette.getLightVibrantSwatch().getTitleTextColor());
+
                         }
                     }
                 });
-            }
-        } catch (Exception ex) {
-            collapsingToolbarLayout.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
-            Log.e("Error on Palette", "" + ex);
-        }
     }
 
     private void initRecyclerView(){
@@ -284,10 +287,9 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
     @Override
     public void itemClicked(View view, int position, String recycler) {
-        Log.d("DetailFragment", "CLICKLISTENER");
         if (CASTING_RECYCLER_ADAPTER.equals(recycler)) {
             presenter.loadPerson(castPersons.get(position).getId());
-        } else if(HORIZONTAL_RECYCLER_ADAPTER.equals(recycler)) {
+        } else {
             presenter.loadCompleteMovie(similarMovies.get(position).getId());
         }
     }
