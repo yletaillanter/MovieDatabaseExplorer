@@ -28,11 +28,17 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
     private Context context;
     private ClickListener clickListener;
     private Movie movie;
+    // quand multiple recyclerviews
+    private String originRecycler;
 
     /* Constructor */
-    public HorizontalRecyclerAdapter(Context context, ArrayList<Movie> movies) {
+    public HorizontalRecyclerAdapter(Context context, ArrayList<Movie> movies, String originRecycler) {
         this.context = context;
         this.mDataset = movies;
+
+        if (originRecycler != null){
+            this.originRecycler = originRecycler;
+        }
     }
 
     @Override
@@ -76,7 +82,7 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         public void onClick(View v) {
 
             if (clickListener != null) {
-                clickListener.itemClicked(v,getPosition(), HorizontalRecyclerAdapter.class.getSimpleName());
+                clickListener.itemClicked(v,getPosition(), originRecycler);
             }
         }
     }
@@ -105,5 +111,13 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
 
     public ArrayList<Movie> getmDataset() {
         return mDataset;
+    }
+
+    public String getOriginRecycler() {
+        return originRecycler;
+    }
+
+    public void setOriginRecycler(String originRecycler) {
+        this.originRecycler = originRecycler;
     }
 }

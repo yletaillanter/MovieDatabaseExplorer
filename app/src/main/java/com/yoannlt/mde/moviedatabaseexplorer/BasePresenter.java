@@ -6,7 +6,7 @@ package com.yoannlt.mde.moviedatabaseexplorer;
 
 public interface BasePresenter {
 
-    void subscribe();
+    void subscribe(String source);
 
     void unsubscribe();
 

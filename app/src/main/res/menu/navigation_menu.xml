@@ -5,7 +5,7 @@
 
         <item
             android:id="@+id/accueil"
-            android:title="Accueil" />
+            android:title="Film" />
 
         <item
             android:id="@+id/search"

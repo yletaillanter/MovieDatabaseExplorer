@@ -70,7 +70,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     }
 
     @Override
-    public void subscribe() {
+    public void subscribe(String source) {
         realm = Realm.getDefaultInstance();
         moviesRealm = realm.where(Movie.class).findAll();
         for (Movie f : moviesRealm) {

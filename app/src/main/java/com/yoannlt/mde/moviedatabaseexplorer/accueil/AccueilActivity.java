@@ -1,4 +1,4 @@
-package com.yoannlt.mde.moviedatabaseexplorer.favorite;
+package com.yoannlt.mde.moviedatabaseexplorer.accueil;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
@@ -7,36 +7,35 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
-import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailPresenter;
-import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class AccueilActivity extends AppCompatActivity {
 
-    @BindView(R.id.drawer_layout_favorite) DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigation_favorite) NavigationView navigationView;
-    @BindView(R.id.my_toolbar_favorite) Toolbar toolbar;
-    private FavoritePresenter presenter;
+    private final String LOG_TAG = getClass().getSimpleName();
+
+    private AccueilPresenter acceuilPresenter;
+    @BindView(R.id.drawer_layout_acceuil) DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation_acceuil) NavigationView navigationView;
+    @BindView(R.id.toolbar_acceuil) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_accueil);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.favorite_title);
+        getSupportActionBar().setTitle(R.string.films);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
                 this,  mDrawerLayout, toolbar,
@@ -47,15 +46,13 @@ public class FavoriteActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
-        navigationView.setCheckedItem(R.id.favorite);
+        navigationView.setCheckedItem(R.id.accueil);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
-                        Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
-                        startActivity(intent);
                         break;
                     case R.id.search:
                         Intent intentSearch = new Intent(getApplicationContext(), MainActivity.class);
@@ -64,8 +61,11 @@ public class FavoriteActivity extends AppCompatActivity {
                     case R.id.advanced:
                         Intent intentAdvancedSearch = new Intent(getApplicationContext(), AdvancedSearchActivity.class);
                         startActivity(intentAdvancedSearch);
+                        Log.d(LOG_TAG, "menu advancedSearch");
                         break;
                     case R.id.favorite:
+                        Intent intentFavorite = new Intent(getApplicationContext(), FavoriteActivity.class);
+                        startActivity(intentFavorite);
                         break;
                     default:
                         break;
@@ -76,13 +76,15 @@ public class FavoriteActivity extends AppCompatActivity {
             }
         });
 
-        FavoriteFragment fragment = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame_favorite);
-        if(fragment == null) {
-            fragment = FavoriteFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_frame_favorite);
+        // FRAGMENT 1
+        AccueilFragment fragment = (AccueilFragment) getSupportFragmentManager().findFragmentById(R.id.content_fragment_acceuil);
+        if (fragment == null ) {
+            fragment = AccueilFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_fragment_acceuil);
         }
-
-        presenter = new FavoritePresenter(fragment);
-        fragment.setPresenter(presenter);
+        // Create the popularPresenter
+        acceuilPresenter = new AccueilPresenter(fragment);
+        // attached the popularPresenter to the fragment
+        fragment.setPresenter(acceuilPresenter);
     }
 }

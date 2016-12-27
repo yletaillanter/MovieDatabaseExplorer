@@ -1,7 +1,496 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="fill_vertical"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_actor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/label_actors_as"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_actors_as"
+                    android:textSize="20dp"/>
+
+                <ImageView
+                    android:id="@+id/add_actor_button"
+                    android:paddingTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/add_black"
+                    android:layout_below="@id/label_actors_as"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:scrollbars="vertical"
+                    android:padding="15dp"
+                    android:id="@+id/recycler_actor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/add_actor_button"
+                    android:paddingTop="5dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/card_actor">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/label_year_as"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_year_as"
+                    android:textSize="20dp"/>
+
+                <TextView
+                    android:id="@+id/label_year_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:layout_below="@id/label_year_as"
+                    android:text="@string/year_de" />
+
+                <TextView
+                    android:id="@+id/label_year_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:layout_toRightOf="@id/label_year_as"
+                    android:layout_alignBottom="@id/label_year_as"
+                    android:text="@string/year_a"/>
+
+                <EditText
+                    android:id="@+id/edit_year_from"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_alignLeft="@id/label_year_from"
+                    android:layout_below="@id/label_year_from"/>
+
+                <EditText
+                    android:id="@+id/edit_year_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_alignLeft="@id/label_year_to"
+                    android:layout_below="@id/label_year_to"
+                    android:layout_alignBottom="@id/edit_year_from"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_notation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/card_year">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/label_notation_as"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_notation_as"
+                    android:textSize="20dp"/>
+
+                <Spinner
+                    android:id="@+id/spinner_notation_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_notation_as">
+                </Spinner>
+
+                <EditText
+                    android:id="@+id/input_notation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_toRightOf="@+id/spinner_notation_sign"
+                    android:layout_alignBottom="@id/spinner_notation_sign"
+                    android:textSize="15dp"
+                    android:layout_centerHorizontal="true"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_genres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_below="@+id/card_notation">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/label_genres_as"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_genres_as"
+                    android:textSize="20dp"/>
+
+                <LinearLayout
+                    android:id="@+id/genre_one"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/label_genres_as">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_action"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_adventure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_adventure"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_animation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_animation"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_two"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/genre_one">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_comedy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_comedy"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_crime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_crime"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_documentary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_documentary"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_three"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/genre_two">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_drama"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_drama"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_family"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_family"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_fantasy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_fantasy"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_four"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/genre_three">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_history"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_history"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_horror"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_horror"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_music"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_music"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_five"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/genre_four">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_mystery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_mystery"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_romance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_romance"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_sf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_sf"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_six"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/genre_five">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_tv"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:id="@+id/genre_thriller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:padding="@dimen/genre_padding"
+                        android:text="@string/genre_thriller"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:padding="@dimen/genre_padding"
+                        android:id="@+id/genre_war"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="@string/genre_war"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/genre_box_deselect"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/genre_seven"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/genre_six">
+
+                    <com.yoannlt.mde.moviedatabaseexplorer.customUI.GenreTextView
+                        android:id="@+id/genre_western"
+                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:padding="@dimen/genre_padding"
+                        android:paddingLeft="13dp"
+                        android:paddingRight="13dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textSize="16dp"
+                        android:text="@string/genre_western"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:textStyle="normal"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/search_button_advanced"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Search!"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

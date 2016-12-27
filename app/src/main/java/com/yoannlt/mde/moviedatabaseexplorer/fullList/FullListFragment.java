@@ -1,10 +1,8 @@
-package com.yoannlt.mde.moviedatabaseexplorer.popular;
+package com.yoannlt.mde.moviedatabaseexplorer.fullList;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
@@ -22,8 +20,11 @@ import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ListSearchAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
+import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindBool;
 import butterknife.BindView;
@@ -33,25 +34,28 @@ import butterknife.ButterKnife;
  * Created by yoannlt on 24/10/2016.
  */
 
-public class PopularFragment extends Fragment implements PopularContract.View, ClickListener {
+public class FullListFragment extends Fragment implements FullListContract.View, ClickListener {
 
+    private final String LOG_TAG = getClass().getSimpleName();
     @BindView(R.id.popular_recyclerview) RecyclerView recyclerView;
-    private PopularContract.Presenter presenter;
+    private FullListContract.Presenter presenter;
     private ListSearchAdapter adapter;
-    Resources res;
+    public String from;
     @BindBool(R.bool.is_720) boolean is_720;
 
 
-    public PopularFragment() {
+    public FullListFragment() {
     }
 
-    public static PopularFragment newInstance() {
-        return new PopularFragment();
+    public static FullListFragment newInstance() {
+        return new FullListFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        from = getActivity().getIntent().getStringExtra(ActivityUtils.FROM);
 
         adapter = new ListSearchAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>());
         adapter.setClickListener(this);
@@ -60,7 +64,7 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     @Override
     public void onResume() {
         super.onResume();
-        presenter.subscribe();
+        presenter.subscribe(from);
     }
 
     @Override
@@ -70,15 +74,14 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     }
 
     @Override
-    public void setPresenter(PopularContract.Presenter presenter) {
+    public void setPresenter(FullListContract.Presenter presenter) {
         this.presenter = presenter;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_popular, container, false);
-
+        View root = inflater.inflate(R.layout.fragment_full_list, container, false);
         ButterKnife.bind(this, root);
 
         recyclerView.setHasFixedSize(true);
@@ -90,10 +93,10 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
     }
 
     @Override
-    public void showPopularMovies(ArrayList<Movie> movies) {
+    public void showMovieList(ArrayList<Movie> movies) {
+        Log.d(LOG_TAG, movies.toString());
         adapter.replace(movies);
         adapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -111,9 +114,20 @@ public class PopularFragment extends Fragment implements PopularContract.View, C
             i.putExtra("movie", movie);
             startActivity(i,bundle);
         } else { // Sinon on laisse l'activité charger le deuxième fragment
-            Log.d("popularFragment", "callback");
-            ((PopularFragment.Callback) getActivity()).onItemSelected(movie);
+            ((FullListFragment.Callback) getActivity()).onItemSelected(movie);
         }
+    }
+
+    @Override
+    public void startAdvancedSearch() {
+        HashMap<String, String> queries = new HashMap<String, String>();
+
+        Bundle bundle = getActivity().getIntent().getExtras();
+        if(bundle!=null) {
+            queries = (HashMap<String, String>) bundle.getSerializable("hashmap");
+        }
+
+        presenter.loadAdvancedSearch(queries);
     }
 
     public interface Callback {

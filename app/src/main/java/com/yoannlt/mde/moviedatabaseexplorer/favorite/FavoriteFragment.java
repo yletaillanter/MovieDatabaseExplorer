@@ -60,7 +60,7 @@ public class FavoriteFragment extends Fragment implements FavoriteContract.View,
     public void onResume() {
         adapter.replace(new ArrayList<Movie>());
         super.onResume();
-        presenter.subscribe();
+        presenter.subscribe(null);
     }
 
     @Override

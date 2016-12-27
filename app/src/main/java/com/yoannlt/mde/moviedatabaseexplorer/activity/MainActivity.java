@@ -15,20 +15,21 @@ import android.widget.EditText;
 
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
+import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ListSearchAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
-import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,15 +75,22 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
+
+        navigationView.setCheckedItem(R.id.search);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
-                        Intent intent = new Intent(getApplicationContext(), PopularActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
                         startActivity(intent);
                         break;
                     case R.id.search:
+                        break;
+                    case R.id.favorite:
+                        Intent intentFavorite = new Intent(getApplicationContext(), FavoriteActivity.class);
+                        startActivity(intentFavorite);
                         break;
                     default:
                         break;

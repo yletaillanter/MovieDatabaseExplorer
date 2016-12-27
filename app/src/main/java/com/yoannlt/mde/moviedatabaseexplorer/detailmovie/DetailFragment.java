@@ -1,8 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -31,13 +29,13 @@ import com.yoannlt.mde.moviedatabaseexplorer.adapter.CastingRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.HorizontalRecyclerAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.detailperson.DetailPersonActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListFragment;
 import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularFragment;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
 import java.io.InputStream;
@@ -265,7 +263,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         similarMovies = new ArrayList<Movie>();
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), similarMovies);
+        adapter = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), similarMovies, null);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -333,7 +331,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
             i.putExtra("movie", movie);
             startActivity(i);
         } else {
-            ((PopularFragment.Callback) getActivity()).onItemSelected(movie);
+            ((FullListFragment.Callback) getActivity()).onItemSelected(movie);
         }
     }
 

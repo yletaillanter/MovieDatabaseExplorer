@@ -87,7 +87,7 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
     }
 
     @Override
-    public void subscribe() {
+    public void subscribe(String source) {
     }
 
     @Override

@@ -4,19 +4,18 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
+import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.detailperson.DetailPersonPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoritePresenter;
+import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
-import com.yoannlt.mde.moviedatabaseexplorer.popular.PopularPresenter;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -28,6 +27,8 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -70,7 +71,10 @@ public class MovieExplorer extends Application {
         void inject(DetailPersonPresenter presenter);
         void inject(FavoritePresenter presenter);
         void inject(GalleryActivity activity);
-        void inject(PopularPresenter presenter);
+        void inject(FullListPresenter presenter);
+        void inject(AccueilPresenter presenter);
+        void inject(AdvancedSearchPresenter presenter);
+
     }
 
     @Module
@@ -86,9 +90,11 @@ public class MovieExplorer extends Application {
             return PreferenceManager.getDefaultSharedPreferences(application);
         }
 
+
         @Provides
         @Singleton
         public Interceptor provideInterceptor() {
+
             return new Interceptor() {
                 @Override
                 public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
@@ -98,11 +104,19 @@ public class MovieExplorer extends Application {
                     return chain.proceed(request);
                 }
             };
+
         }
 
         @Provides
         @Singleton
         public OkHttpClient provideOkHttp(Interceptor interceptor) {
+
+            /* FOR DEBUG
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            // set your desired log level
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            */
+
             return new OkHttpClient.Builder().addInterceptor(interceptor).build();
         }
 
@@ -124,7 +138,6 @@ public class MovieExplorer extends Application {
         }
         @Provides
         @Singleton
-        @Inject
         public RequestInterface provideRequestInterface(Retrofit retrofit) {
             return retrofit.create(RequestInterface.class);
         }

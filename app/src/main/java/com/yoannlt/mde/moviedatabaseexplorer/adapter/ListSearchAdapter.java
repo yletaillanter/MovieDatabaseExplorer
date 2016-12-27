@@ -120,6 +120,7 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
     public void setClickListener(ClickListener clickListener) {
         this.clickListener = clickListener;
     }
+
     /* Add an item to the dataList */
     public void add(int position, Movie movie) {
         mDataset.add(position, movie);

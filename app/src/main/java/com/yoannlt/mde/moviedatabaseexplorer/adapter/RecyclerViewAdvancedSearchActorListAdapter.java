@@ -1,0 +1,103 @@
+package com.yoannlt.mde.moviedatabaseexplorer.adapter;
+
+import android.content.Context;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.yoannlt.mde.moviedatabaseexplorer.R;
+import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by yoannlt on 13/12/2016.
+ */
+
+public class RecyclerViewAdvancedSearchActorListAdapter extends RecyclerView.Adapter<RecyclerViewAdvancedSearchActorListAdapter.ViewHolder> {
+
+    private ArrayList<Person> mDataset = new ArrayList<Person>();
+
+    private ClickListener clickListener;
+    private Context context;
+    private Person person;
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.card_search_actor) CardView card;
+        @Nullable @BindView(R.id.search_actor_name) TextView name;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (clickListener != null) {
+                clickListener.itemClicked(v,getPosition(), RecyclerViewAdvancedSearchActorListAdapter.class.getSimpleName());
+            }
+        }
+    }
+
+    public void setClickListener(ClickListener clickListener) {
+        this.clickListener = clickListener;
+    }
+
+    /* Add an item to the dataList */
+    public void add(int position, Person person) {
+        mDataset.add(position, person);
+        notifyItemInserted(position);
+    }
+
+    /* Remove an item to the dataList */
+    public void remove(int id) {
+        int position = mDataset.indexOf(id);
+        mDataset.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public RecyclerViewAdvancedSearchActorListAdapter(Context context, ArrayList<Person> mDataset) {
+        this.context = context;
+        this.mDataset = mDataset;
+    }
+
+    public RecyclerViewAdvancedSearchActorListAdapter() {
+    }
+
+    @Override
+    public RecyclerViewAdvancedSearchActorListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        person = mDataset.get(position);
+        holder.name.setText(person.getName());
+    }
+
+    @Override
+    public int getItemCount() {
+        if(mDataset != null)
+            return mDataset.size();
+        else
+            return 0;
+    }
+
+    // Replace the data list
+    public void replace(ArrayList<Person> personList) {
+        this.mDataset = personList;
+    }
+
+    public ArrayList<Person> getmDataset() {
+        return mDataset;
+    }
+}

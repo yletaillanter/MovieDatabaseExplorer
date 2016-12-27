@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Optional;
 
 /**
  * Created by yoannlt on 19/10/2016.
@@ -96,5 +97,4 @@ public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerVie
     public void replace(ArrayList<Image> images) {
         this.images = images;
     }
-
 }

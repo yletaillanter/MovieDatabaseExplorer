@@ -7,6 +7,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
+import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.TmdbRepositoryDetail;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
@@ -26,6 +27,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -35,6 +37,7 @@ import rx.schedulers.Schedulers;
 public class DetailPresenter implements DetailContract.Presenter {
 
     @NonNull private DetailContract.View mView;
+    @NonNull private TmdbRepositoryDetail repositoryDetail;
     @Inject RequestInterface request;
 
     private MovieComplete movie;
@@ -46,6 +49,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadSimilar(@NonNull int movieId) {
+
         request.getSimilarMovies(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,6 +71,10 @@ public class DetailPresenter implements DetailContract.Presenter {
                         }
                     }
                 });
+    }
+
+    public void setSimilar(){
+
     }
 
     @Override
@@ -141,7 +149,7 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void subscribe() {
+    public void subscribe(String source) {
     }
 
     @Override

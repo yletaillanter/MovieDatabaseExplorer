@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_toprated">Mieux notés</string>
+    <string name="label_popular">Les plus populaires</string>
+    <string name="label_upcoming">Prochainement à l\'affiche</string>
+    <string name="label_nowplaying">Dernières nouveautés</string>
+    <string name="advanced_search_title">Recherche avancée</string>
+    <string name="add_actor">Ajouter un acteur</string>
+
+
+    <!-- LISTE GENRE -->
+    <string name="genre_action">Action</string>
+    <string name="genre_adventure">Aventure</string>
+    <string name="genre_animation">Animation</string>
+    <string name="genre_comedy">Comédie</string>
+    <string name="genre_crime">Crime</string>
+    <string name="genre_documentary">Documentaire</string>
+    <string name="genre_drama">Drame</string>
+    <string name="genre_family">Familial</string>
+    <string name="genre_fantasy">Fantastique</string>
+    <string name="genre_history">Histoire</string>
+    <string name="genre_horror">Horreur</string>
+    <string name="genre_music">Musique</string>
+    <string name="genre_mystery">Mystère</string>
+    <string name="genre_romance">Romance</string>
+    <string name="genre_sf">Science-Fiction</string>
+    <string name="genre_tv">Téléfilm</string>
+    <string name="genre_thriller">Thriller</string>
+    <string name="genre_war">Guerre</string>
+    <string name="genre_western">Western</string>
+
+
+    <string-array name="notation_sign_array">
+        <item>égale</item>
+        <item>supérieur ou égale</item>
+        <item>Inférieur ou égale</item>
+    </string-array>
+    <string name="films">Films</string>
+    <string name="favorite_title">Favoris</string>
+    <string name="hint_search">Rechercher</string>
+    <string name="label_actors_as">Acteur(s)</string>
+    <string name="label_ne">"Né le : "</string>
+    <string name="label_other_movies">Autres Films</string>
+    <string name="label_similar">Films Similaires</string>
+</resources>
