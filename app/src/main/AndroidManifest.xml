@@ -11,12 +11,9 @@
         android:label=  "@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".detailmovie.DetailActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+        <activity android:name=".detailmovie.DetailActivity" />
         <activity android:name=".detailperson.DetailPersonActivity" />
         <activity android:name=".fullscreen.FullScreenImageViewActivity" />
         <activity android:name=".gallery.GalleryActivity" />

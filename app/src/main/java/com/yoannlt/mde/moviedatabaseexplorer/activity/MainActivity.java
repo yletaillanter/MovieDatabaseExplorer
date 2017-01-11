@@ -1,22 +1,27 @@
 package com.yoannlt.mde.moviedatabaseexplorer.activity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ClickListener;
+import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListActivity;
@@ -47,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     @BindView(R.id.search_input) EditText searchInput;
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.navigation) NavigationView navigationView;
+    @BindView(R.id.my_toolbar_as) Toolbar toolbar;
 
     @Inject RequestInterface request;
 
@@ -65,18 +71,37 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         initSearch();
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        navigationView.setCheckedItem(R.id.search);
+    }
+
     private void init() {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.search_by_name);
 
         movies = new ArrayList<Movie>();
         adapter = new ListSearchAdapter(getApplicationContext(), movies);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+                this,  mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle.syncState();
 
-        navigationView.setCheckedItem(R.id.search);
+        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
+        name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -87,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                         startActivity(intent);
                         break;
                     case R.id.search:
+                        break;
+                    case R.id.advanced:
+                        Intent intentAdvanced = new Intent(getApplicationContext(), AdvancedSearchActivity.class);
+                        startActivity(intentAdvanced);
                         break;
                     case R.id.favorite:
                         Intent intentFavorite = new Intent(getApplicationContext(), FavoriteActivity.class);

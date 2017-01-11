@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Movie Database Explorer</string>
     <string name="language_label">Langue</string>
-    <string name="original_title">Titre Original</string>
+    <string name="original_title">Titre original</string>
     <string name="vote_average">Moyenne des votes</string>
     <string name="release_date">Date de sortie</string>
     <string name="hint_search">Search</string>
@@ -33,12 +33,7 @@
     <string name="year_de">De :</string>
     <string name="year_a">A :</string>
 
-
-    <string-array name="notation_sign_array">
-        <item>égale</item>
-        <item>supérieur ou égale</item>
-        <item>Inférieur ou égale</item>
-    </string-array>
+    <string name="spinner">Signe</string>
     <string name="genre_action">Action</string>
     <string name="genre_adventure">Adventure</string>
     <string name="genre_animation">Animation</string>
@@ -61,4 +56,9 @@
     <string name="label_notation_as">Vote</string>
     <string name="label_genres_as">Genre(s):</string>
     <string name="hint_search_actor">Actor name</string>
+    <string name="menu_film">Film</string>
+    <string name="search_by_name">Rechercher par titre</string>
+    <string name="menu_search_by_name">Rechercher par titre</string>
+    <string name="menu_search_advanced">Recherche avancée</string>
+    <string name="search_title">Chercher</string>
 </resources>

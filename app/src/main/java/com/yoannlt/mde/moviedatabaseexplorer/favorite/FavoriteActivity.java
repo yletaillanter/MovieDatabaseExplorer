@@ -1,6 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
@@ -49,6 +51,10 @@ public class FavoriteActivity extends AppCompatActivity {
 
         navigationView.setCheckedItem(R.id.favorite);
 
+        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
+        name.setTypeface(myTypeface);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -84,5 +90,11 @@ public class FavoriteActivity extends AppCompatActivity {
 
         presenter = new FavoritePresenter(fragment);
         fragment.setPresenter(presenter);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        navigationView.setCheckedItem(R.id.favorite);
     }
 }

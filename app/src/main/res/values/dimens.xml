@@ -5,6 +5,29 @@
 
     <!-- GENRE -->
     <dimen name="genre_padding">3dp</dimen>
-    <dimen name="genre_margin_left">5dp</dimen>
+    <dimen name="genre_margin_left">8dp</dimen>
     <dimen name="genre_text_size">16dp</dimen>
+    
+    <dimen name="space_between_content">8dp</dimen>
+    <dimen name="content_left_from_screen">72dp</dimen>
+
+    <dimen name="screen_right_cardview_edge">8dp</dimen>
+    <dimen name="screen_left_cardview_edge">8dp</dimen>
+
+    <dimen name="screen_cardview_margin">8dp</dimen>
+
+    <!-- typo -->
+    <dimen name="subtitle_text_size">24sp</dimen>
+    <dimen name="content_text_size">16sp</dimen>
+    <dimen name="space_subtitle_cardview">64dp</dimen>
+    <dimen name="space_subtitle">48dp</dimen>
+    <dimen name="text_content_marging_top">32dp</dimen>
+
+    <!-- Full list -->
+    <dimen name="imageview_fullist_width">150dp</dimen>
+    <dimen name="imageview_fullist_height">222dp</dimen>
+
+    <!-- detail movie -->
+    <dimen name="appbar_image_height">256dp</dimen>
+
 </resources>

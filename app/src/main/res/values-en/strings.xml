@@ -43,5 +43,6 @@
     <string name="label_notation_as">Vote</string>
     <string name="label_genres_as">Genre(s):</string>
     <string name="hint_search_actor">Actor name</string>
+    <string name="menu_film">Film</string>
 
 </resources>

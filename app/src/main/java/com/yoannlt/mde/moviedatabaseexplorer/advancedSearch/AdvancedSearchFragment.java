@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.yoannlt.mde.moviedatabaseexplorer.adapter.ActorSearchListAdapter;
 import com.yoannlt.mde.moviedatabaseexplorer.customUI.GenreTextView;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -42,7 +42,7 @@ import butterknife.OnClick;
 public class AdvancedSearchFragment extends Fragment implements AdvancedSearchContract.View {
 
     private final String LOG_TAG = getClass().getSimpleName();
-    @BindView(R.id.spinner_notation_sign) Spinner spinner_notation;
+    @BindView(R.id.spinner) MaterialSpinner spinner_notation;
     @BindView(R.id.add_actor_button) ImageView addActorButton;
 
     @BindView(R.id.recycler_actor) RecyclerView recyclerViewActors;
@@ -75,6 +75,7 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
 
     //Notation
     @BindView(R.id.input_notation) EditText inputNotation;
+    private String valueSpinner;
 
     // Button rechercher
     @BindView(R.id.search_button_advanced) Button searchButton;
@@ -119,10 +120,15 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
         recyclerViewActors.setAdapter(adapter);
 
         // Création du spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                R.array.notation_sign_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_notation.setAdapter(adapter);
+        spinner_notation.setItems(ActivityUtils.EQUAL, ActivityUtils.GTE_OR_EQUAL, ActivityUtils.LTE_OR_EQUAL);
+        spinner_notation.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                //Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+                valueSpinner = item;
+            }
+        });
+        spinner_notation.setSelectedIndex(0);
 
         return root;
     }
@@ -592,12 +598,15 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
             queries.put("primary_release_date.lte", yearTo.getText().toString());
             //queries.put("primary_release_year", yearTo.getText().toString());
         }
-            queries.put("vote_average.gte",inputNotation.getText().toString());
 
         //Notation
-        if(inputNotation.getText().length() > 0 && inputNotation.getText().length() < 2) {
+        if(inputNotation.getText().length() > 0) {
+            valueSpinner = "vote_average.gte";
+            if (valueSpinner.equals(ActivityUtils.LTE_OR_EQUAL)) {
+                valueSpinner = "vote_average.lte";
+            }
+            queries.put(valueSpinner,inputNotation.getText().toString());
         }
-
 
         Bundle extras = new Bundle();
         extras.putString(ActivityUtils.FROM, ActivityUtils.FROM_ADVANCED_SEARCH);
@@ -606,6 +615,12 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
         Intent intent = new Intent(getActivity(), FullListActivity.class);
         intent.putExtras(extras);
         startActivity(intent);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        queries.clear();
     }
 
     /**

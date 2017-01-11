@@ -195,6 +195,7 @@ public class DetailPersonFragment  extends Fragment implements DetailPersonContr
     public void showDetailMovie(@NonNull MovieComplete movie) {
         Intent i = new Intent(getActivity(), DetailActivity.class);
         i.putExtra("movie", movie);
+        i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
     }
 

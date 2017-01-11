@@ -2,7 +2,7 @@ package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -169,15 +170,13 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         original_language.setText(currentMovie.getOriginal_language());
         status.setText(currentMovie.getStatus());
         budget.setText("" + currentMovie.getBudget());
-        if (currentMovie.getRevenue() == 0) {
-            revenueLabel.setVisibility(View.GONE);
-        } else {
+        //if (currentMovie.getRevenue() == 0) {
+        //    revenueLabel.setVisibility(View.GONE);
+        //} else {
             revenue.setText("" + currentMovie.getRevenue());
-        }
+        //}
         if (currentMovie.getProduction_companies() != null && currentMovie.getProduction_companies().length > 0) {
             production_companies.setText(currentMovie.getProduction_companies()[0].getName());
-        } else {
-            productionCompaniesLabel.setVisibility(View.GONE);
         }
 
         if(!is_720)
@@ -200,6 +199,10 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
     @OnClick(R.id.gallery)
     public void openGallery() {
+
+        // Adding the current intent to the back stack
+        //getActivity().getIntent().setFlags(getActivity().getIntent().getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+
         Intent i = new Intent(getActivity().getApplicationContext(), GalleryActivity.class);
         i.putExtra("from", "movie");
         i.putExtra("movie", currentMovie);
@@ -211,6 +214,12 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse("http://www.imdb.com/title/" + currentMovie.getImdb_id()));
         startActivity(i);
+    }
+
+    @OnClick(R.id.video)
+    public void launchVideo() {
+        //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/")));
+        Toast.makeText(getActivity().getApplicationContext(), "Not available yet", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.favorite)
@@ -230,7 +239,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     private void initPalettePersonalization(){
 
         window = getActivity().getWindow();
-        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
 
         Picasso
                 .with(getActivity().getApplicationContext())
@@ -245,18 +253,34 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
                         if (palette.getVibrantSwatch() != null) {
                             collapsingToolbarLayout.setContentScrimColor(palette.getVibrantSwatch().getRgb());
-                            window.setStatusBarColor(palette.getVibrantSwatch().getTitleTextColor());
-                            original_title.setTextColor(palette.getVibrantSwatch().getTitleTextColor());
+
+                            if (palette.getDarkVibrantSwatch() != null)
+                                window.setStatusBarColor(palette.getDarkVibrantSwatch().getRgb());
+                            else if (palette.getLightVibrantSwatch() != null)
+                                window.setStatusBarColor(palette.getLightVibrantSwatch().getRgb());
+                            else if (palette.getMutedSwatch() != null)
+                                window.setStatusBarColor(palette.getMutedSwatch().getRgb());
+
                         } else if (palette.getDarkVibrantSwatch() != null){
-                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkMutedSwatch().getRgb());
-                            window.setStatusBarColor(palette.getDarkMutedSwatch().getRgb()-20);
-                            original_title.setTextColor(palette.getDarkMutedSwatch().getTitleTextColor());
+                            collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
+
+                            if (palette.getLightVibrantSwatch() != null)
+                                window.setStatusBarColor(palette.getLightVibrantSwatch().getRgb());
+                            else if (palette.getMutedSwatch() != null)
+                                window.setStatusBarColor(palette.getMutedSwatch().getRgb());
+
                         } else if (palette.getLightVibrantSwatch() != null) {
                             collapsingToolbarLayout.setContentScrimColor(palette.getLightVibrantSwatch().getRgb());
-                            window.setStatusBarColor(palette.getDarkMutedSwatch().getRgb()-20);
-                            original_title.setTextColor(palette.getLightVibrantSwatch().getTitleTextColor());
 
+                            if (palette.getMutedSwatch() != null)
+                                window.setStatusBarColor(palette.getMutedSwatch().getRgb());
+
+                        } else if (palette.getMutedSwatch() != null) {
+                            collapsingToolbarLayout.setContentScrimColor(palette.getMutedSwatch().getRgb());
+                            window.setStatusBarColor(palette.getMutedSwatch().getRgb());
                         }
+
+
                     }
                 });
     }
@@ -323,6 +347,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     public void showDetailPerson(@NonNull Person person) {
         Intent i = new Intent(getActivity(), DetailPersonActivity.class);
         i.putExtra("person", person);
+        //i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
     }
 
@@ -331,6 +356,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         if (!is_720) {
             Intent i = new Intent(getActivity(), DetailActivity.class);
             i.putExtra("movie", movie);
+            //i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(i);
         } else {
             ((FullListFragment.Callback) getActivity()).onItemSelected(movie);

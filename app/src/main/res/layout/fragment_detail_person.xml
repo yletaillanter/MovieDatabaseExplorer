@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/MyAppbar"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
+        android:layout_height="@dimen/appbar_image_height"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:elevation="3dp">
 
             <ImageView
                 android:id="@+id/bgheader_person"
@@ -52,21 +53,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp"
-            android:fitsSystemWindows="true">
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginTop="@dimen/space_between_content"
+                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                android:layout_marginRight="@dimen/screen_right_cardview_edge"
+                android:elevation="2dp"
+                android:clipToPadding="false">
 
                 <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -74,32 +72,38 @@
                         android:id="@+id/picture_person"
                         android:layout_width="130dp"
                         android:layout_height="192dp"
-                        android:layout_alignParentLeft="true"/>
+                        android:layout_alignParentLeft="true"
+                        android:padding="@dimen/space_between_content"
+                        android:elevation="1dp"
+                        android:clipToPadding="false"/>
 
                     <TextView
                         android:id="@+id/birthdate_label"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_ne"
-                        android:textSize="18sp"
-                        android:layout_marginTop="10dp"
-                        android:paddingStart="15dp"
-                        android:layout_toRightOf="@+id/picture_person"/>
+                        android:textSize="@dimen/content_text_size"
+                        android:layout_marginTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_toRightOf="@+id/picture_person"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/birthdate"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:layout_marginTop="10dp"
+                        android:textSize="@dimen/content_text_size"
+                        android:layout_marginTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/space_between_content"
                         android:layout_toRightOf="@+id/birthdate_label"/>
 
                     <TextView
                         android:id="@+id/birthplace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:layout_marginTop="10dp"
+                        android:textSize="@dimen/content_text_size"
+                        android:layout_marginTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/space_between_content"
                         android:layout_below="@+id/birthdate_label"
                         android:layout_alignLeft="@id/birthdate_label"/>
                 </RelativeLayout>
@@ -109,16 +113,16 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginTop="@dimen/space_between_content"
+                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                android:layout_marginRight="@dimen/screen_right_cardview_edge"
+                android:elevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_between_content">
 
                     <ImageView
                         android:id="@+id/gallery"
@@ -147,26 +151,26 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginTop="@dimen/space_between_content"
+                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                android:layout_marginRight="@dimen/screen_right_cardview_edge">
 
                 <TextView
                     android:fontFamily="sans-serif"
                     android:id="@+id/biography"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="12dp"
-                    android:textSize="17sp" />
+                    android:textSize="@dimen/content_text_size"
+                    android:layout_margin="@dimen/space_between_content" />
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/space_between_content"
+                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                android:layout_marginRight="@dimen/screen_right_cardview_edge"
                 android:layout_marginBottom="180dp">
 
                 <RelativeLayout
@@ -175,14 +179,15 @@
 
                     <TextView
                         android:id="@+id/label_other_movies"
-                        android:textSize="22sp"
-                        android:paddingLeft="5dp"
+                        android:textSize="@dimen/subtitle_text_size"
+                        android:layout_marginLeft="@dimen/screen_left_cardview_edge"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/space_subtitle"
+                        android:gravity="center_vertical"
                         android:text="@string/label_other_movies"/>
 
                     <android.support.v7.widget.RecyclerView
-                        android:paddingTop="5dp"
+                        android:padding="@dimen/screen_cardview_margin"
                         android:id="@+id/recycler_other"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

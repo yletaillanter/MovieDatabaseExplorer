@@ -42,4 +42,9 @@
     <string name="label_ne">"Né le : "</string>
     <string name="label_other_movies">Autres Films</string>
     <string name="label_similar">Films Similaires</string>
+    <string name="menu_film">Film</string>
+    <string name="search_by_name">Rechercher par titre</string>
+    <string name="menu_search_by_name">Rechercher par titre</string>
+    <string name="menu_search_advanced">Recherche avancée</string>
+    <string name="search_title">Chercher</string>
 </resources>

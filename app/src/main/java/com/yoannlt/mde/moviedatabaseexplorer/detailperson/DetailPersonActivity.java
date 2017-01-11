@@ -17,37 +17,12 @@ import butterknife.ButterKnife;
 
 public class DetailPersonActivity extends AppCompatActivity {
 
-    @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigation) NavigationView navigationView;
-
     private DetailPersonPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_person);
-        ButterKnife.bind(this);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.accueil:
-                        Intent intent = new Intent(getApplicationContext(), FullListActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.search:
-                        Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent2);
-                        break;
-                    default:
-                        break;
-                }
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                return true;
-            }
-        });
 
         DetailPersonFragment fragment = (DetailPersonFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrameDetailPerson);
         if (fragment == null) {

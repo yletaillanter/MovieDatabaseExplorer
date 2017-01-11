@@ -16,12 +16,18 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
 public class ActivityUtils {
 
+    // From recycler variables
     public static final String FROM = "from";
     public static final String FROM_RECYCLER_NOW_PLAYING = "now_playing";
     public static final String FROM_RECYCLER_UP_COMING = "up_coming";
     public static final String FROM_RECYCLER_POPULAR = "popular";
     public static final String FROM_RECYCLER_TOP_RATED = "top_rated";
     public static final String FROM_ADVANCED_SEARCH = "advanced_search";
+
+    // SPINNER Advanced search variables
+    public static final String EQUAL = "=";
+    public static final String GTE_OR_EQUAL = ">=";
+    public static final String LTE_OR_EQUAL = "<=";
 
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is

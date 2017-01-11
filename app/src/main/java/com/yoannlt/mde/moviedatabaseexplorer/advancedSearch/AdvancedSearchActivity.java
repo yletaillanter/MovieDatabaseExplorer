@@ -1,6 +1,8 @@
 package com.yoannlt.mde.moviedatabaseexplorer.advancedSearch;
 
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -8,14 +10,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteFragment;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoritePresenter;
+import com.yoannlt.mde.moviedatabaseexplorer.model.Image;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
+
+import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,11 +53,14 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
-        navigationView.setCheckedItem(R.id.advanced);
+        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
+        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
+        name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
+
                 switch (item.getItemId()) {
                     case R.id.accueil:
                         Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
@@ -68,6 +79,7 @@ public class AdvancedSearchActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+
                 item.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 return true;
@@ -83,5 +95,11 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         presenter = new AdvancedSearchPresenter(fragment);
         fragment.setPresenter(presenter);
 
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        navigationView.setCheckedItem(R.id.advanced);
     }
 }

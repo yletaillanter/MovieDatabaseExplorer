@@ -69,13 +69,16 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
 
         if (!is_720 && mDataset.get(position).getOverview().length() > MAX_SIZE_OVERVIEW) {
             // Set the Title of the movie
-            holder.title.setText(movie.getTitle() + " " + movie.getVote_average().toString());
+            holder.title.setText(movie.getTitle());
 
             //Get the first 200 Character of the Overview
             String OverviewCutted = movie.getOverview().substring(MIN_SIZE_OVERVIEW, MAX_SIZE_OVERVIEW);
 
             // Set the overview to the view
             holder.overview.setText(OverviewCutted + "...");
+
+            //Set the note
+            holder.note.setText("" + movie.getVote_average().toString());
         }
     }
 
@@ -93,6 +96,7 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
         @BindView(R.id.card) CardView card;
         @Nullable @BindView(R.id.title) TextView title;
         @Nullable @BindView(R.id.overview) TextView overview;
+        @Nullable @BindView(R.id.note) TextView note;
 
         @BindView(R.id.poster) ImageView poster;
 
