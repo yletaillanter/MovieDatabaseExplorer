@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchPresenter;
@@ -45,6 +46,8 @@ public class MovieExplorer extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LeakCanary.install(this);
 
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();

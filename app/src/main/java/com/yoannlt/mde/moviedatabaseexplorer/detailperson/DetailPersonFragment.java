@@ -203,4 +203,16 @@ public class DetailPersonFragment  extends Fragment implements DetailPersonContr
     public void itemClicked(View view, int position, String recycler) {
         presenter.loadMovieComplete(Integer.parseInt(otherMovies.get(position).getId()));
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe(null);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
+    }
 }

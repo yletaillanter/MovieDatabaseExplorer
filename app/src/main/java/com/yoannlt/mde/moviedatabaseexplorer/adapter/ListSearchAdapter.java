@@ -34,7 +34,6 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
     private ClickListener clickListener;
     private Context context;
     private Movie movie;
-    private ViewHolder holderRef;
 
     private final int MIN_SIZE_OVERVIEW = 0;
     private final int MAX_SIZE_OVERVIEW = 150;
@@ -58,7 +57,6 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Get the movie
         movie = mDataset.get(position);
-        this.holderRef = holder;
 
         Resources res = context.getResources();
         boolean is_720 = res.getBoolean(R.bool.is_720);
@@ -138,16 +136,11 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
         notifyItemRemoved(position);
     }
 
-    // Replace the data list
     public void replace(ArrayList<Movie> newMovieList) {
         this.mDataset = newMovieList;
     }
 
     public ArrayList<Movie> getmDataset() {
         return mDataset;
-    }
-
-    public ViewHolder getViewHolderInstance(){
-        return holderRef;
     }
 }

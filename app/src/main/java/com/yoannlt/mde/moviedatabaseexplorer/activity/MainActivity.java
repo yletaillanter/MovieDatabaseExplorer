@@ -38,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -190,8 +191,10 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
     private void loadCompleteMovie(int id) {
 
-        request.getMovieById(id)
-                .subscribeOn(Schedulers.io())
+        Observable<MovieComplete> obs = request.getMovieById(id);
+
+
+            obs.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MovieComplete>() {
                     @Override

@@ -1,6 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailperson;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonCreditsJSONResponse;
@@ -25,6 +26,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by yoannlt on 26/10/2016.
@@ -37,60 +39,71 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
 
     @Inject RequestInterface request;
 
+    private CompositeSubscription compositeSubscription;
 
     public DetailPersonPresenter(@NonNull DetailPersonContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
+
+        compositeSubscription = new CompositeSubscription();
     }
 
     @Override
     public void loadOtherMovies(@NonNull int id) {
-        request.getOtherMovies(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonCreditsJSONResponse>() {
-                    @Override
-                    public void onCompleted() {
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+        compositeSubscription.add(
+            request.getOtherMovies(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<PersonCreditsJSONResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onNext(PersonCreditsJSONResponse personCreditsJSONResponse) {
-                        mView.setOtherMovies(new ArrayList<>(Arrays.asList(personCreditsJSONResponse.getCast())));
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(PersonCreditsJSONResponse personCreditsJSONResponse) {
+                            mView.setOtherMovies(new ArrayList<>(Arrays.asList(personCreditsJSONResponse.getCast())));
+                        }
+                    })
+        );
+
     }
 
     @Override
     public void loadMovieComplete(@NonNull int id) {
-        request.getMovieById(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieComplete>() {
-                    @Override
-                    public void onCompleted() {
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+        compositeSubscription.add(
+            request.getMovieById(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<MovieComplete>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onNext(MovieComplete movieComplete) {
-                        mView.setMovieComplete(movieComplete);
-                        mView.showDetailMovie(movieComplete);
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onNext(MovieComplete movieComplete) {
+                            mView.setMovieComplete(movieComplete);
+                            mView.showDetailMovie(movieComplete);
+                        }
+                    })
+        );
     }
 
     @Override
-    public void subscribe(String source) {
+    public void subscribe(@Nullable String source) {
     }
 
     @Override
     public void unsubscribe() {
+        compositeSubscription.clear();
     }
 }

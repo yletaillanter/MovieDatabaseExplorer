@@ -124,11 +124,13 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     @Override
     public void onResume() {
         super.onResume();
+        presenter.subscribe(null);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        presenter.unsubscribe();
     }
 
     @Nullable
@@ -375,4 +377,6 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
 
         return query.count() != 0;
     }
+
+
 }

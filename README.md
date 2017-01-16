@@ -11,7 +11,7 @@ The data are from : [https://www.themoviedb.org/](https://www.themoviedb.org/)
 * retrofit 2 http://square.github.io/retrofit
 * OkHttp3 http://square.github.io/okhttp
 * RxJava https://github.com/ReactiveX/RxJava
-* Dagger 2 http://square.github.io/dagger
+* Dagger 2 https://google.github.io/dagger/
 * Picasso http://square.github.io/picasso
 * Butterknife http://jakewharton.github.io/butterknife
 * material-spinner https://github.com/jaredrummler/Material-Spinner

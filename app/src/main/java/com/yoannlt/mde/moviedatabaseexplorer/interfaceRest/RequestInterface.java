@@ -12,9 +12,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.Similar
 
 import java.util.Map;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -73,9 +71,5 @@ public interface RequestInterface {
     @GET("3/movie/top_rated")
     Observable<JSONResponse> getTopRated();
 
-
-    //TV SHOW
-
-
-
+    //TODO: TV SHOW
 }

@@ -39,11 +39,14 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
+//TODO : MVPisation
 public class GalleryActivity extends AppCompatActivity implements ClickListener {
 
     @BindView(R.id.gallery_recyclerview) RecyclerView recyclerView;
     @Inject RequestInterface request;
+    CompositeSubscription compositeSubscription;
 
     private RecyclerViewGalleryAdapter adapter;
     private Person person;
@@ -59,54 +62,60 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         ButterKnife.bind(this);
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
 
+        compositeSubscription = new CompositeSubscription();
+
         getParcelableExtraFromIntent();
         initRecyclerView();
     }
 
     private void loadImagesPerson(int id) {
-        request.getPersonImage(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonImagesJSONResponse>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        compositeSubscription.add(
+            request.getPersonImage(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<PersonImagesJSONResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                        }
 
-                    @Override
-                    public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
-                        PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
-                        images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
-                        adapter.replace(images);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+                        @Override
+                        public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
+                            PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
+                            images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
+                            adapter.replace(images);
+                            adapter.notifyDataSetChanged();
+                        }
+                    })
+        );
     }
 
     private void loadImagesMovie(int id) {
-        request.getMovieImage(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JSONImagesResponse>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        compositeSubscription.add(
+            request.getMovieImage(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<JSONImagesResponse>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                        }
 
-                    @Override
-                    public void onNext(JSONImagesResponse jsonImagesResponse) {
-                        JSONImagesResponse jsonResponse = jsonImagesResponse;
-                        images = concatArrayAsArrayList(jsonResponse.getPosters(), jsonResponse.getBackdrops());
-                        adapter.replace(images);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+                        @Override
+                        public void onNext(JSONImagesResponse jsonImagesResponse) {
+                            JSONImagesResponse jsonResponse = jsonImagesResponse;
+                            images = concatArrayAsArrayList(jsonResponse.getPosters(), jsonResponse.getBackdrops());
+                            adapter.replace(images);
+                            adapter.notifyDataSetChanged();
+                        }
+                    })
+        );
     }
 
     @Override
@@ -156,5 +165,11 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
                 person = getIntent().getParcelableExtra("person");
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        compositeSubscription.clear();
     }
 }

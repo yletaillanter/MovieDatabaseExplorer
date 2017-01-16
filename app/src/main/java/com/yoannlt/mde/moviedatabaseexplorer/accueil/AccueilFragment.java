@@ -71,11 +71,6 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
         adapterUpComing.setClickListener(this);
         adapterPopular.setClickListener(this);
         adapterTopRated.setClickListener(this);
-
-        presenter.loadNowPlaying();
-        presenter.loadUpcoming();
-        presenter.loadPopular();
-        presenter.loadTopRated();
     }
 
     @Nullable
@@ -196,5 +191,17 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
         Intent intent = new Intent(getActivity().getApplicationContext(), FullListActivity.class);
         intent.putExtra(ActivityUtils.FROM, ActivityUtils.FROM_RECYCLER_TOP_RATED);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.subscribe(null);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.unsubscribe();
     }
 }
