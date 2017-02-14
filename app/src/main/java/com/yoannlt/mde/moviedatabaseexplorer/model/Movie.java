@@ -27,12 +27,13 @@ public class Movie extends RealmObject implements Parcelable {
     //private List<Integer> genre_ids = new ArrayList<Integer>();
     private boolean video;
     private boolean adult;
+    private String listSource;
     //private int vote_count;
 
     public Movie() {
     }
 
-    public Movie(int id, String original_title, String title, String original_language, String overview, String poster_path, String backdrop_path, Double popularity, Double vote_average, String release_date, /*List<Integer>  genre_ids,*/ boolean video, boolean adult) {
+    public Movie(int id, String original_title, String title, String original_language, String overview, String poster_path, String backdrop_path, Double popularity, Double vote_average, String release_date, /*List<Integer>  genre_ids,*/ boolean video, boolean adult, String listSource) {
         this.id = id;
         this.original_title = original_title;
         this.title = title;
@@ -46,6 +47,7 @@ public class Movie extends RealmObject implements Parcelable {
         //this.genre_ids = this.genre_ids;
         this.video = video;
         this.adult = adult;
+        this.listSource = listSource;
     }
 
     public int getId() {
@@ -152,6 +154,14 @@ public class Movie extends RealmObject implements Parcelable {
         this.adult = adult;
     }
 
+    public String getListSource() {
+        return listSource;
+    }
+
+    public void setListSource(String listSource) {
+        this.listSource = listSource;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -167,6 +177,7 @@ public class Movie extends RealmObject implements Parcelable {
                 /*", genre_ids=" + genre_ids.toString() +*/
                 ", video=" + video +
                 ", adult=" + adult +
+                ", listSource=" + listSource +
                 '}';
     }
 
@@ -190,6 +201,7 @@ public class Movie extends RealmObject implements Parcelable {
         }*/
         video = in.readByte() != 0x00;
         adult = in.readByte() != 0x00;
+        listSource = in.readString();
     }
 
     @Override
@@ -228,6 +240,7 @@ public class Movie extends RealmObject implements Parcelable {
         }*/
         dest.writeByte((byte) (video ? 0x01 : 0x00));
         dest.writeByte((byte) (adult ? 0x01 : 0x00));
+        dest.writeString(listSource);
     }
 
     @SuppressWarnings("unused")

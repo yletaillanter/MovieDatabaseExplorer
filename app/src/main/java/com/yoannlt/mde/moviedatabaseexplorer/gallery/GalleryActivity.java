@@ -46,7 +46,7 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
 
     @BindView(R.id.gallery_recyclerview) RecyclerView recyclerView;
     @Inject RequestInterface request;
-    CompositeSubscription compositeSubscription;
+    private CompositeSubscription compositeSubscription;
 
     private RecyclerViewGalleryAdapter adapter;
     private Person person;

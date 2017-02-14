@@ -34,11 +34,12 @@ public class MovieComplete implements Parcelable {
     private boolean video;
     private double vote_average;
     private int vote_count;
+    private String listSource;
 
     public MovieComplete() {
     }
 
-    public MovieComplete(boolean adult, String backdrop_path, BelongCollection belongCollection, int budget, Genre[] genres, String homepage, int id, String imdb_id, String original_language, String original_title, String overview, double popularity, String poster_path, ProductionCompany[] production_companies, String release_date, int revenue, int runtime, SpokenLanguage[] spoken_languages, String status, String tagline, String title, boolean video, double vote_average, int vote_count) {
+    public MovieComplete(boolean adult, String backdrop_path, BelongCollection belongCollection, int budget, Genre[] genres, String homepage, int id, String imdb_id, String original_language, String original_title, String overview, double popularity, String poster_path, ProductionCompany[] production_companies, String release_date, int revenue, int runtime, SpokenLanguage[] spoken_languages, String status, String tagline, String title, boolean video, double vote_average, int vote_count, String listSource) {
         this.adult = adult;
         this.backdrop_path = backdrop_path;
         this.belongCollection = belongCollection;
@@ -63,6 +64,7 @@ public class MovieComplete implements Parcelable {
         this.video = video;
         this.vote_average = vote_average;
         this.vote_count = vote_count;
+        this.listSource = listSource;
     }
 
     public boolean isAdult() {
@@ -257,6 +259,14 @@ public class MovieComplete implements Parcelable {
         this.vote_count = vote_count;
     }
 
+    public String getListSource() {
+        return listSource;
+    }
+
+    public void setListSource(String listSource) {
+        this.listSource = listSource;
+    }
+
     @Override
     public String toString() {
         return "MovieComplete{" +
@@ -284,6 +294,7 @@ public class MovieComplete implements Parcelable {
                 ", title='" + title + '\'' +
                 ", video=" + video +
                 ", vote_average=" + vote_average +
+                ", listSource=" + listSource +
                 '}';
     }
 
@@ -309,6 +320,7 @@ public class MovieComplete implements Parcelable {
         video = in.readByte() != 0x00;
         vote_average = in.readDouble();
         vote_count = in.readInt();
+        listSource = in.readString();
     }
 
     @Override
@@ -339,6 +351,7 @@ public class MovieComplete implements Parcelable {
         dest.writeByte((byte) (video ? 0x01 : 0x00));
         dest.writeDouble(vote_average);
         dest.writeInt(vote_count);
+        dest.writeString(listSource);
     }
 
     @SuppressWarnings("unused")

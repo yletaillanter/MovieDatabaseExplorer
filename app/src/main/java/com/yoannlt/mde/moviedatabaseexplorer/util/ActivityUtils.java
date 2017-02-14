@@ -58,11 +58,13 @@ public class ActivityUtils {
 
     public static Movie movieCompleteToMovie(@NonNull MovieComplete movieComplete) {
         Movie movie = new Movie();
+
         movie.setId(movieComplete.getId());
         movie.setTitle(movieComplete.getTitle());
         movie.setPoster_path(movieComplete.getPoster_path());
         movie.setBackdrop_path(movieComplete.getBackdrop_path());
         movie.setVote_average(movieComplete.getVote_average());
+        movie.setListSource(movieComplete.getListSource());
 
         Log.d("Utils: overview:", movieComplete.getOverview());
         movie.setOverview(movieComplete.getOverview());

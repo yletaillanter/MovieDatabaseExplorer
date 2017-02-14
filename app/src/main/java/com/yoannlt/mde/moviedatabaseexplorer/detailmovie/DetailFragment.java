@@ -229,11 +229,14 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         realm.beginTransaction();
         if (checkIfExists(currentMovie)) {
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.star));
-            RealmResults<Movie> rows = realm.where(Movie.class).equalTo("id", currentMovie.getId()).findAll();
+            RealmResults<Movie> rows = realm.where(Movie.class).equalTo("id", currentMovie.getId()).equalTo("listSource", "favorite").findAll();
             rows.deleteFromRealm(0);
         } else {
+            currentMovie.setListSource("favorite");
+            Movie movietest = ActivityUtils.movieCompleteToMovie(currentMovie);
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.star_yellow));
-            realm.insert(ActivityUtils.movieCompleteToMovie(currentMovie));
+            Log.d("insert", movietest.toString());
+            realm.insert(movietest);
         }
         realm.commitTransaction();
     }
@@ -373,7 +376,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     public boolean checkIfExists(MovieComplete movie){
 
         RealmQuery<Movie> query = realm.where(Movie.class)
-                .equalTo("id", movie.getId());
+                .equalTo("id", movie.getId())
+                .equalTo("listSource", "favorite");
 
         return query.count() != 0;
     }

@@ -7,14 +7,18 @@ import android.util.Log;
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
+import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -25,27 +29,27 @@ import rx.subscriptions.CompositeSubscription;
 
 public class AccueilPresenter implements AccueilContract.Presenter  {
 
-    @NonNull private final AccueilContract.View mView;
     @Inject RequestInterface request;
     private CompositeSubscription compositeSubscription;
+    @NonNull private final AccueilContract.View mView;
+    AccueilRepository accueilRepository;
+
 
     public AccueilPresenter(@NonNull AccueilContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-
         compositeSubscription = new CompositeSubscription();
+        accueilRepository = new AccueilRepository();
+
     }
 
     @Override
     public void loadPopular() {
         compositeSubscription.add(
-            request.getPopular()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
+            accueilRepository.loadPopular()
+                    .subscribe(new Subscriber<List<Movie>>() {
                         @Override
                         public void onCompleted() {
-
                         }
 
                         @Override
@@ -54,8 +58,9 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
                         }
 
                         @Override
-                        public void onNext(JSONResponse jsonResponse) {
-                            mView.showPopular(new ArrayList<>(Arrays.asList(jsonResponse.getResults())));
+                        public void onNext(List<Movie> movies) {
+                            Log.d("resultPopular", movies.toString());
+                            mView.showPopular(new ArrayList<>(movies));
                         }
                     })
         );

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilPresenter;
+import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilRepository;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.detailmovie.DetailPresenter;
@@ -50,7 +51,7 @@ public class MovieExplorer extends Application {
         LeakCanary.install(this);
 
         Realm.init(this);
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
         application = this;
@@ -76,8 +77,8 @@ public class MovieExplorer extends Application {
         void inject(GalleryActivity activity);
         void inject(FullListPresenter presenter);
         void inject(AccueilPresenter presenter);
+        void inject(AccueilRepository accueilRepository);
         void inject(AdvancedSearchPresenter presenter);
-
     }
 
     @Module
