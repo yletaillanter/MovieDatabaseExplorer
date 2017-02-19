@@ -61,7 +61,6 @@ import io.realm.RealmResults;
 public class DetailFragment extends Fragment implements DetailContract.View, ClickListener {
 
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
-    private final String HORIZONTAL_RECYCLER_ADAPTER = "HorizontalRecyclerAdapter";
     private final String CASTING_RECYCLER_ADAPTER = "CastingRecyclerAdapter";
 
     private MovieComplete currentMovie;
