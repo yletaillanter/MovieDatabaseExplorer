@@ -32,7 +32,7 @@
             android:layout_below="@+id/my_toolbar_as"
             android:textSize="@dimen/subtitle_text_size"
             android:textStyle="bold"
-            android:padding="@dimen/space_between_content"/>
+            android:padding="@dimen/spacing_small"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/card_recycler_view"

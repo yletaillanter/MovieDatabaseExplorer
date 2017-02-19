@@ -17,9 +17,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge">
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,14 +29,14 @@
                     android:id="@+id/label_nowplaying"
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_nowplaying" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/now_playing_recyclerview"
-                    android:padding="@dimen/screen_cardview_margin"
+                    android:padding="@dimen/spacing_small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/label_nowplaying"/>
@@ -46,9 +46,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge">
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -58,8 +58,8 @@
                     android:id="@+id/label_upcoming"
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_upcoming"/>
 
@@ -67,7 +67,7 @@
                     android:id="@+id/upcoming_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/screen_cardview_margin"
+                    android:padding="@dimen/spacing_small"
                     android:layout_below="@id/label_upcoming"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -75,9 +75,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge">
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -87,8 +87,8 @@
                     android:id="@+id/label_popular"
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_popular"/>
 
@@ -96,7 +96,7 @@
                     android:id="@+id/popular_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/screen_cardview_margin"
+                    android:padding="@dimen/spacing_small"
                     android:layout_below="@+id/label_popular"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -104,9 +104,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge">
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -116,8 +116,8 @@
                     android:id="@+id/label_toprated"
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_height="@dimen/spacing_huge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_toprated"/>
 
@@ -125,7 +125,7 @@
                     android:id="@+id/toprated_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/screen_cardview_margin"
+                    android:padding="@dimen/spacing_small"
                     android:layout_below="@+id/label_toprated"/>
             </RelativeLayout>
         </android.support.v7.widget.CardView>

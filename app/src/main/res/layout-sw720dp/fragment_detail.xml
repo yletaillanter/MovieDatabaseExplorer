@@ -379,4 +379,5 @@
         android:src="@drawable/star_yellow"
         app:layout_anchorGravity="bottom|right|end"
         android:background="@color/colorPrimary"/>
+
 </RelativeLayout>

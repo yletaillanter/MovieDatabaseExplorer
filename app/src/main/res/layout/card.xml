@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/space_between_content"
-    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-    android:layout_marginRight="@dimen/screen_right_cardview_edge"
+    android:layout_marginTop="@dimen/spacing_small"
+    android:layout_marginLeft="@dimen/spacing_small"
+    android:layout_marginRight="@dimen/spacing_small"
     android:id="@+id/card">
 
     <RelativeLayout
@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/poster"
-            android:paddingLeft="@dimen/screen_cardview_margin"
+            android:paddingLeft="@dimen/spacing_small"
             android:transitionName="poster_transition"
             android:layout_width="@dimen/imageview_fullist_width"
             android:layout_height="@dimen/imageview_fullist_height"
@@ -28,16 +28,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/poster"
-            android:layout_marginLeft="@dimen/space_between_content"
-            android:layout_marginRight="@dimen/space_between_content"/>
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small"/>
 
         <TextView
             android:id="@+id/overview"
             android:textSize="@dimen/content_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_content_marging_top"
-            android:layout_marginRight="@dimen/space_between_content"
+            android:layout_marginTop="@dimen/spacing_xlarge"
+            android:layout_marginRight="@dimen/spacing_small"
             android:layout_below="@+id/title"
             android:layout_alignLeft="@+id/title" />
 
@@ -46,11 +46,11 @@
             android:textSize="@dimen/subtitle_text_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_content_marging_top"
+            android:layout_marginTop="@dimen/spacing_xlarge"
             android:layout_below="@+id/overview"
             android:layout_alignLeft="@+id/overview"
             android:gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/space_between_content"/>
+            android:layout_marginBottom="@dimen/spacing_small"/>
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

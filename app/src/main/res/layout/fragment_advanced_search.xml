@@ -17,9 +17,9 @@
             android:id="@+id/card_actor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small"
             android:elevation="2dp"
             android:clipToPadding="false">
 
@@ -30,15 +30,15 @@
                 <TextView
                     android:id="@+id/label_actors_as"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
+                    android:layout_height="@dimen/spacing_huge"
                     android:text="@string/label_actors_as"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:textSize="@dimen/subtitle_text_size"/>
 
                 <ImageView
                     android:id="@+id/add_actor_button"
-                    android:paddingTop="@dimen/space_between_content"
+                    android:paddingTop="@dimen/spacing_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -48,7 +48,7 @@
                 <!--android:scrollbars="vertical"-->
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_actor"
-                    android:padding="@dimen/space_between_content"
+                    android:padding="@dimen/spacing_small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -62,9 +62,9 @@
             android:id="@+id/card_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small"
             android:layout_below="@+id/card_actor">
 
             <RelativeLayout
@@ -75,12 +75,12 @@
                 <TextView
                     android:id="@+id/label_year_as"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
+                    android:layout_height="@dimen/spacing_huge"
                     android:text="@string/label_year_as"
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_alignParentLeft="true"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"/>
+                    android:layout_marginLeft="@dimen/spacing_small"/>
 
                 <TextView
                     android:id="@+id/label_year_from"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:textSize="@dimen/subtitle_text_size"
-                    android:layout_margin="@dimen/space_between_content"
+                    android:layout_margin="@dimen/spacing_small"
                     android:layout_toRightOf="@id/label_year_from"
                     android:layout_alignBaseline="@id/label_year_from"/>
 
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:textSize="@dimen/subtitle_text_size"
-                    android:layout_margin="@dimen/space_between_content"
+                    android:layout_margin="@dimen/spacing_small"
                     android:layout_alignBaseline="@id/label_year_to"
                     android:layout_toRightOf="@id/label_year_to" />
 
@@ -129,9 +129,9 @@
             android:id="@+id/card_notation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small"
             android:layout_below="@+id/card_year">
 
             <RelativeLayout
@@ -141,9 +141,9 @@
                 <TextView
                     android:id="@+id/label_notation_as"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/space_subtitle"
+                    android:layout_height="@dimen/spacing_huge"
                     android:text="@string/label_notation_as"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/subtitle_text_size"/>
 
@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_notation_as"
                     android:layout_alignLeft="@id/label_notation_as"
-                    android:padding="@dimen/space_between_content"/>
+                    android:padding="@dimen/spacing_small"/>
 
                 <EditText
                     android:id="@+id/input_notation"
@@ -172,9 +172,9 @@
             android:id="@+id/card_genres"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_between_content"
-            android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-            android:layout_marginRight="@dimen/screen_right_cardview_edge"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_small"
             android:layout_below="@+id/card_notation">
 
             <RelativeLayout
@@ -184,9 +184,9 @@
                 <TextView
                     android:id="@+id/label_genres_as"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/space_subtitle"
+                    android:layout_height="@dimen/spacing_huge"
                     android:text="@string/label_genres_as"
-                    android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/subtitle_text_size"/>
 
@@ -199,36 +199,36 @@
                     android:layout_below="@+id/label_genres_as">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_action"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_adventure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_adventure"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_animation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_animation"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
@@ -244,36 +244,36 @@
                     android:layout_below="@id/genre_one">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_comedy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_comedy"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_crime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_crime"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_documentary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_documentary"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
@@ -289,36 +289,36 @@
                     android:layout_below="@id/genre_two">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_drama"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_drama"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_family"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_family"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_fantasy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_fantasy"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
@@ -334,36 +334,36 @@
                     android:layout_below="@id/genre_three">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_history"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_history"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_horror"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_horror"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_music"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_music"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
@@ -379,36 +379,36 @@
                     android:layout_below="@id/genre_four">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_mystery"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_mystery"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_romance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_romance"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_sf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_sf"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
@@ -424,32 +424,32 @@
                     android:layout_below="@id/genre_five">
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_tv"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:id="@+id/genre_thriller"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:padding="@dimen/genre_padding"
+                        android:padding="@dimen/spacing_tiny"
                         android:text="@string/genre_thriller"
                         android:textSize="@dimen/content_text_size"
                         android:layout_weight="1"
                         android:background="@drawable/genre_box_deselect"/>
 
                     <TextView
-                        android:layout_marginLeft="@dimen/genre_margin_left"
-                        android:padding="@dimen/genre_padding"
+                        android:layout_marginLeft="@dimen/spacing_small"
+                        android:padding="@dimen/spacing_tiny"
                         android:id="@+id/genre_war"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -470,8 +470,8 @@
 
                     <com.yoannlt.mde.moviedatabaseexplorer.customUI.GenreTextView
                         android:id="@+id/genre_western"
-                        android:layout_marginLeft="@dimen/genre_margin_left"
-                        android:padding="@dimen/genre_padding"
+                        android:layout_marginLeft="@dimen/spacing_small"
+                        android:padding="@dimen/spacing_tiny"
                         android:paddingLeft="13dp"
                         android:paddingRight="13dp"
                         android:layout_width="wrap_content"

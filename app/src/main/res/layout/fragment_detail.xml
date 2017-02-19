@@ -97,9 +97,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small"
                 android:elevation="2dp"
                 android:clipToPadding="false">
 
@@ -112,7 +112,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:padding="@dimen/space_between_content"
+                        android:padding="@dimen/spacing_small"
                         android:elevation="1dp"
                         android:clipToPadding="false"/>
 
@@ -121,9 +121,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
                         android:text="@string/original_title"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@+id/poster"
                         android:textStyle="bold"/>
 
@@ -132,8 +132,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@+id/originaltitlelabel" />
 
                     <TextView
@@ -141,8 +141,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:text="@string/release_date"
                         android:layout_below="@+id/originaltitlelabel"
                         android:layout_alignLeft="@+id/originaltitlelabel"
@@ -153,8 +153,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:paddingStart="@dimen/space_between_content"
-                        android:paddingTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_small"
                         android:layout_toRightOf="@+id/releasedate_label"
                         android:layout_below="@+id/original_title"
                         android:layout_alignBottom="@id/releasedate_label"
@@ -165,9 +165,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
                         android:text="@string/language_label"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_below="@+id/releasedate_label"
                         android:layout_alignLeft="@+id/releasedate_label"
                         android:textStyle="bold"/>
@@ -177,8 +177,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:paddingStart="@dimen/space_between_content"
-                        android:paddingTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_small"
                         android:layout_toRightOf="@id/language_label"
                         android:layout_below="@+id/releasedate"
                         android:layout_alignBottom="@id/language_label"
@@ -199,8 +199,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:paddingStart="@dimen/space_between_content"
-                        android:paddingTop="@dimen/space_between_content"
+                        android:paddingStart="@dimen/spacing_small"
+                        android:paddingTop="@dimen/spacing_small"
                         android:layout_toRightOf="@+id/starlabel"
                         android:layout_below="@+id/language"
                         android:layout_alignBottom="@id/starlabel"
@@ -213,16 +213,16 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small"
                 android:elevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/space_between_content">
+                    android:padding="@dimen/spacing_small">
 
                     <ImageView
                         android:id="@+id/gallery"
@@ -251,9 +251,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge">
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small">
 
                 <TextView
                     android:fontFamily="sans-serif"
@@ -261,16 +261,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/content_text_size"
-                    android:layout_margin="@dimen/space_between_content"/>
+                    android:layout_margin="@dimen/spacing_small"/>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge" >
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -281,8 +281,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:text="@string/status_label"
                         android:layout_alignParentLeft="true"
                         android:textStyle="bold"/>
@@ -292,8 +292,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@+id/status_label" />
 
                     <TextView
@@ -301,8 +301,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:text="@string/original_language_label"
                         android:layout_below="@id/status_label"
                         android:layout_alignLeft="@id/status_label"
@@ -313,8 +313,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@id/original_language_label"
                         android:layout_below="@id/status"
                         android:layout_alignBottom="@id/original_language_label"/>
@@ -324,8 +324,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:text="@string/budget_label"
                         android:layout_below="@id/original_language_label"
                         android:layout_alignLeft="@id/original_language_label"
@@ -336,8 +336,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@id/budget_label"
                         android:layout_below="@id/original_language"
                         android:layout_alignLeft="@+id/original_language"
@@ -348,8 +348,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:text="@string/revenue_label"
                         android:layout_below="@id/budget_label"
                         android:layout_alignLeft="@id/budget_label"
@@ -360,8 +360,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@id/revenue_label"
                         android:layout_below="@id/budget"
                         android:layout_alignLeft="@+id/budget"
@@ -372,9 +372,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
-                        android:layout_marginBottom="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
+                        android:layout_marginBottom="@dimen/spacing_small"
                         android:text="@string/production_companies_label"
                         android:layout_below="@id/revenue_label"
                         android:layout_alignLeft="@id/revenue_label"
@@ -385,8 +385,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/content_text_size"
-                        android:layout_marginTop="@dimen/space_between_content"
-                        android:paddingStart="@dimen/space_between_content"
+                        android:layout_marginTop="@dimen/spacing_small"
+                        android:paddingStart="@dimen/spacing_small"
                         android:layout_toRightOf="@id/production_companies_label"
                         android:layout_below="@id/revenue"
                         android:layout_alignLeft="@+id/revenue"
@@ -398,9 +398,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge">
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -410,8 +410,8 @@
                         android:id="@+id/label_cast"
                         android:textSize="@dimen/subtitle_text_size"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/space_subtitle"
-                        android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                        android:layout_height="@dimen/spacing_huge"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:gravity="center_vertical"
                         android:text="@string/label_cast"/>
 
@@ -419,7 +419,7 @@
                         android:id="@+id/recycler_casting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/screen_cardview_margin"
+                        android:padding="@dimen/spacing_small"
                         android:layout_below="@+id/label_cast">
                     </android.support.v7.widget.RecyclerView>
 
@@ -430,9 +430,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_content"
-                android:layout_marginLeft="@dimen/screen_left_cardview_edge"
-                android:layout_marginRight="@dimen/screen_right_cardview_edge"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginLeft="@dimen/spacing_small"
+                android:layout_marginRight="@dimen/spacing_small"
                 android:layout_marginBottom="100dp">
 
                 <RelativeLayout
@@ -443,8 +443,8 @@
                         android:id="@+id/label_similar"
                         android:textSize="@dimen/subtitle_text_size"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/space_subtitle"
-                        android:layout_marginLeft="@dimen/screen_left_cardview_edge"
+                        android:layout_height="@dimen/spacing_huge"
+                        android:layout_marginLeft="@dimen/spacing_small"
                         android:gravity="center_vertical"
                         android:text="@string/label_similar"/>
 
@@ -452,7 +452,7 @@
                         android:id="@+id/recycler_similar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/screen_cardview_margin"
+                        android:padding="@dimen/spacing_small"
                         android:layout_below="@+id/label_similar">
                     </android.support.v7.widget.RecyclerView>
 
