@@ -16,6 +16,12 @@ The data are from : [https://www.themoviedb.org/](https://www.themoviedb.org/)
 * Butterknife http://jakewharton.github.io/butterknife
 * material-spinner https://github.com/jaredrummler/Material-Spinner
 
+###Screen
+
+![screen 1](image1.png)
+![screen 2](image2.png)
+![screen 3](image3.png)
+
 ### License
 
 Copyright 2017 Yoann Le Taillanter
