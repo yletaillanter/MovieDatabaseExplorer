@@ -1,6 +1,6 @@
 # MovieDatabaseExplorer
 
-The data are from : [https://www.themoviedb.org/](https://www.themoviedb.org/)
+data: [https://www.themoviedb.org/](https://www.themoviedb.org/)
 
 
 
