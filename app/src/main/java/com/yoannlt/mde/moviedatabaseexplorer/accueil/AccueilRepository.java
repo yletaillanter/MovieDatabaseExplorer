@@ -13,17 +13,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
+import io.reactivex.functions.Function;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by yoannlt on 02/02/2017.
  */
-
 public class AccueilRepository {
 
     private final static String TAG = "AccueilRepository";
@@ -36,22 +35,22 @@ public class AccueilRepository {
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
     }
 
-    public Observable<List<Movie>> loadPopular() {
+    public Flowable<List<Movie>> loadPopular() {
         Log.d(TAG, "loadPopular");
         // Create the observable + write into db + read from db
-        Observable<List<Movie> > observable = request.getPopular()
+        Flowable<List<Movie> > observable = request.getPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
-                .map(new Func1<JSONResponse, List<Movie>>() {
+                .map(new Function<JSONResponse, List<Movie>>() {
                     @Override
-                    public List<Movie> call(JSONResponse jsonResponse) {
+                    public List<Movie> apply(JSONResponse jsonResponse) {
                         return popularToRealm(jsonResponse, POPULAR_SOURCE);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<List<Movie> , List<Movie> >() {
+                .map(new Function<List<Movie> , List<Movie> >() {
                     @Override
-                    public List<Movie> call(List<Movie>  o) {
+                    public List<Movie> apply(List<Movie>  o) {
                         return findInRealm(POPULAR_SOURCE);
                     }
                 });
@@ -59,7 +58,7 @@ public class AccueilRepository {
 
         List<Movie> results = findInRealm(POPULAR_SOURCE);
         if (results.size() > 0)
-            observable.mergeWith(Observable.just(results));
+            observable.mergeWith(Flowable.just(results));
 
         realmUI.close();
         return observable;
@@ -70,7 +69,6 @@ public class AccueilRepository {
 
         // TODO: Suppression de l'ancien cache (DEBUG)
         //emptyRealmCache();
-
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

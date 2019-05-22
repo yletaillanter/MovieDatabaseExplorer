@@ -8,30 +8,19 @@ import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.PersonC
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yoannlt on 26/10/2016.
  */
-
 public class DetailPersonPresenter implements DetailPersonContract.Presenter{
 
     @NonNull
@@ -39,26 +28,24 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
 
     @Inject RequestInterface request;
 
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
     public DetailPersonPresenter(@NonNull DetailPersonContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
 
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void loadOtherMovies(@NonNull int id) {
 
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getOtherMovies(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<PersonCreditsJSONResponse>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+                    .subscribeWith(new DisposableSubscriber<PersonCreditsJSONResponse>() {
+                        @Override public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
@@ -76,13 +63,13 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
     @Override
     public void loadMovieComplete(@NonNull int id) {
 
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MovieComplete>() {
+                    .subscribeWith(new DisposableSubscriber<MovieComplete>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                         }
 
                         @Override
@@ -104,6 +91,6 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 }

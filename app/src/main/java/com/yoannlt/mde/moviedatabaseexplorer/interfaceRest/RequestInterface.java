@@ -12,6 +12,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.Similar
 
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -25,48 +26,48 @@ public interface RequestInterface {
 
     // MOVIE
     @GET("3/search/movie")
-    Observable<JSONResponse> movieSearchTmdb(@Query("query") String query);
+    Flowable<JSONResponse> movieSearchTmdb(@Query("query") String query);
 
     @GET("3/movie/{id}")
-    Observable<MovieComplete> getMovieById(@Path("id") int id);
+    Flowable<MovieComplete> getMovieById(@Path("id") int id);
 
     @GET("3/movie/{id}/similar")
-    Observable<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
+    Flowable<SimilarJSONResponse> getSimilarMovies(@Path("id") int id);
 
     @GET("3/movie/{id}/credits")
-    Observable<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
+    Flowable<CastPersonJSONResponse> getMovieCredits(@Path("id") int id);
 
     @GET("3/discover/movie")
-    Observable<JSONResponse> movieDiscoverTmdb(@QueryMap Map<String, String> queries);
+    Flowable<JSONResponse> movieDiscoverTmdb(@QueryMap Map<String, String> queries);
 
     // PERSON
     @GET("3/person/{id}/images")
-    Observable<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
+    Flowable<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
 
     @GET("3/movie/{id}/images")
-    Observable<JSONImagesResponse> getMovieImage(@Path("id") int id);
+    Flowable<JSONImagesResponse> getMovieImage(@Path("id") int id);
 
     @GET("3/person/{id}/movie_credits")
-    Observable<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
+    Flowable<PersonCreditsJSONResponse> getOtherMovies(@Path("id") int id);
 
     @GET("3/person/{id}")
-    Observable<Person> getPerson(@Path("id") int id);
+    Flowable<Person> getPerson(@Path("id") int id);
 
     @GET("3/search/person")
-    Observable<SearchPersonJSONResponse> searchPerson(@Query("query") String query);
+    Flowable<SearchPersonJSONResponse> searchPerson(@Query("query") String query);
 
     //ACCEUIL
     @GET("3/movie/now_playing")
-    Observable<JSONResponse> getNowPlaying();
+    Flowable<JSONResponse> getNowPlaying();
 
     @GET("3/movie/upcoming")
-    Observable<JSONResponse> getUpcoming();
+    Flowable<JSONResponse> getUpcoming();
 
     @GET("3/movie/popular")
-    Observable<JSONResponse> getPopular();
+    Flowable<JSONResponse> getPopular();
 
     @GET("3/movie/top_rated")
-    Observable<JSONResponse> getTopRated();
+    Flowable<JSONResponse> getTopRated();
 
     //TODO: TV SHOW
 }

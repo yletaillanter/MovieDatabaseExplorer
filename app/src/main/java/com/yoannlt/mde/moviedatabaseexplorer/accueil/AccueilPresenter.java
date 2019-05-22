@@ -16,12 +16,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yoannlt on 25/11/2016.
@@ -30,7 +28,7 @@ import rx.subscriptions.CompositeSubscription;
 public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
     @NonNull private final AccueilContract.View mView;
     AccueilRepository accueilRepository;
 
@@ -38,19 +36,18 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
     public AccueilPresenter(@NonNull AccueilContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
         accueilRepository = new AccueilRepository();
 
     }
 
     @Override
     public void loadPopular() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             accueilRepository.loadPopular()
-                    .subscribe(new Subscriber<List<Movie>>() {
+                    .subscribeWith(new DisposableSubscriber<List<Movie>>() {
                         @Override
-                        public void onCompleted() {
-                        }
+                        public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
@@ -68,20 +65,16 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Override
     public void loadNowPlaying() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getNowPlaying()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
+                        @Override public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
                             Log.d("Accueil nowpla error", e.getMessage());
-
                         }
 
                         @Override
@@ -94,20 +87,16 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Override
     public void loadUpcoming() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getUpcoming()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
+                        @Override public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
                             Log.d("Accueil upcom error", e.getMessage());
-
                         }
 
                         @Override
@@ -120,20 +109,16 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Override
     public void loadTopRated() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getTopRated()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
+                        @Override public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
                             Log.d("Accueil toprat error", e.getMessage());
-
                         }
 
                         @Override
@@ -146,20 +131,14 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Override
     public void getMovieComplete(@NonNull int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MovieComplete>() {
-                        @Override
-                        public void onCompleted() {
+                    .subscribeWith(new DisposableSubscriber<MovieComplete>() {
+                        @Override public void onComplete() {}
 
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
+                        @Override public void onError(Throwable e) {}
 
                         @Override
                         public void onNext(MovieComplete movieResponse) {
@@ -179,6 +158,6 @@ public class AccueilPresenter implements AccueilContract.Presenter  {
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 }

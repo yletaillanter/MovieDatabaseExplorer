@@ -2,7 +2,6 @@ package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
@@ -13,17 +12,16 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by yoannlt on 05/11/2016.
  */
-
 public class FavoritePresenter implements FavoriteContract.Presenter{
 
     private FavoriteContract.View mView;
@@ -32,62 +30,60 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     private ArrayList<Movie> movies = new ArrayList<Movie>();
 
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
+
 
     public FavoritePresenter(@NonNull FavoriteContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
         realm = Realm.getDefaultInstance();
     }
 
     @Override
     public void getMovieComplete(@NonNull int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MovieComplete>() {
+                    .subscribeWith(new DisposableSubscriber<MovieComplete>() {
                         @Override
-                        public void onCompleted() {
-
+                        public void onNext(MovieComplete movie){
+                            mView.launchDetailMovie(movie);
                         }
 
                         @Override
-                        public void onError(Throwable e) {
-
+                        public void onError(Throwable e)
+                        {
+                            e.printStackTrace();
                         }
 
                         @Override
-                        public void onNext(MovieComplete movieResponse) {
-                            mView.launchDetailMovie(movieResponse);
-                        }
+                        public void onComplete() {}
+
                     })
         );
     }
+                 //           mView.launchDetailMovie(movieResponse);
 
     private void loadFavoriteMovies(){
         moviesRealm = realm.where(Movie.class).equalTo("listSource", "favorite").findAllAsync();
 
-        /*compositeSubscription.add(
-            moviesRealm.asObservable()
-                    .subscribe(new Observer<RealmResults<Movie>>() {
+        compositeDisposable.add(
+            moviesRealm.asFlowable()
+                    .subscribeWith(new DisposableSubscriber<RealmResults<Movie>>() {
                         @Override
-                        public void onCompleted() {
-
-                        }
+                        public void onComplete() {}
 
                         @Override
-                        public void onError(Throwable e) {
-
-                        }
+                        public void onError(Throwable e) {}
 
                         @Override
                         public void onNext(RealmResults<Movie> movies) {
                             mView.showFavorites(new ArrayList<Movie>(movies));
                         }
                     })
-        );*/
+        );
     }
 
     @Override
@@ -97,6 +93,6 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 }

@@ -38,10 +38,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
 
@@ -167,9 +168,9 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         request.movieSearchTmdb(searchValue)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<JSONResponse>() {
+                .subscribeWith(new DisposableSubscriber<JSONResponse>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
 
@@ -191,15 +192,13 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
 
     private void loadCompleteMovie(int id) {
 
-        Observable<MovieComplete> obs = request.getMovieById(id);
-
+        Flowable<MovieComplete> obs = request.getMovieById(id);
 
             obs.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieComplete>() {
+                .subscribe(new DisposableSubscriber<MovieComplete>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
                     }
 
                     @Override

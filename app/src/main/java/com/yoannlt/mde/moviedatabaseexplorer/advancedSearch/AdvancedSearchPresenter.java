@@ -15,10 +15,10 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by yoannlt on 27/10/2016.
@@ -29,13 +29,13 @@ public class AdvancedSearchPresenter implements AdvancedSearchContract.Presenter
     private AdvancedSearchContract.View mView;
     private AdvancedSearchContract.DialogView mDialogView;
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
 
     public AdvancedSearchPresenter(AdvancedSearchContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
@@ -45,13 +45,13 @@ public class AdvancedSearchPresenter implements AdvancedSearchContract.Presenter
 
     //@Override
     public void searchActor(String query){
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.searchPerson(query)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<SearchPersonJSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<SearchPersonJSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                         }
 
                         @Override
@@ -72,7 +72,7 @@ public class AdvancedSearchPresenter implements AdvancedSearchContract.Presenter
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 
     public void setmDialogView(AdvancedSearchContract.DialogView mDialogView) {

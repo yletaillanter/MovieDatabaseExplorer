@@ -15,10 +15,10 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
  * Created by yoannlt on 24/10/2016.
@@ -28,23 +28,23 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @NonNull private final FullListContract.View mView;
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
     public FullListPresenter(@NonNull FullListContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void loadPopular() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getPopular()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
 
@@ -63,13 +63,13 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void loadNowPlaying() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getNowPlaying()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
 
@@ -89,13 +89,13 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void loadUpcoming() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getUpcoming()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
 
@@ -115,20 +115,17 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void loadTopRated() {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getTopRated()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
-                        @Override
-                        public void onCompleted() {
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
 
-                        }
+                        @Override public void onComplete() {}
 
                         @Override
                         public void onError(Throwable e) {
                             Log.d("Accueil toprat error", e.getMessage());
-
                         }
 
                         @Override
@@ -141,20 +138,15 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void getMovieComplete(@NonNull int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MovieComplete>() {
-                        @Override
-                        public void onCompleted() {
+                    .subscribeWith(new DisposableSubscriber<MovieComplete>() {
 
-                        }
+                        @Override public void onComplete() {}
 
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
+                        @Override public void onError(Throwable e) {}
 
                         @Override
                         public void onNext(MovieComplete movieResponse) {
@@ -172,13 +164,13 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void loadAdvancedSearch(@NonNull HashMap<String, String> queries) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.movieDiscoverTmdb(queries)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<JSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                             Log.d("AdvancedSearchPresenter", "Complete");
                         }
 
@@ -198,7 +190,7 @@ public class FullListPresenter implements FullListContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 
     @Override

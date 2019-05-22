@@ -15,10 +15,10 @@ import java.util.Arrays;
 
 import javax.inject.Inject;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by yoannlt on 26/10/2016.
@@ -28,25 +28,25 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @NonNull private DetailContract.View mView;
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
     private MovieComplete movie;
 
     public DetailPresenter(@NonNull DetailContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void loadSimilar(@NonNull int movieId) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getSimilarMovies(movieId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<SimilarJSONResponse>() {
+                    .subscribeWith(new DisposableSubscriber<SimilarJSONResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
 
@@ -71,13 +71,13 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadCredits(@NonNull int movieId) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieCredits(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CastPersonJSONResponse>() {
+                .subscribeWith(new DisposableSubscriber<CastPersonJSONResponse>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
 
@@ -96,13 +96,13 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadPerson(@NonNull int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getPerson(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Person>() {
+                    .subscribeWith(new DisposableSubscriber<Person>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
 
@@ -122,14 +122,13 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void loadCompleteMovie(@NonNull int movieId) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieById(movieId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<MovieComplete>() {
+                    .subscribeWith(new DisposableSubscriber<MovieComplete>() {
                         @Override
-                        public void onCompleted() {
-
+                        public void onComplete() {
                         }
 
                         @Override
@@ -152,7 +151,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 
     @Override
