@@ -24,13 +24,13 @@ public class PersonImagesJSONResponse  {
         return profiles;
     }
 
-    public void setProfiles(Image[] profiles) {
+    /*public void setProfiles(Image[] profiles) {
         this.profiles = profiles;
-    }
+    }*/
 
-    public int count() {
+    /*public int count() {
         return profiles.length;
-    }
+    }*/
 
     @Override
     public String toString() {

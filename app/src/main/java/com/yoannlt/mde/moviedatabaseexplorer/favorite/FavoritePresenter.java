@@ -34,7 +34,6 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     @Inject RequestInterface request;
     private CompositeSubscription compositeSubscription;
 
-
     public FavoritePresenter(@NonNull FavoriteContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
@@ -70,7 +69,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
     private void loadFavoriteMovies(){
         moviesRealm = realm.where(Movie.class).equalTo("listSource", "favorite").findAllAsync();
 
-        compositeSubscription.add(
+        /*compositeSubscription.add(
             moviesRealm.asObservable()
                     .subscribe(new Observer<RealmResults<Movie>>() {
                         @Override
@@ -88,7 +87,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
                             mView.showFavorites(new ArrayList<Movie>(movies));
                         }
                     })
-        );
+        );*/
     }
 
     @Override

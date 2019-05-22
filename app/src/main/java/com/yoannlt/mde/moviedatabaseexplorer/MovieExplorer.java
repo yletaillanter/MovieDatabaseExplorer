@@ -38,7 +38,6 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 /**
  * Created by yoannlt on 11/11/2016.
  */
-
 public class MovieExplorer extends Application {
 
     protected static MovieExplorer application;
@@ -98,7 +97,6 @@ public class MovieExplorer extends Application {
         @Provides
         @Singleton
         public Interceptor provideInterceptor() {
-
             return new Interceptor() {
                 @Override
                 public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
@@ -115,7 +113,7 @@ public class MovieExplorer extends Application {
         @Singleton
         public OkHttpClient provideOkHttp(Interceptor interceptor) {
 
-            /* FOR DEBUG
+            /* DEBUG
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             // set your desired log level
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);

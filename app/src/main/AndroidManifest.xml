@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".detailmovie.DetailActivity" />
         <activity android:name=".detailperson.DetailPersonActivity" />

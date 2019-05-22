@@ -30,11 +30,12 @@
     <string name="genre_western">Western</string>
 
 
-    <string-array name="notation_sign_array">
+    <!--<string-array name="notation_sign_array">
         <item>égale</item>
         <item>supérieur ou égale</item>
         <item>Inférieur ou égale</item>
-    </string-array>
+    </string-array> -->
+
     <string name="films">Films</string>
     <string name="favorite_title">Favoris</string>
     <string name="hint_search">Rechercher</string>

@@ -71,25 +71,25 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
     private void loadImagesPerson(int id) {
         compositeSubscription.add(
             request.getPersonImage(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<PersonImagesJSONResponse>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<PersonImagesJSONResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                        }
+                    @Override
+                    public void onError(Throwable e) {
+                    }
 
-                        @Override
-                        public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
-                            PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
-                            images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
-                            adapter.replace(images);
-                            adapter.notifyDataSetChanged();
-                        }
-                    })
+                    @Override
+                    public void onNext(PersonImagesJSONResponse personImagesJSONResponseCall) {
+                        PersonImagesJSONResponse jsonResponse = personImagesJSONResponseCall;
+                        images = new ArrayList<>(Arrays.asList(jsonResponse.getProfiles()));
+                        adapter.replace(images);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
         );
     }
 
@@ -139,7 +139,7 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
     }
 
     private void initRecyclerView(){
-        images = new ArrayList<Image>();
+        images = new ArrayList<>();
         GridLayoutManager layoutManagerGallery = new GridLayoutManager(GalleryActivity.this, 3);
         recyclerView.setLayoutManager(layoutManagerGallery);
         recyclerView.setHasFixedSize(true);

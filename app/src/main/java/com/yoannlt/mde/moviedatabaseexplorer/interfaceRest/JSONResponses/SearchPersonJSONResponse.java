@@ -13,9 +13,6 @@ public class SearchPersonJSONResponse {
     private int total_pages;
     private int total_results;
 
-    public SearchPersonJSONResponse() {
-    }
-
     public SearchPersonJSONResponse(int page, Person[] results, int total_pages, int total_results) {
         this.page = page;
         this.results = results;

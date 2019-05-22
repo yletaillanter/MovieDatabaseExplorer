@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         mDrawerToggle.syncState();
 
         TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
-        name.setTypeface(myTypeface);
+        //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
+        //name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override

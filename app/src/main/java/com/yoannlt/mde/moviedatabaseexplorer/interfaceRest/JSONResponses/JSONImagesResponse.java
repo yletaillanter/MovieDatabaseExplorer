@@ -11,9 +11,6 @@ public class JSONImagesResponse {
     private Image[] backdrops;
     private Image[] posters;
 
-    public JSONImagesResponse() {
-    }
-
     public JSONImagesResponse(int id, Image[] backdrops, Image[] posters) {
         this.id = id;
         this.backdrops = backdrops;

@@ -1,20 +1,25 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.yoannlt.mde.moviedatabaseexplorer"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'//
     }
 
     buildTypes {
@@ -31,70 +36,70 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:2.0.57-beta"
+    api fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.0.57-beta"
 
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:palette-v7:23.4.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:palette-v7:28.0.0'
 
     // retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
 
     // Picasso
-    compile 'com.squareup.picasso:picasso:2.4.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     // butterknife
-    compile 'com.jakewharton:butterknife:8.1.0'
-    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+    implementation 'com.jakewharton:butterknife:8.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.1.0'
 
     // font
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
 
     //RxJava
-    compile 'io.reactivex:rxjava:1.1.6'
-    compile 'io.reactivex:rxandroid:1.1.0'
+    implementation 'io.reactivex:rxjava:1.2.1'
+    implementation 'io.reactivex:rxandroid:1.1.0'
 
-    compile 'jp.wasabeef:picasso-transformations:2.1.0'
-    compile 'com.squareup.sqlbrite:sqlbrite:0.8.0'
+    implementation 'jp.wasabeef:picasso-transformations:2.1.0'
+    implementation 'com.squareup.sqlbrite:sqlbrite:0.8.0'
 
     // apt command comes from the android-apt plugin
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    compile 'com.google.dagger:dagger:2.7'
-    provided 'javax.annotation:jsr250-api:1.0'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    implementation 'com.google.dagger:dagger:2.7'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
-    compile 'com.jaredrummler:material-spinner:1.1.0'
+    implementation 'com.jaredrummler:material-spinner:1.1.0'
 
     // ####### ESPRESSO #######################
-    androidTestCompile 'com.android.support:recyclerview-v7:23.4.0'
-    androidTestCompile 'com.android.support:appcompat-v7:23.4.0'
-    androidTestCompile 'com.android.support:design:23.4.0'
-    androidTestCompile 'com.android.support:support-annotations:25.0.0'
+    androidTestImplementation 'com.android.support:recyclerview-v7:28.0.0'
+    androidTestImplementation 'com.android.support:appcompat-v7:28.0.0'
+    androidTestImplementation 'com.android.support:design:28.0.0'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // Android JUnit Runner
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     // JUnit4 Rules
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     // Espresso-contrib for DatePicker, RecyclerView, Drawer actions, Accessibility checks, CountingIdlingResource
-    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2'
     // Espresso-web for WebView support
-    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-web:3.0.2'
     // Espresso-idling-resource for synchronization with background jobs
-    androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-idling-resource:3.0.2'
     // Espresso-intents for validation and stubbing of Intents
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
     // UiAutomator
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

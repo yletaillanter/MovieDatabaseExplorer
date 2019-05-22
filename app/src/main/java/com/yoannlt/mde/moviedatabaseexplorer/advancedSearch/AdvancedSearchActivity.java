@@ -54,13 +54,12 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
 
         TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
-        Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
-        name.setTypeface(myTypeface);
+        //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
+        //name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-
                 switch (item.getItemId()) {
                     case R.id.accueil:
                         Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);

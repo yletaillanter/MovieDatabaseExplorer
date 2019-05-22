@@ -23,7 +23,6 @@ import rx.Observable;
  */
 public interface RequestInterface {
 
-
     // MOVIE
     @GET("3/search/movie")
     Observable<JSONResponse> movieSearchTmdb(@Query("query") String query);
@@ -40,7 +39,6 @@ public interface RequestInterface {
     @GET("3/discover/movie")
     Observable<JSONResponse> movieDiscoverTmdb(@QueryMap Map<String, String> queries);
 
-
     // PERSON
     @GET("3/person/{id}/images")
     Observable<PersonImagesJSONResponse> getPersonImage(@Path("id") int id);
@@ -56,7 +54,6 @@ public interface RequestInterface {
 
     @GET("3/search/person")
     Observable<SearchPersonJSONResponse> searchPerson(@Query("query") String query);
-
 
     //ACCEUIL
     @GET("3/movie/now_playing")
