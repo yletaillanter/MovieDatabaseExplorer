@@ -64,8 +64,8 @@ dependencies {
     implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
 
     //RxJava
-    implementation 'io.reactivex:rxjava:1.2.1'
-    implementation 'io.reactivex:rxandroid:1.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     implementation 'jp.wasabeef:picasso-transformations:2.1.0'
     implementation 'com.squareup.sqlbrite:sqlbrite:0.8.0'
