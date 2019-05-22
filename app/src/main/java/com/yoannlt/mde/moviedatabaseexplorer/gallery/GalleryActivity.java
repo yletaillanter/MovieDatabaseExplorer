@@ -19,34 +19,24 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Image;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.subscribers.DisposableSubscriber;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 //TODO : MVPisation
 public class GalleryActivity extends AppCompatActivity implements ClickListener {
 
     @BindView(R.id.gallery_recyclerview) RecyclerView recyclerView;
     @Inject RequestInterface request;
-    private CompositeSubscription compositeSubscription;
+    private CompositeDisposable compositeDisposable;
 
     private RecyclerViewGalleryAdapter adapter;
     private Person person;
@@ -62,20 +52,20 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         ButterKnife.bind(this);
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
 
-        compositeSubscription = new CompositeSubscription();
+        compositeDisposable = new CompositeDisposable();
 
         getParcelableExtraFromIntent();
         initRecyclerView();
     }
 
     private void loadImagesPerson(int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getPersonImage(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<PersonImagesJSONResponse>() {
+                .subscribeWith(new DisposableSubscriber<PersonImagesJSONResponse>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                     }
 
                     @Override
@@ -94,13 +84,13 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
     }
 
     private void loadImagesMovie(int id) {
-        compositeSubscription.add(
+        compositeDisposable.add(
             request.getMovieImage(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<JSONImagesResponse>() {
+                    .subscribeWith(new DisposableSubscriber<JSONImagesResponse>() {
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                         }
 
                         @Override
@@ -170,6 +160,6 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
     @Override
     protected void onPause() {
         super.onPause();
-        compositeSubscription.clear();
+        compositeDisposable.clear();
     }
 }
