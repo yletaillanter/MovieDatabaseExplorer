@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.squareup.leakcanary.LeakCanary;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilRepository;
@@ -29,11 +30,8 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by yoannlt on 11/11/2016.
@@ -134,7 +132,7 @@ public class MovieExplorer extends Application {
             return new Retrofit.Builder()
                     .client(okHttpClient)
                     .baseUrl(BASE_URL_TMDB)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(gsonConverterFactory)
                     .build();
         }

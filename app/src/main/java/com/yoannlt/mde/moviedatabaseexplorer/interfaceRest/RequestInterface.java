@@ -17,7 +17,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
-import rx.Observable;
 
 /**
  * Created by yoannlt on 16/06/2016.
