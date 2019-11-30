@@ -1,13 +1,12 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 /**
  * Created by yoannlt on 19/10/2016.
@@ -50,7 +48,7 @@ public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(ViewHolder holder, int position) {
         image = images.get(position);
         // Set l'affichage
-        Picasso.with(context).load(BASE_IMAGE_URL + image.getFile_path()).into(holder.poster);
+        Picasso.get().load(BASE_IMAGE_URL + image.getFile_path()).into(holder.poster);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

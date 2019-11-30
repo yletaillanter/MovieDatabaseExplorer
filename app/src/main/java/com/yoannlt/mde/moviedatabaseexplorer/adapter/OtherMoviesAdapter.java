@@ -1,7 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class OtherMoviesAdapter extends RecyclerView.Adapter<OtherMoviesAdapter.
         movie = mDataset.get(position);
 
         if (movie.getPoster_path() != null) {
-            Picasso.with(context).load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
+            Picasso.get().load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
         }
     }
 

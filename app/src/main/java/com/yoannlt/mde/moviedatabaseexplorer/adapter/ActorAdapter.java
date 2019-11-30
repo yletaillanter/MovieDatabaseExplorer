@@ -1,7 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
-import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
 import java.util.ArrayList;
@@ -27,13 +26,14 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> 
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
 
     /* List of data */
-    private ArrayList<Person> persons = new ArrayList<Person>();
+    private ArrayList<Person> persons;
     private Context context;
     private ClickListener clickListener;
     private Person person;
 
     public ActorAdapter(Context context, ArrayList<Person> persons) {
         this.context = context;
+        this.persons = new ArrayList<Person>();
         this.persons = persons;
     }
 
@@ -51,7 +51,7 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> 
 
         // Setting the picture
         if (person.getProfile_path() != null) {
-            Picasso.with(context).load(BASE_IMAGE_URL + person.getProfile_path()).into(holder.picture);
+            Picasso.get().load(BASE_IMAGE_URL + person.getProfile_path()).into(holder.picture);
         }
         // Setting the name
         if (!person.getName().equals("")) {
@@ -68,7 +68,6 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> 
 
         @BindView(R.id.person_picture_search) ImageView picture;
         @BindView(R.id.person_name_search) TextView name ;
-
 
         public ViewHolder(View v) {
             super(v);

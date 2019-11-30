@@ -1,9 +1,8 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
@@ -34,7 +33,7 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     public DetailPresenter(@NonNull DetailContract.View mView) {
         this.mView = mView;
-        MovieExplorer.application().getMovieExplorerComponent().inject(this);
+        //MovieExplorer.application().getMovieExplorerComponent().inject(this);
         compositeDisposable = new CompositeDisposable();
     }
 

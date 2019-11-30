@@ -1,9 +1,8 @@
 package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
@@ -35,7 +34,7 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
     public FavoritePresenter(@NonNull FavoriteContract.View mView) {
         this.mView = mView;
-        MovieExplorer.application().getMovieExplorerComponent().inject(this);
+        //MovieExplorer.application().getMovieExplorerComponent().inject(this);
         compositeDisposable = new CompositeDisposable();
         realm = Realm.getDefaultInstance();
     }

@@ -2,20 +2,19 @@ package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +41,6 @@ import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 import com.yoannlt.mde.moviedatabaseexplorer.palette.PaletteTransformation;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindBool;
@@ -181,8 +178,8 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         }
 
         if(!is_720)
-            Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
-            Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
+            Picasso.get().load(BASE_IMAGE_URL + currentMovie.getBackdrop_path()).into(back);
+            Picasso.get().load(BASE_IMAGE_URL + currentMovie.getPoster_path()).into(poster);
 
         if (checkIfExists(currentMovie)) {
             favorite.setImageDrawable(getResources().getDrawable(R.drawable.star_yellow));
@@ -245,7 +242,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         window = getActivity().getWindow();
 
         Picasso
-                .with(getActivity().getApplicationContext())
+                .get()
                 .load(BASE_IMAGE_URL + currentMovie.getBackdrop_path())
                 .fit().centerCrop()
                 .transform(PaletteTransformation.instance())

@@ -1,6 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailperson;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.yoannlt.mde.moviedatabaseexplorer.BasePresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.BaseView;

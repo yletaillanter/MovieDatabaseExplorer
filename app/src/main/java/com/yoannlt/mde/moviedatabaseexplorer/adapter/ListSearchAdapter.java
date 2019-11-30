@@ -2,10 +2,10 @@ package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +17,9 @@ import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 /**
  * Created by yoannlt on 16/06/2016.
@@ -62,7 +60,7 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
         boolean is_720 = res.getBoolean(R.bool.is_720);
 
         if (movie.getPoster_path() != null) {
-            Picasso.with(context).load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
+            Picasso.get().load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
         }
 
         if (!is_720 && mDataset.get(position).getOverview().length() > MAX_SIZE_OVERVIEW) {

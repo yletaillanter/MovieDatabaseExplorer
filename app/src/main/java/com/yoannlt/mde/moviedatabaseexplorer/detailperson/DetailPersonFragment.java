@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.graphics.Palette;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.palette.graphics.Palette;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -103,10 +102,10 @@ public class DetailPersonFragment  extends Fragment implements DetailPersonContr
     }
 
     private void initLayoutComponents() {
-        Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + person.getProfile_path())
+        Picasso.get().load(BASE_IMAGE_URL + person.getProfile_path())
                 .transform(new BlurTransformation(getActivity().getApplicationContext()))
                 .into(bgheaderPerson);
-        Picasso.with(getActivity().getApplicationContext()).load(BASE_IMAGE_URL + person.getProfile_path()).fit().into(picture);
+        Picasso.get().load(BASE_IMAGE_URL + person.getProfile_path()).fit().into(picture);
         birtdate.setText(person.getBirthday());
         birtplace.setText(person.getPlace_of_birth());
         biograhy.setText(person.getBiography());

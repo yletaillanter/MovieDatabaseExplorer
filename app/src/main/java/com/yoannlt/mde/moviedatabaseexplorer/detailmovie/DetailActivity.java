@@ -1,7 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 

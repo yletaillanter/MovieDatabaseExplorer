@@ -1,7 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +47,7 @@ public class CastingRecyclerAdapter extends RecyclerView.Adapter<CastingRecycler
         person = mDataset.get(position);
 
         if (person.getProfile_path() != null) {
-            Picasso.with(context).load(BASE_IMAGE_URL + person.getProfile_path()).into(holder.picture);
+            Picasso.get().load(BASE_IMAGE_URL + person.getProfile_path()).into(holder.picture);
         }
     }
 

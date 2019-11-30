@@ -1,29 +1,21 @@
 package com.yoannlt.mde.moviedatabaseexplorer.advancedSearch;
 
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.speech.tts.TextToSpeech;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
-import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteFragment;
-import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoritePresenter;
-import com.yoannlt.mde.moviedatabaseexplorer.model.Image;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,6 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.yoannlt.mde.moviedatabaseexplorer.BasePresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.BaseView;
