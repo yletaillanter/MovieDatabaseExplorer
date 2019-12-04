@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;

@@ -17,7 +17,6 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
@@ -49,8 +48,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
 
-    private ActionBar actionBar;
-
     private final String LOG_TAG = getClass().getSimpleName();
     private final String TITLE = "Movie Explorer";
 
@@ -81,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     @Override
     public void onStart() {
         super.onStart();
-
-        actionBar = getSupportActionBar();
         navigationView.setCheckedItem(R.id.search);
     }
 
@@ -92,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         recyclerView.setLayoutManager(layoutManager);
 
         setSupportActionBar(toolbar);
-        if (actionBar != null)
-            actionBar.setTitle(R.string.search_by_name);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(R.string.search_by_name);
 
         movies = new ArrayList<Movie>();
         adapter = new ListSearchAdapter(movies);
@@ -105,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

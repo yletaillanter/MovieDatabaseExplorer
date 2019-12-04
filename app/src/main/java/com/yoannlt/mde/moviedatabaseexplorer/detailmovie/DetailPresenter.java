@@ -1,7 +1,5 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

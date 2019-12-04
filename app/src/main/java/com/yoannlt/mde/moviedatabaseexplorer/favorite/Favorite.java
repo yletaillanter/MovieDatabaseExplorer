@@ -1,8 +1,5 @@
 package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 

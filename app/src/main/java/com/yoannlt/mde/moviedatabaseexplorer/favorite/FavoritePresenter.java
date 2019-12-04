@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.tabs.TabLayout;
 import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;

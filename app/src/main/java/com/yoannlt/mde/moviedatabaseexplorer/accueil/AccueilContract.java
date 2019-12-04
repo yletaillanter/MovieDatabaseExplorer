@@ -21,7 +21,6 @@ public interface AccueilContract {
         void showPopular(@NonNull ArrayList<Movie> movies);
         void showTopRated(@NonNull ArrayList<Movie> movies);
         void launchDetailMovie(@NonNull MovieComplete movie);
-
     }
 
     interface Presenter extends BasePresenter {

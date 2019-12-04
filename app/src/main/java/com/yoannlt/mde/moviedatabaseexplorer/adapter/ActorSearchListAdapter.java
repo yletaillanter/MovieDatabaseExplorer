@@ -1,6 +1,5 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
-import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 

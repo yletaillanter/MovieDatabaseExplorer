@@ -1,6 +1,5 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
-import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
