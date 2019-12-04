@@ -3,6 +3,8 @@ package com.yoannlt.mde.moviedatabaseexplorer.advancedSearch;
 import android.content.Intent;
 
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.favorite.FavoriteActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,7 +29,6 @@ public class AdvancedSearchActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout_as) DrawerLayout mDrawerLayout;
     @BindView(R.id.navigation_as) NavigationView navigationView;
     @BindView(R.id.my_toolbar_as) Toolbar toolbar;
-    private AdvancedSearchPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +37,26 @@ public class AdvancedSearchActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.advanced_search_title);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setTitle(R.string.advanced_search_title);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
             this,  mDrawerLayout, toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) actionBar.setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
-        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
+        //TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
         //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
         //name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
+            public boolean onNavigationItemSelected(@NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
                         Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
@@ -83,13 +88,13 @@ public class AdvancedSearchActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.contentFrameAdvancedSearch);
         }
 
-        presenter = new AdvancedSearchPresenter(fragment);
+        AdvancedSearchPresenter presenter = new AdvancedSearchPresenter(fragment);
         fragment.setPresenter(presenter);
 
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         navigationView.setCheckedItem(R.id.advanced);
     }

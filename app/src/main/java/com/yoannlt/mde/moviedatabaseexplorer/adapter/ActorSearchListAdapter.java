@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -23,14 +25,12 @@ import butterknife.ButterKnife;
 public class ActorSearchListAdapter extends RecyclerView.Adapter<ActorSearchListAdapter.ViewHolder> {
 
     /* List of data */
-    private ArrayList<Person> persons = new ArrayList<Person>();
-    private Context context;
+    private ArrayList<Person> persons;
     private ClickListener clickListener;
 
     private Person person;
 
-    public ActorSearchListAdapter(Context context, ArrayList<Person> persons) {
-        this.context = context;
+    public ActorSearchListAdapter(ArrayList<Person> persons) {
         this.persons = persons;
     }
 

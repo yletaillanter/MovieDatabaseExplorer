@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -21,22 +23,17 @@ import butterknife.ButterKnife;
  */
 public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRecyclerAdapter.ViewHolder> {
 
-    private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
-
     /* List of data */
-    private ArrayList<Movie> mDataset = new ArrayList<Movie>();
-    private Context context;
+    private ArrayList<Movie> mDataset;
     private ClickListener clickListener;
-    private Movie movie;
     // quand multiple recyclerviews
     private String originRecycler;
 
     /* Constructor */
-    public HorizontalRecyclerAdapter(Context context, ArrayList<Movie> movies, String originRecycler) {
-        this.context = context;
+    public HorizontalRecyclerAdapter( ArrayList<Movie> movies, String originRecycler) {
         this.mDataset = movies;
 
-        if (originRecycler != null){
+        if (originRecycler != null) {
             this.originRecycler = originRecycler;
         }
     }
@@ -51,12 +48,12 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         // Get the movie
-        movie = mDataset.get(position);
+        Movie movie = mDataset.get(position);
 
         if (movie.getPoster_path() != null) {
-            Picasso.get().load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
+            Picasso.get().load("http://image.tmdb.org/t/p/w300" + movie.getPoster_path()).fit().into(holder.poster);
         }
     }
 
@@ -82,7 +79,7 @@ public class HorizontalRecyclerAdapter extends RecyclerView.Adapter<HorizontalRe
         public void onClick(View v) {
 
             if (clickListener != null) {
-                clickListener.itemClicked(v,getPosition(), originRecycler);
+                clickListener.itemClicked(v, getLayoutPosition(), originRecycler);
             }
         }
     }

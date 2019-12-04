@@ -53,7 +53,7 @@ public class FullListActivity extends AppCompatActivity implements FullListFragm
                 this,  mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
@@ -63,8 +63,8 @@ public class FullListActivity extends AppCompatActivity implements FullListFragm
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
-                        Intent intentAcceuil = new Intent(getApplicationContext(), AccueilActivity.class);
-                        startActivity(intentAcceuil);
+                        Intent intentAccueil = new Intent(getApplicationContext(), AccueilActivity.class);
+                        startActivity(intentAccueil);
                         break;
                     case R.id.search:
                         Intent intentSearch = new Intent(getApplicationContext(), MainActivity.class);
@@ -83,8 +83,8 @@ public class FullListActivity extends AppCompatActivity implements FullListFragm
             }
         });
 
-        // Test de la taille de l'écran
-        if(is_720) {
+        // screen size
+        if (is_720) {
             // FRAGMENT 1
             FullListFragment fragment = (FullListFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame1);
             if (fragment == null ) {
@@ -108,7 +108,7 @@ public class FullListActivity extends AppCompatActivity implements FullListFragm
         }
     }
 
-    public void setUpAnimation(){
+    public void setUpAnimation() {
         Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.slide);
         getWindow().setExitTransition(slide);
     }

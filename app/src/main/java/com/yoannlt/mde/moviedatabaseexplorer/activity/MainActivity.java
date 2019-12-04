@@ -3,6 +3,8 @@ package com.yoannlt.mde.moviedatabaseexplorer.activity;
 import android.content.Intent;
 
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,8 @@ import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.JSONRes
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +48,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class MainActivity extends AppCompatActivity implements ClickListener {
+
+    private ActionBar actionBar;
 
     private final String LOG_TAG = getClass().getSimpleName();
     private final String TITLE = "Movie Explorer";
@@ -73,8 +79,10 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
+
+        actionBar = getSupportActionBar();
         navigationView.setCheckedItem(R.id.search);
     }
 
@@ -84,10 +92,11 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         recyclerView.setLayoutManager(layoutManager);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.search_by_name);
+        if (actionBar != null)
+            actionBar.setTitle(R.string.search_by_name);
 
         movies = new ArrayList<Movie>();
-        adapter = new ListSearchAdapter(getApplicationContext(), movies);
+        adapter = new ListSearchAdapter(movies);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -95,18 +104,14 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
                 this,  mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
-
-        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
-        //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
-        //name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
+            public boolean onNavigationItemSelected(@NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
                         Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
     private void initSearch() {
 
         // Get the search input
-        searchInput.getText().toString();
+        searchInput.getText();
 
         // add a listener when the search request is modified
         searchInput.addTextChangedListener(new TextWatcher() {
@@ -218,9 +223,7 @@ public class MainActivity extends AppCompatActivity implements ClickListener {
         loadCompleteMovie(adapter.getmDataset().get(position).getId());
     }
 
-    private void startActivity(){
-        //Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this).toBundle();
-
+    private void startActivity() {
         Intent i = new Intent(this, DetailActivity.class);
         i.putExtra("movie", movie);
         startActivity(i);

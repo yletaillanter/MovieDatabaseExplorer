@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.OtherMoviesFromPerson;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -19,19 +21,14 @@ import butterknife.ButterKnife;
 /**
  * Created by yoannlt on 03/07/2016.
  */
-public class OtherMoviesAdapter extends RecyclerView.Adapter<OtherMoviesAdapter.ViewHolder>{
-
-    private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
+public class OtherMoviesAdapter extends RecyclerView.Adapter<OtherMoviesAdapter.ViewHolder> {
 
     /* List of data */
     private ArrayList<OtherMoviesFromPerson> mDataset = new ArrayList<OtherMoviesFromPerson>();
-    private Context context;
     private ClickListener clickListener;
-    private OtherMoviesFromPerson movie;
 
     /* Constructor */
-    public OtherMoviesAdapter(Context context, ArrayList<OtherMoviesFromPerson> movies) {
-        this.context = context;
+    public OtherMoviesAdapter(ArrayList<OtherMoviesFromPerson> movies) {
         this.mDataset = movies;
     }
 
@@ -45,9 +42,11 @@ public class OtherMoviesAdapter extends RecyclerView.Adapter<OtherMoviesAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
+
         // Get the movie
-        movie = mDataset.get(position);
+        OtherMoviesFromPerson movie = mDataset.get(position);
 
         if (movie.getPoster_path() != null) {
             Picasso.get().load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
@@ -58,7 +57,6 @@ public class OtherMoviesAdapter extends RecyclerView.Adapter<OtherMoviesAdapter.
     public int getItemCount() {
         return mDataset.size();
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

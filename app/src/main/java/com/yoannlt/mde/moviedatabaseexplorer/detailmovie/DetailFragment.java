@@ -237,7 +237,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         realm.commitTransaction();
     }
 
-    private void initPalettePersonalization(){
+    private void initPalettePersonalization() {
 
         window = getActivity().getWindow();
 
@@ -262,7 +262,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
                             else if (palette.getMutedSwatch() != null)
                                 window.setStatusBarColor(palette.getMutedSwatch().getRgb());
 
-                        } else if (palette.getDarkVibrantSwatch() != null){
+                        } else if (palette.getDarkVibrantSwatch() != null) {
                             collapsingToolbarLayout.setContentScrimColor(palette.getDarkVibrantSwatch().getRgb());
 
                             if (palette.getLightVibrantSwatch() != null)
@@ -286,12 +286,12 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
                 });
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         //Init du recyclerView similar
         similarMovies = new ArrayList<Movie>();
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), similarMovies, null);
+        adapter = new HorizontalRecyclerAdapter(similarMovies, null);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -302,7 +302,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         castPersons = new ArrayList<CastPerson>();
         LinearLayoutManager layoutManagerCast = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewCasting.setLayoutManager(layoutManagerCast);
-        adapterCasting = new CastingRecyclerAdapter(getActivity().getApplicationContext(), castPersons);
+        adapterCasting = new CastingRecyclerAdapter(castPersons);
         adapterCasting.setClickListener(this);
         recyclerViewCasting.setAdapter(adapterCasting);
 
@@ -369,7 +369,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         this.currentMovie = movie;
     }
 
-    public boolean checkIfExists(MovieComplete movie){
+    public boolean checkIfExists(MovieComplete movie) {
 
         RealmQuery<Movie> query = realm.where(Movie.class)
                 .equalTo("id", movie.getId())

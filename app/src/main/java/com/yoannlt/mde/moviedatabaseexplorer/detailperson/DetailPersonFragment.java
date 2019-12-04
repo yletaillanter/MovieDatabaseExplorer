@@ -147,12 +147,12 @@ public class DetailPersonFragment  extends Fragment implements DetailPersonContr
         }
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         //Init du recyclerView other
         otherMovies = new ArrayList<OtherMoviesFromPerson>();
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewOther.setLayoutManager(horizontalLayoutManager);
-        adapter = new OtherMoviesAdapter(getActivity().getApplicationContext(), otherMovies);
+        adapter = new OtherMoviesAdapter(otherMovies);
         adapter.setClickListener(this);
         recyclerViewOther.setAdapter(adapter);
         presenter.loadOtherMovies(person.getId());

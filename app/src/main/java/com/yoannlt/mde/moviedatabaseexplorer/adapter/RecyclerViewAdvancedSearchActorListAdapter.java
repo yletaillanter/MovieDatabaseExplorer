@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -25,8 +27,6 @@ public class RecyclerViewAdvancedSearchActorListAdapter extends RecyclerView.Ada
     private ArrayList<Person> mDataset = new ArrayList<Person>();
 
     private ClickListener clickListener;
-    private Context context;
-    private Person person;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -65,23 +65,20 @@ public class RecyclerViewAdvancedSearchActorListAdapter extends RecyclerView.Ada
         notifyItemRemoved(position);
     }
 
-    public RecyclerViewAdvancedSearchActorListAdapter(Context context, ArrayList<Person> mDataset) {
-        this.context = context;
+    public RecyclerViewAdvancedSearchActorListAdapter(ArrayList<Person> mDataset) {
         this.mDataset = mDataset;
     }
 
-    public RecyclerViewAdvancedSearchActorListAdapter() {
-    }
-
     @Override
-    public RecyclerViewAdvancedSearchActorListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewAdvancedSearchActorListAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        person = mDataset.get(position);
-        holder.name.setText(person.getName());
+        Person person = mDataset.get(position);
+        if (holder.name != null)
+            holder.name.setText(person.getName());
     }
 
     @Override

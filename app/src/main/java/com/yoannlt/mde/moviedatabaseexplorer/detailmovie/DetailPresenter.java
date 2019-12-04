@@ -1,8 +1,11 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.CastPersonJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.JSONResponses.SimilarJSONResponse;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
@@ -33,12 +36,13 @@ public class DetailPresenter implements DetailContract.Presenter {
 
     public DetailPresenter(@NonNull DetailContract.View mView) {
         this.mView = mView;
-        //MovieExplorer.application().getMovieExplorerComponent().inject(this);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
         compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void loadSimilar(@NonNull int movieId) {
+
         compositeDisposable.add(
             request.getSimilarMovies(movieId)
                     .subscribeOn(Schedulers.io())
@@ -64,7 +68,7 @@ public class DetailPresenter implements DetailContract.Presenter {
         );
     }
 
-    public void setSimilar(){
+    public void setSimilar() {
 
     }
 
@@ -154,12 +158,12 @@ public class DetailPresenter implements DetailContract.Presenter {
     }
 
     @Override
-    public void setCompleteMovie(MovieComplete movie){
+    public void setCompleteMovie(MovieComplete movie ) {
         this.movie = movie;
     }
 
     @Override
-    public MovieComplete getMovieFromActivityCallback(){
+    public MovieComplete getMovieFromActivityCallback() {
         return movie;
     }
 }

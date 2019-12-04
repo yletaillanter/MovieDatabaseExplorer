@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class FullListFragment extends Fragment implements FullListContract.View,
     private FullListContract.Presenter presenter;
     private ListSearchAdapter adapter;
     public String from;
+    private FragmentActivity activity;
     @BindBool(R.bool.is_720) boolean is_720;
 
 
@@ -53,9 +55,13 @@ public class FullListFragment extends Fragment implements FullListContract.View,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        from = getActivity().getIntent().getStringExtra(ActivityUtils.FROM);
+        if (getActivity() != null)
+            activity = getActivity();
 
-        adapter = new ListSearchAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>());
+        if (activity.getIntent() != null)
+            from = activity.getIntent().getStringExtra(ActivityUtils.FROM);
+
+        adapter = new ListSearchAdapter(new ArrayList<>());
         adapter.setClickListener(this);
     }
 
@@ -83,7 +89,7 @@ public class FullListFragment extends Fragment implements FullListContract.View,
         ButterKnife.bind(this, root);
 
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
@@ -108,11 +114,11 @@ public class FullListFragment extends Fragment implements FullListContract.View,
         // Si petit écran on lauch l'activity normalement
         if(!is_720) {
             Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle();
-            Intent i = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
+            Intent i = new Intent(activity.getApplicationContext(), DetailActivity.class);
             i.putExtra("movie", movie);
             startActivity(i,bundle);
         } else { // Sinon on laisse l'activité charger le deuxième fragment
-            ((FullListFragment.Callback) getActivity()).onItemSelected(movie);
+            ((FullListFragment.Callback) activity).onItemSelected(movie);
         }
     }
 
@@ -120,12 +126,14 @@ public class FullListFragment extends Fragment implements FullListContract.View,
     public void startAdvancedSearch() {
         HashMap<String, String> queries = new HashMap<String, String>();
 
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if(bundle!=null) {
-            queries = (HashMap<String, String>) bundle.getSerializable("hashmap");
-        }
+        Bundle bundle = activity.getIntent().getExtras();
 
-        presenter.loadAdvancedSearch(queries);
+        if (bundle != null) {
+            queries = (HashMap<String, String>) bundle.getSerializable("hashmap");
+
+            if (queries != null)
+                presenter.loadAdvancedSearch(queries);
+        }
     }
 
     public interface Callback {

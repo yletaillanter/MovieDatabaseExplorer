@@ -3,7 +3,7 @@ package com.yoannlt.mde.moviedatabaseexplorer.customUI;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 
@@ -11,7 +11,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.R;
  * Created by yoannlt on 11/12/2016.
  */
 
-public class GenreTextView extends TextView {
+public class GenreTextView extends AppCompatTextView {
 
     public GenreTextView(Context context) {
         super(context);
@@ -22,7 +22,7 @@ public class GenreTextView extends TextView {
         init();
     }
 
-    private void init(){
+    private void init() {
         this.setBackground(getResources().getDrawable(R.drawable.genre_box_deselect));
     }
 

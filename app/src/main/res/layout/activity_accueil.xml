@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    android:id="@+id/drawer_layout_acceuil">
+    android:id="@+id/drawer_layout_accueil">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_acceuil"
+            android:id="@+id/toolbar_accueil"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="parallax"
@@ -22,14 +22,14 @@
             android:background="@color/colorPrimary" />
 
         <FrameLayout
-            android:id="@+id/content_fragment_acceuil"
+            android:id="@+id/content_fragment_accueil"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_acceuil"/>
+            android:layout_below="@+id/toolbar_accueil"/>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_acceuil"
+        android:id="@+id/navigation_accueil"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

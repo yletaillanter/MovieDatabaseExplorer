@@ -25,18 +25,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 public class AccueilRepository {
 
-    private final static String TAG = "AccueilRepository";
+    private final String LOG_TAG = getClass().getSimpleName();
     private final static String POPULAR_SOURCE = "popular";
 
     @Inject RequestInterface request;
     private Realm realmUI;
 
-    public AccueilRepository() {
+    protected AccueilRepository() {
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
     }
 
-    public Flowable<List<Movie>> loadPopular() {
-        Log.d(TAG, "loadPopular");
+    protected Flowable<List<Movie>> loadPopular() {
+        Log.d(LOG_TAG, "loadPopular");
         // Create the observable + write into db + read from db
         Flowable<List<Movie> > observable = request.getPopular()
                 .subscribeOn(Schedulers.io())
@@ -65,6 +65,8 @@ public class AccueilRepository {
     }
 
     private List<Movie> popularToRealm(final JSONResponse jsonResponse, String listSource) {
+        Log.d(LOG_TAG, "popularToRealm");
+
         ArrayList<Movie> movies =  new ArrayList<>(Arrays.asList(jsonResponse.getResults()));
 
         // TODO: Suppression de l'ancien cache (DEBUG)
@@ -76,6 +78,7 @@ public class AccueilRepository {
         // Ajout des nouveaux films dans le cache
         // TODO: merger les données
         for (Movie movie : movies) {
+            Log.d(LOG_TAG, "Ajout dans le cache: " + movies.toString());
 
             Movie movieUpdated = realm.where(Movie.class)
                     .equalTo("id", movie.getId())
@@ -109,14 +112,15 @@ public class AccueilRepository {
     }
 
     private RealmResults<Movie>  findInRealm( String listSource) {
-        realmUI = Realm.getDefaultInstance();
-        RealmResults<Movie> result = realmUI.where(Movie.class).equalTo("listSource", listSource).findAll();
+        Log.d(LOG_TAG, "findInRealm");
 
-        return result;
+        realmUI = Realm.getDefaultInstance();
+        return realmUI.where(Movie.class).equalTo("listSource", listSource).findAll();
     }
 
     private void emptyRealmCache() {
-        Log.d(TAG, "emptyRealmCache");
+        Log.d(LOG_TAG, "emptyRealmCache");
+
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(new Realm.Transaction() {
             @Override

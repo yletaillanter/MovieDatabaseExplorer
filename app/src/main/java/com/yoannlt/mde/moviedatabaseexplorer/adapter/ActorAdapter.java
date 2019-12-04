@@ -12,6 +12,8 @@ import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -23,17 +25,13 @@ import butterknife.ButterKnife;
 
 public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> {
 
-    private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
-
     /* List of data */
     private ArrayList<Person> persons;
-    private Context context;
     private ClickListener clickListener;
     private Person person;
 
-    public ActorAdapter(Context context, ArrayList<Person> persons) {
-        this.context = context;
-        this.persons = new ArrayList<Person>();
+    public ActorAdapter(ArrayList<Person> persons) {
+        this.persons = new ArrayList<>();
         this.persons = persons;
     }
 
@@ -45,13 +43,13 @@ public class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(ActorAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ActorAdapter.ViewHolder holder, int position) {
         // Getting the movie
         person = persons.get(position);
 
         // Setting the picture
         if (person.getProfile_path() != null) {
-            Picasso.get().load(BASE_IMAGE_URL + person.getProfile_path()).into(holder.picture);
+            Picasso.get().load("http://image.tmdb.org/t/p/w300" + person.getProfile_path()).into(holder.picture);
         }
         // Setting the name
         if (!person.getName().equals("")) {

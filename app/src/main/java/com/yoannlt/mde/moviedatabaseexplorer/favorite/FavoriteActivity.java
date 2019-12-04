@@ -8,8 +8,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilActivity;
@@ -17,18 +18,23 @@ import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.advancedSearch.AdvancedSearchActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.util.ActivityUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class FavoriteActivity extends AppCompatActivity {
 
+    private final String LOG_TAG = getClass().getName();
+
     @BindView(R.id.drawer_layout_favorite) DrawerLayout mDrawerLayout;
     @BindView(R.id.navigation_favorite) NavigationView navigationView;
     @BindView(R.id.my_toolbar_favorite) Toolbar toolbar;
-    private FavoritePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "FavoriteActivity onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
         ButterKnife.bind(this);
@@ -40,20 +46,16 @@ public class FavoriteActivity extends AppCompatActivity {
                 this,  mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
         navigationView.setCheckedItem(R.id.favorite);
 
-        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
-        //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
-        //name.setTypeface(myTypeface);
-
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
+            public boolean onNavigationItemSelected(@NotNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
                         Intent intent = new Intent(getApplicationContext(), AccueilActivity.class);
@@ -80,16 +82,17 @@ public class FavoriteActivity extends AppCompatActivity {
 
         FavoriteFragment fragment = (FavoriteFragment) getSupportFragmentManager().findFragmentById(R.id.content_frame_favorite);
         if(fragment == null) {
+            Log.d(LOG_TAG, "FavoriteFragment newInstance()");
             fragment = FavoriteFragment.newInstance();
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_frame_favorite);
         }
 
-        presenter = new FavoritePresenter(fragment);
+        FavoritePresenter presenter = new FavoritePresenter(fragment);
         fragment.setPresenter(presenter);
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         navigationView.setCheckedItem(R.id.favorite);
     }

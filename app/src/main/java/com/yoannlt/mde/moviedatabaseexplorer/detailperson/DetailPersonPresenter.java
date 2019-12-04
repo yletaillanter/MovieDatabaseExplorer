@@ -33,7 +33,6 @@ public class DetailPersonPresenter implements DetailPersonContract.Presenter{
     public DetailPersonPresenter(@NonNull DetailPersonContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
-
         compositeDisposable = new CompositeDisposable();
     }
 

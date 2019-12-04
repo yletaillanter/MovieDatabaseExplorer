@@ -27,13 +27,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class AccueilPresenter implements AccueilContract.Presenter  {
 
+    private final String LOG_TAG = getClass().getSimpleName();
+
     @Inject RequestInterface request;
     private CompositeDisposable compositeDisposable;
     @NonNull private final AccueilContract.View mView;
     AccueilRepository accueilRepository;
 
 
-    public AccueilPresenter(@NonNull AccueilContract.View mView) {
+    protected AccueilPresenter(@NonNull AccueilContract.View mView) {
         this.mView = mView;
         MovieExplorer.application().getMovieExplorerComponent().inject(this);
         compositeDisposable = new CompositeDisposable();

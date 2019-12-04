@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -25,13 +26,15 @@ public class AccueilActivity extends AppCompatActivity {
 
     private final String LOG_TAG = getClass().getSimpleName();
 
-    private AccueilPresenter acceuilPresenter;
-    @BindView(R.id.drawer_layout_acceuil) DrawerLayout mDrawerLayout;
-    @BindView(R.id.navigation_acceuil) NavigationView navigationView;
-    @BindView(R.id.toolbar_acceuil) Toolbar toolbar;
+    private AccueilPresenter accueilPresenter;
+    @BindView(R.id.drawer_layout_accueil) DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation_accueil) NavigationView navigationView;
+    @BindView(R.id.toolbar_accueil) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
         ButterKnife.bind(this);
@@ -43,30 +46,30 @@ public class AccueilActivity extends AppCompatActivity {
                 this,  mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close
         );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
-
-        TextView name = (TextView) navigationView.getHeaderView(0).findViewById(R.id.appli_name_header);
-        //Typeface myTypeface = Typeface.createFromAsset(getAssets(), "fonts/cinema/cinema_st.ttf");
-        //name.setTypeface(myTypeface);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.accueil:
+                        Log.d(LOG_TAG, "select accueil");
                         break;
                     case R.id.search:
+                        Log.d(LOG_TAG, "select search");
                         Intent intentSearch = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intentSearch);
                         break;
                     case R.id.advanced:
+                        Log.d(LOG_TAG, "select advanced");
                         Intent intentAdvancedSearch = new Intent(getApplicationContext(), AdvancedSearchActivity.class);
                         startActivity(intentAdvancedSearch);
                         break;
                     case R.id.favorite:
+                        Log.d(LOG_TAG, "select favorite");
                         Intent intentFavorite = new Intent(getApplicationContext(), FavoriteActivity.class);
                         startActivity(intentFavorite);
                         break;
@@ -80,19 +83,21 @@ public class AccueilActivity extends AppCompatActivity {
         });
 
         // FRAGMENT 1
-        AccueilFragment fragment = (AccueilFragment) getSupportFragmentManager().findFragmentById(R.id.content_fragment_acceuil);
+        AccueilFragment fragment = (AccueilFragment) getSupportFragmentManager().findFragmentById(R.id.content_fragment_accueil);
         if (fragment == null ) {
+            Log.d(LOG_TAG, "AccueilFragment newInstance()");
             fragment = AccueilFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_fragment_acceuil);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.content_fragment_accueil);
         }
         // Create the popularPresenter
-        acceuilPresenter = new AccueilPresenter(fragment);
+        accueilPresenter = new AccueilPresenter(fragment);
         // attached the popularPresenter to the fragment
-        fragment.setPresenter(acceuilPresenter);
+        fragment.setPresenter(accueilPresenter);
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
+        Log.d(LOG_TAG, "onStart");
         super.onStart();
         navigationView.setCheckedItem(R.id.accueil);
     }

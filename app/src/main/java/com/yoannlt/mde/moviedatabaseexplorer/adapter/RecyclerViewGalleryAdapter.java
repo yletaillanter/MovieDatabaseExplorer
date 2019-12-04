@@ -23,16 +23,12 @@ import butterknife.ButterKnife;
 
 public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerViewGalleryAdapter.ViewHolder> {
 
-    private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
 
     private ArrayList<Image> images = new ArrayList<Image>();
-    private Context context;
     private ClickListener clickListener;
-    private Image image;
 
     /* Constructor */
-    public RecyclerViewGalleryAdapter(Context context, ArrayList<Image> images) {
-        this.context = context;
+    public RecyclerViewGalleryAdapter(ArrayList<Image> images) {
         this.images = images;
     }
 
@@ -46,7 +42,8 @@ public class RecyclerViewGalleryAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        image = images.get(position);
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
+        Image image = images.get(position);
         // Set l'affichage
         Picasso.get().load(BASE_IMAGE_URL + image.getFile_path()).into(holder.poster);
     }

@@ -20,6 +20,6 @@ public interface FavoriteContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getMovieComplete(@NonNull int id);
+        void getMovieComplete(int id);
     }
 }

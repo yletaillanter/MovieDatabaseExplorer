@@ -128,12 +128,12 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         return imgReturn;
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         images = new ArrayList<>();
         GridLayoutManager layoutManagerGallery = new GridLayoutManager(GalleryActivity.this, 3);
         recyclerView.setLayoutManager(layoutManagerGallery);
         recyclerView.setHasFixedSize(true);
-        adapter = new RecyclerViewGalleryAdapter(getApplicationContext(), images);
+        adapter = new RecyclerViewGalleryAdapter(images);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
@@ -146,7 +146,7 @@ public class GalleryActivity extends AppCompatActivity implements ClickListener 
         }
     }
 
-    private void getParcelableExtraFromIntent(){
+    private void getParcelableExtraFromIntent() {
         from = getIntent().getStringExtra("from");
         if (from != null) {
             if (from.equals("movie")) {

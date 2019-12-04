@@ -55,7 +55,7 @@ public interface RequestInterface {
     @GET("3/search/person")
     Flowable<SearchPersonJSONResponse> searchPerson(@Query("query") String query);
 
-    //ACCEUIL
+    //ACCUEIL
     @GET("3/movie/now_playing")
     Flowable<JSONResponse> getNowPlaying();
 

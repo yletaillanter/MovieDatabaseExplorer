@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,8 @@ import butterknife.OnClick;
 
 public class AccueilFragment extends Fragment implements AccueilContract.View, ClickListener {
 
+    private final String LOG_TAG = getClass().getSimpleName();
+
     @BindView(R.id.now_playing_recyclerview) RecyclerView recyclerViewNowPlaying;
     @BindView(R.id.upcoming_recyclerview) RecyclerView recyclerViewUpComing;
     @BindView(R.id.popular_recyclerview) RecyclerView recyclerViewPopular;
@@ -51,8 +55,7 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
     private List<Movie> listPopular;
     private List<Movie> listTopRated;
 
-    public AccueilFragment() {
-    }
+    public AccueilFragment() {}
 
     public static AccueilFragment newInstance() {
         return new AccueilFragment();
@@ -60,12 +63,14 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
 
-        adapterNowPlaying = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_NOW_PLAYING);
-        adapterUpComing = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_UP_COMING);
-        adapterPopular = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_POPULAR);
-        adapterTopRated = new HorizontalRecyclerAdapter(getActivity().getApplicationContext(), new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_TOP_RATED);
+        adapterNowPlaying = new HorizontalRecyclerAdapter(new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_NOW_PLAYING);
+        adapterUpComing = new HorizontalRecyclerAdapter(new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_UP_COMING);
+        adapterPopular = new HorizontalRecyclerAdapter(new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_POPULAR);
+        adapterTopRated = new HorizontalRecyclerAdapter(new ArrayList<Movie>(), ActivityUtils.FROM_RECYCLER_TOP_RATED);
 
         adapterNowPlaying.setClickListener(this);
         adapterUpComing.setClickListener(this);
@@ -76,6 +81,8 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "onCreateView");
+
         View root = inflater.inflate(R.layout.fragment_accueil, container, false);
         ButterKnife.bind(this, root);
 
@@ -104,6 +111,8 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void showNowPlaying(@NonNull ArrayList<Movie> movies) {
+        Log.d(LOG_TAG, "showNowPlaying");
+
         this.listNowPlaying = movies;
         adapterNowPlaying.replace(movies);
         adapterNowPlaying.notifyDataSetChanged();
@@ -111,6 +120,8 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void showUpcoming(@NonNull ArrayList<Movie> movies) {
+        Log.d(LOG_TAG, "showUpcoming");
+
         this.listUpComing = movies;
         adapterUpComing.replace(movies);
         adapterUpComing.notifyDataSetChanged();
@@ -125,6 +136,8 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void showTopRated(@NonNull ArrayList<Movie> movies) {
+        Log.d(LOG_TAG, "showTopRated");
+
         this.listTopRated = movies;
         adapterTopRated.replace(movies);
         adapterTopRated.notifyDataSetChanged();
@@ -132,6 +145,8 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void launchDetailMovie(@NonNull MovieComplete movie) {
+        Log.d(LOG_TAG, "launchDetailMovie");
+
         Intent intent = new Intent(getActivity().getApplicationContext(), DetailActivity.class);
         intent.putExtra("movie", movie);
         startActivity(intent);
@@ -139,14 +154,17 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void setPresenter(AccueilContract.Presenter presenter) {
+        Log.d(LOG_TAG, "setPresenter");
+
         this.presenter = presenter;
     }
 
     @Override
     public void itemClicked(View view, int position, String recycler) {
+        Log.d(LOG_TAG, "itemClicked: " + position);
 
-        if(recycler != null){
-            switch(recycler){
+        if (recycler != null) {
+            switch (recycler) {
                 case ActivityUtils.FROM_RECYCLER_NOW_PLAYING:
                     presenter.getMovieComplete(listNowPlaying.get(position).getId());
                     break;
@@ -166,28 +184,35 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
     }
 
     @OnClick(R.id.label_nowplaying)
-    public void showFullListNowPlaying(){
+    public void showFullListNowPlaying() {
+        Log.d(LOG_TAG, "showFullListNowPlaying");
         Intent intent = new Intent(getActivity().getApplicationContext(), FullListActivity.class);
         intent.putExtra(ActivityUtils.FROM, ActivityUtils.FROM_RECYCLER_NOW_PLAYING);
         startActivity(intent);
     }
 
     @OnClick(R.id.label_upcoming)
-    public void showFullListUpComing(){
+    public void showFullListUpComing() {
+        Log.d(LOG_TAG, "showFullListUpComing");
+
         Intent intent = new Intent(getActivity().getApplicationContext(), FullListActivity.class);
         intent.putExtra(ActivityUtils.FROM, ActivityUtils.FROM_RECYCLER_UP_COMING);
         startActivity(intent);
     }
 
     @OnClick(R.id.label_popular)
-    public void showFullListPopular(){
+    public void showFullListPopular() {
+        Log.d(LOG_TAG, "showFullListPopular");
+
         Intent intent = new Intent(getActivity().getApplicationContext(), FullListActivity.class);
         intent.putExtra(ActivityUtils.FROM, ActivityUtils.FROM_RECYCLER_POPULAR);
         startActivity(intent);
     }
 
     @OnClick(R.id.label_toprated)
-    public void showFullListTopRated(){
+    public void showFullListTopRated() {
+        Log.d(LOG_TAG, "showFullListTopRated");
+
         Intent intent = new Intent(getActivity().getApplicationContext(), FullListActivity.class);
         intent.putExtra(ActivityUtils.FROM, ActivityUtils.FROM_RECYCLER_TOP_RATED);
         startActivity(intent);
@@ -195,12 +220,16 @@ public class AccueilFragment extends Fragment implements AccueilContract.View, C
 
     @Override
     public void onResume() {
+        Log.d(LOG_TAG, "onResume");
+
         super.onResume();
         presenter.subscribe(null);
     }
 
     @Override
     public void onPause() {
+        Log.d(LOG_TAG, "onPause");
+
         super.onPause();
         presenter.unsubscribe();
     }

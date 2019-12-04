@@ -1,5 +1,6 @@
 package com.yoannlt.mde.moviedatabaseexplorer.advancedSearch;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -41,6 +42,9 @@ import butterknife.OnClick;
 public class AdvancedSearchFragment extends Fragment implements AdvancedSearchContract.View {
 
     private final String LOG_TAG = getClass().getSimpleName();
+
+    private Activity activity;
+
     @BindView(R.id.spinner) MaterialSpinner spinner_notation;
     @BindView(R.id.add_actor_button) ImageView addActorButton;
 
@@ -79,8 +83,6 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     // Button rechercher
     @BindView(R.id.search_button_advanced) Button searchButton;
 
-
-
     private Animation alphaGenreAnimation;
     private HashMap<String, String> queries;
     private List<String> genres;
@@ -91,7 +93,7 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     public AdvancedSearchFragment() {
     }
 
-    public static AdvancedSearchFragment newInstance(){
+    public static AdvancedSearchFragment newInstance() {
         return new AdvancedSearchFragment();
     }
 
@@ -99,12 +101,14 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        queries = new HashMap<String, String>();
-        genres = new ArrayList<String>();
+        activity = getActivity();
+
+        queries = new HashMap<>();
+        genres = new ArrayList<>();
 
         alphaGenreAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.animation);
 
-        adapter = new ActorSearchListAdapter(getActivity().getApplicationContext(), new ArrayList<Person>());
+        adapter = new ActorSearchListAdapter(new ArrayList<Person>());
     }
 
     @Nullable
@@ -114,9 +118,11 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
         ButterKnife.bind(this, root);
 
         recyclerViewActors.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
-        recyclerViewActors.setLayoutManager(layoutManager);
-        recyclerViewActors.setAdapter(adapter);
+        if (activity.getApplicationContext() != null)  {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext());
+            recyclerViewActors.setLayoutManager(layoutManager);
+            recyclerViewActors.setAdapter(adapter);
+        }
 
         // Création du spinner
         spinner_notation.setItems(ActivityUtils.EQUAL, ActivityUtils.GTE_OR_EQUAL, ActivityUtils.LTE_OR_EQUAL);
@@ -138,7 +144,7 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick (R.id.add_actor_button)
-    public void addActor(){
+    public void addActor() {
         // DialogFragment.show() will take care of adding the fragment
         // in a transaction.  We also want to remove any currently showing
         // dialog, so make our own transaction and take care of that here.
@@ -167,10 +173,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_action)
-    public void clickAction(){
+    public void clickAction() {
         action.startAnimation(alphaGenreAnimation);
 
-        switch (action.getTypeface().getStyle()){
+        switch (action.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 action.setTypeface(Typeface.create(action.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 action.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -187,10 +193,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_adventure)
-    public void clickAdventure(){
+    public void clickAdventure() {
         adventure.startAnimation(alphaGenreAnimation);
 
-        switch (adventure.getTypeface().getStyle()){
+        switch (adventure.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 adventure.setTypeface(Typeface.create(adventure.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 adventure.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -207,10 +213,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_animation)
-    public void clickAnimation(){
+    public void clickAnimation() {
         animation.startAnimation(alphaGenreAnimation);
 
-        switch (animation.getTypeface().getStyle()){
+        switch (animation.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 animation.setTypeface(Typeface.create(animation.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 animation.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -227,10 +233,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_comedy)
-    public void clickComedy(){
+    public void clickComedy() {
         comedy.startAnimation(alphaGenreAnimation);
 
-        switch (comedy.getTypeface().getStyle()){
+        switch (comedy.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 comedy.setTypeface(Typeface.create(comedy.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 comedy.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -247,10 +253,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_crime)
-    public void clickCrime(){
+    public void clickCrime() {
         crime.startAnimation(alphaGenreAnimation);
 
-        switch (crime.getTypeface().getStyle()){
+        switch (crime.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 crime.setTypeface(Typeface.create(crime.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 crime.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -267,10 +273,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_documentary)
-    public void clickDocumentary(){
+    public void clickDocumentary() {
         documentary.startAnimation(alphaGenreAnimation);
 
-        switch (documentary.getTypeface().getStyle()){
+        switch (documentary.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 documentary.setTypeface(Typeface.create(documentary.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 documentary.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -287,10 +293,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_drama)
-    public void clickDrama(){
+    public void clickDrama() {
         drama.startAnimation(alphaGenreAnimation);
 
-        switch (drama.getTypeface().getStyle()){
+        switch (drama.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 drama.setTypeface(Typeface.create(drama.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 drama.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -307,10 +313,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_family)
-    public void clickFamily(){
+    public void clickFamily() {
         family.startAnimation(alphaGenreAnimation);
 
-        switch (family.getTypeface().getStyle()){
+        switch (family.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 family.setTypeface(Typeface.create(family.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 family.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -327,10 +333,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_fantasy)
-    public void clickfantasy(){
+    public void clickfantasy() {
         fantasy.startAnimation(alphaGenreAnimation);
 
-        switch (fantasy.getTypeface().getStyle()){
+        switch (fantasy.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 fantasy.setTypeface(Typeface.create(fantasy.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 fantasy.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -347,10 +353,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_history)
-    public void clickHistory(){
+    public void clickHistory() {
         history.startAnimation(alphaGenreAnimation);
 
-        switch (history.getTypeface().getStyle()){
+        switch (history.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 history.setTypeface(Typeface.create(history.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 history.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -367,10 +373,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_horror)
-    public void clickHorror(){
+    public void clickHorror() {
         horror.startAnimation(alphaGenreAnimation);
 
-        switch (horror.getTypeface().getStyle()){
+        switch (horror.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 horror.setTypeface(Typeface.create(horror.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 horror.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -387,10 +393,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_music)
-    public void clickMusic(){
+    public void clickMusic() {
         music.startAnimation(alphaGenreAnimation);
 
-        switch (music.getTypeface().getStyle()){
+        switch (music.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 music.setTypeface(Typeface.create(music.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 music.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -407,10 +413,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_mystery)
-    public void clickMystery(){
+    public void clickMystery() {
         mystery.startAnimation(alphaGenreAnimation);
 
-        switch (mystery.getTypeface().getStyle()){
+        switch (mystery.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 mystery.setTypeface(Typeface.create(mystery.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 mystery.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -427,10 +433,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_romance)
-    public void clickRomance(){
+    public void clickRomance() {
         romance.startAnimation(alphaGenreAnimation);
 
-        switch (romance.getTypeface().getStyle()){
+        switch (romance.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 romance.setTypeface(Typeface.create(romance.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 romance.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -447,10 +453,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_sf)
-    public void clickSf(){
+    public void clickSf() {
         sf.startAnimation(alphaGenreAnimation);
 
-        switch (sf.getTypeface().getStyle()){
+        switch (sf.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 sf.setTypeface(Typeface.create(sf.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 sf.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -468,10 +474,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
 
 
     @OnClick(R.id.genre_tv)
-    public void clickTv(){
+    public void clickTv() {
         tv.startAnimation(alphaGenreAnimation);
 
-        switch (tv.getTypeface().getStyle()){
+        switch (tv.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 tv.setTypeface(Typeface.create(tv.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 tv.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -488,10 +494,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_thriller)
-    public void clickThriller(){
+    public void clickThriller() {
         thriller.startAnimation(alphaGenreAnimation);
 
-        switch (thriller.getTypeface().getStyle()){
+        switch (thriller.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 thriller.setTypeface(Typeface.create(thriller.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 thriller.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -508,10 +514,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick(R.id.genre_war)
-    public void clickWar(){
+    public void clickWar() {
         war.startAnimation(alphaGenreAnimation);
 
-        switch (war.getTypeface().getStyle()){
+        switch (war.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 war.setTypeface(Typeface.create(war.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 war.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -529,10 +535,10 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
 
 
     @OnClick(R.id.genre_western)
-    public void clickWestern(){
+    public void clickWestern() {
         western.startAnimation(alphaGenreAnimation);
 
-        switch (western.getTypeface().getStyle()){
+        switch (western.getTypeface().getStyle()) {
             case Typeface.NORMAL:
                 western.setTypeface(Typeface.create(western.getTypeface(), Typeface.BOLD), Typeface.BOLD);
                 western.setBackground(getResources().getDrawable(R.drawable.genre_box_select));
@@ -549,7 +555,7 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
     }
 
     @OnClick (R.id.search_button_advanced)
-    public void clickSearch(){
+    public void clickSearch() {
 
         if (presenter != null)
             presenter.discoverMovie();
@@ -561,7 +567,7 @@ public class AdvancedSearchFragment extends Fragment implements AdvancedSearchCo
 
         //Actor ex: Brad pitt 287 ex: Ed Norton 819
         //queries.put("with_cast","287,819");
-        if(adapter.getPersons().size()>0){
+        if(adapter.getPersons().size()>0) {
             StringBuilder builderCast = new StringBuilder();
             for (Person actor : adapter.getPersons()) {
                 builderCast.append(actor.getId());

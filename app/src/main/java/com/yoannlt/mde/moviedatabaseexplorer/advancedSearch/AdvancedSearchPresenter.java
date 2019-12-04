@@ -41,7 +41,7 @@ public class AdvancedSearchPresenter implements AdvancedSearchContract.Presenter
     }
 
     //@Override
-    public void searchActor(String query){
+    public void searchActor(String query) {
         compositeDisposable.add(
             request.searchPerson(query)
                     .subscribeOn(Schedulers.io())

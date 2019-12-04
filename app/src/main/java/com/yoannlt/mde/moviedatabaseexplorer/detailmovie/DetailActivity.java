@@ -33,7 +33,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public void setUpAnimation(){
+    public void setUpAnimation() {
         Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.exit);
         getWindow().setExitTransition(slide);
     }

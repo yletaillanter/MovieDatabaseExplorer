@@ -14,7 +14,7 @@ public class Image {
     private float vote_count;
     private int width;
 
-    public Image(){};
+    public Image() {};
 
     public Image(float aspect_ratio, String file_path, int height, String iso_639_1, float vote_average, float vote_count, int width) {
         this.aspect_ratio = aspect_ratio;

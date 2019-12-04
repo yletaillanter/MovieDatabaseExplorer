@@ -48,7 +48,7 @@ public class MyActorsSearchDialogFragment extends DialogFragment implements Clic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        actorAdapter = new ActorAdapter(getActivity().getApplicationContext(), new ArrayList<Person>());
+        actorAdapter = new ActorAdapter(new ArrayList<Person>());
         actorAdapter.setClickListener(this);
     }
 

@@ -1,11 +1,11 @@
 package com.yoannlt.mde.moviedatabaseexplorer.adapter;
 
-import android.content.Context;
-import android.content.res.Resources;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import com.yoannlt.mde.moviedatabaseexplorer.R;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -24,76 +26,65 @@ import butterknife.ButterKnife;
 /**
  * Created by yoannlt on 16/06/2016.
  */
-public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.ViewHolder>{
+public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.ViewHolder> {
 
-    /* List of data */
-    private ArrayList<Movie> mDataset = new ArrayList<Movie>();
-
+    private ArrayList<Movie> mDataset;
     private ClickListener clickListener;
-    private Context context;
-    private Movie movie;
-
-    private final int MIN_SIZE_OVERVIEW = 0;
-    private final int MAX_SIZE_OVERVIEW = 150;
-    private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
 
     /* Constructor */
-    public ListSearchAdapter(Context context, ArrayList<Movie> movies) {
-        this.context = context;
+    public ListSearchAdapter(ArrayList<Movie> movies) {
         this.mDataset = movies;
     }
 
     @Override
-    public ListSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
-        // set the view's size, margins, paddings and layout parameters
+    public ListSearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.card, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // Get the movie
-        movie = mDataset.get(position);
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
+        Log.d(getClass().getName(), "YLT: " + position);
 
-        Resources res = context.getResources();
-        boolean is_720 = res.getBoolean(R.bool.is_720);
+        final int MIN_SIZE_OVERVIEW = 0;
+        final int MAX_SIZE_OVERVIEW = 150;
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
+
+        // Get the movie
+        Movie movie = mDataset.get(position);
 
         if (movie.getPoster_path() != null) {
             Picasso.get().load(BASE_IMAGE_URL + movie.getPoster_path()).fit().into(holder.poster);
         }
 
-        if (!is_720 && mDataset.get(position).getOverview().length() > MAX_SIZE_OVERVIEW) {
-            // Set the Title of the movie
+        if (holder.title != null)
             holder.title.setText(movie.getTitle());
 
+        if (holder.note != null)
+            holder.note.setText(movie.getVote_average().toString());
+
+        if (mDataset.get(position).getOverview().length() > MAX_SIZE_OVERVIEW) {
             //Get the first 200 Character of the Overview
-            String OverviewCutted = movie.getOverview().substring(MIN_SIZE_OVERVIEW, MAX_SIZE_OVERVIEW);
-
             // Set the overview to the view
-            holder.overview.setText(OverviewCutted + "...");
-
-            //Set the note
-            holder.note.setText("" + movie.getVote_average().toString());
+            if (holder.overview != null) {
+                holder.overview.setText(movie.getOverview().substring(MIN_SIZE_OVERVIEW, MAX_SIZE_OVERVIEW) + "[...]");
+            }
+        } else {
+            holder.overview.setText(movie.getOverview());
         }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(mDataset != null)
-            return mDataset.size();
-        else
-            return 0;
+        return mDataset == null ? 0 : mDataset.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         @BindView(R.id.card) CardView card;
         @Nullable @BindView(R.id.title) TextView title;
         @Nullable @BindView(R.id.overview) TextView overview;
         @Nullable @BindView(R.id.note) TextView note;
-
         @BindView(R.id.poster) ImageView poster;
 
         public ViewHolder(View v) {
@@ -106,14 +97,9 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
 
         @Override
         public void onClick(View v) {
-
             if (clickListener != null) {
-                clickListener.itemClicked(v,getPosition(), ListSearchAdapter.class.getSimpleName());
+                clickListener.itemClicked(v, getLayoutPosition(), ListSearchAdapter.class.getSimpleName());
             }
-        }
-
-        public ImageView getPoster() {
-            return poster;
         }
     }
 
@@ -127,15 +113,18 @@ public class ListSearchAdapter extends RecyclerView.Adapter<ListSearchAdapter.Vi
         notifyItemInserted(position);
     }
 
-    /* Remove an item to the dataList */
+    /* Remove an item from the dataList */
     public void remove(int id) {
         int position = mDataset.indexOf(id);
         mDataset.remove(position);
         notifyItemRemoved(position);
     }
 
+    /* Replace dataList with new list */
     public void replace(ArrayList<Movie> newMovieList) {
+        this.mDataset.clear();
         this.mDataset = newMovieList;
+        notifyDataSetChanged();
     }
 
     public ArrayList<Movie> getmDataset() {

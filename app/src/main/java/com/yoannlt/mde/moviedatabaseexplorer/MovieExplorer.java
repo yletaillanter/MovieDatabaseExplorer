@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.squareup.leakcanary.LeakCanary;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilPresenter;
 import com.yoannlt.mde.moviedatabaseexplorer.accueil.AccueilRepository;
 import com.yoannlt.mde.moviedatabaseexplorer.activity.MainActivity;
@@ -44,8 +43,6 @@ public class MovieExplorer extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        LeakCanary.install(this);
 
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
@@ -110,7 +107,6 @@ public class MovieExplorer extends Application {
         @Provides
         @Singleton
         public OkHttpClient provideOkHttp(Interceptor interceptor) {
-
             /* DEBUG
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             // set your desired log level

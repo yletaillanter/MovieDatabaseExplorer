@@ -1,8 +1,12 @@
 package com.yoannlt.mde.moviedatabaseexplorer.favorite;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.tabs.TabLayout;
+import com.yoannlt.mde.moviedatabaseexplorer.MovieExplorer;
 import com.yoannlt.mde.moviedatabaseexplorer.interfaceRest.RequestInterface;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
@@ -21,65 +25,64 @@ import io.realm.RealmResults;
 /**
  * Created by yoannlt on 05/11/2016.
  */
-public class FavoritePresenter implements FavoriteContract.Presenter{
+public class FavoritePresenter implements FavoriteContract.Presenter {
+
+    private final String LOG_TAG = getClass().getName();
 
     private FavoriteContract.View mView;
     private Realm realm;
-    private RealmResults<Movie> moviesRealm;
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
 
     @Inject RequestInterface request;
     private CompositeDisposable compositeDisposable;
 
+    protected FavoritePresenter(@NonNull FavoriteContract.View mView) {
+        Log.d(LOG_TAG, "FavoritePresenter Constructor");
 
-    public FavoritePresenter(@NonNull FavoriteContract.View mView) {
         this.mView = mView;
-        //MovieExplorer.application().getMovieExplorerComponent().inject(this);
+        MovieExplorer.application().getMovieExplorerComponent().inject(this);
         compositeDisposable = new CompositeDisposable();
         realm = Realm.getDefaultInstance();
     }
 
     @Override
-    public void getMovieComplete(@NonNull int id) {
+    public void getMovieComplete(int id) {
+        Log.d(LOG_TAG, "getMovieComplete: " + id);
+
         compositeDisposable.add(
             request.getMovieById(id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableSubscriber<MovieComplete>() {
                         @Override
-                        public void onNext(MovieComplete movie){
+                        public void onNext(MovieComplete movie) {
                             mView.launchDetailMovie(movie);
                         }
-
                         @Override
-                        public void onError(Throwable e)
-                        {
-                            e.printStackTrace();
-                        }
-
+                        public void onError(Throwable e) { e.printStackTrace(); }
                         @Override
                         public void onComplete() {}
-
                     })
         );
     }
-                 //           mView.launchDetailMovie(movieResponse);
 
-    private void loadFavoriteMovies(){
-        moviesRealm = realm.where(Movie.class).equalTo("listSource", "favorite").findAllAsync();
+    private void loadFavoriteMovies() {
+        Log.d(LOG_TAG, "LoadFavoriteMovies");
+
+        RealmResults<Movie> moviesRealm = realm.where(Movie.class).equalTo("listSource", "favorite").findAllAsync();
 
         compositeDisposable.add(
             moviesRealm.asFlowable()
                     .subscribeWith(new DisposableSubscriber<RealmResults<Movie>>() {
                         @Override
-                        public void onComplete() {}
+                        public void onComplete() {
+                        }
 
                         @Override
                         public void onError(Throwable e) {}
 
                         @Override
                         public void onNext(RealmResults<Movie> movies) {
-                            mView.showFavorites(new ArrayList<Movie>(movies));
+                            mView.showFavorites(new ArrayList<>(movies));
                         }
                     })
         );
@@ -87,11 +90,15 @@ public class FavoritePresenter implements FavoriteContract.Presenter{
 
     @Override
     public void subscribe(@Nullable String source) {
+        Log.d(LOG_TAG, "subscribe");
+
         loadFavoriteMovies();
     }
 
     @Override
     public void unsubscribe() {
+        Log.d(LOG_TAG, "unsubscribe");
+
         compositeDisposable.clear();
     }
 }
