@@ -14,7 +14,7 @@
         android:id="@+id/appli_name_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/header_background"
+        android:layout_alignStart="@+id/header_background"
         android:layout_alignTop="@+id/header_background"
         android:layout_alignRight="@+id/header_background"
         android:layout_alignBottom="@+id/header_background"

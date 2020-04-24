@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_weight="1"
-        android:layout_alignParentLeft="true">
+        android:layout_alignParentStart="true">
 
         <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -30,7 +30,7 @@
                 android:id="@+id/poster"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentStart="true"/>
 
             <TextView
                 android:id="@+id/originaltitlelabel"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/original_title"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@+id/poster"/>
+                android:layout_toEndOf="@+id/poster"/>
 
             <TextView
                 android:id="@+id/original_title"
@@ -49,7 +49,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@+id/originaltitlelabel" />
+                android:layout_toEndOf="@+id/originaltitlelabel" />
 
             <TextView
                 android:id="@+id/releasedate_label"
@@ -60,7 +60,7 @@
                 android:paddingStart="15dp"
                 android:text="@string/release_date"
                 android:layout_below="@+id/originaltitlelabel"
-                android:layout_alignLeft="@+id/originaltitlelabel"/>
+                android:layout_alignStart="@+id/originaltitlelabel"/>
 
             <TextView
                 android:id="@+id/releasedate"
@@ -69,10 +69,10 @@
                 android:textSize="18sp"
                 android:paddingStart="15dp"
                 android:paddingTop="10dp"
-                android:layout_toRightOf="@+id/releasedate_label"
+                android:layout_toEndOf="@+id/releasedate_label"
                 android:layout_below="@+id/original_title"
                 android:layout_alignBottom="@id/releasedate_label"
-                android:layout_alignLeft="@id/original_title"/>
+                android:layout_alignStart="@id/original_title"/>
 
             <TextView
                 android:id="@+id/language_label"
@@ -83,7 +83,7 @@
                 android:text="@string/language_label"
                 android:paddingStart="15dp"
                 android:layout_below="@+id/releasedate_label"
-                android:layout_alignLeft="@+id/releasedate_label"/>
+                android:layout_alignStart="@+id/releasedate_label"/>
 
             <TextView
                 android:id="@+id/language"
@@ -92,10 +92,10 @@
                 android:textSize="18sp"
                 android:paddingStart="15dp"
                 android:paddingTop="10dp"
-                android:layout_toRightOf="@id/language_label"
+                android:layout_toEndOf="@id/language_label"
                 android:layout_below="@+id/releasedate"
                 android:layout_alignBottom="@id/language_label"
-                android:layout_alignLeft="@+id/releasedate" />
+                android:layout_alignStart="@+id/releasedate" />
 
             <ImageView
                 android:id="@+id/starlabel"
@@ -105,7 +105,7 @@
                 android:minWidth="50dp"
                 android:minHeight="50dp"
                 android:layout_below="@id/language_label"
-                android:layout_alignLeft="@+id/language_label"/>
+                android:layout_alignStart="@+id/language_label"/>
 
             <TextView
                 android:id="@+id/rate"
@@ -114,10 +114,10 @@
                 android:textSize="18sp"
                 android:paddingStart="15dp"
                 android:paddingTop="10dp"
-                android:layout_toRightOf="@+id/starlabel"
+                android:layout_toEndOf="@+id/starlabel"
                 android:layout_below="@+id/language"
                 android:layout_alignBottom="@id/starlabel"
-                android:layout_alignLeft="@id/language"/>
+                android:layout_alignStart="@id/language"/>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -127,9 +127,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_toRightOf="@+id/card_main">
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toEndOf="@+id/card_main">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -143,7 +143,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:text="@string/status_label"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentStart="true"/>
 
             <TextView
                 android:id="@+id/status"
@@ -152,7 +152,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@+id/status_label" />
+                android:layout_toEndOf="@+id/status_label" />
 
             <TextView
                 android:id="@+id/original_language_label"
@@ -162,7 +162,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/original_language_label"
                 android:layout_below="@id/status_label"
-                android:layout_alignLeft="@id/status_label"/>
+                android:layout_alignStart="@id/status_label"/>
 
             <TextView
                 android:id="@+id/original_language"
@@ -171,7 +171,7 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@id/original_language_label"
+                android:layout_toEndOf="@id/original_language_label"
                 android:layout_below="@id/status"
                 android:layout_alignBottom="@id/original_language_label"/>
 
@@ -183,7 +183,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/budget_label"
                 android:layout_below="@id/original_language_label"
-                android:layout_alignLeft="@id/original_language_label"/>
+                android:layout_alignStart="@id/original_language_label"/>
 
             <TextView
                 android:id="@+id/budget"
@@ -192,9 +192,9 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@id/budget_label"
+                android:layout_toEndOf="@id/budget_label"
                 android:layout_below="@id/original_language"
-                android:layout_alignLeft="@+id/original_language"
+                android:layout_alignStart="@+id/original_language"
                 android:layout_alignBottom="@id/budget_label"/>
 
             <TextView
@@ -205,7 +205,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/revenue_label"
                 android:layout_below="@id/budget_label"
-                android:layout_alignLeft="@id/budget_label"/>
+                android:layout_alignStart="@id/budget_label"/>
 
             <TextView
                 android:id="@+id/revenue"
@@ -214,9 +214,9 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@id/revenue_label"
+                android:layout_toEndOf="@id/revenue_label"
                 android:layout_below="@id/budget"
-                android:layout_alignLeft="@+id/budget"
+                android:layout_alignStart="@+id/budget"
                 android:layout_alignBottom="@+id/revenue_label"/>
 
             <TextView
@@ -227,7 +227,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/production_companies_label"
                 android:layout_below="@id/revenue_label"
-                android:layout_alignLeft="@id/revenue_label"/>
+                android:layout_alignStart="@id/revenue_label"/>
 
             <TextView
                 android:id="@+id/production_companies"
@@ -236,9 +236,9 @@
                 android:textSize="18sp"
                 android:layout_marginTop="10dp"
                 android:paddingStart="15dp"
-                android:layout_toRightOf="@id/production_companies_label"
+                android:layout_toEndOf="@id/production_companies_label"
                 android:layout_below="@id/revenue"
-                android:layout_alignLeft="@+id/revenue"
+                android:layout_alignStart="@+id/revenue"
                 android:layout_alignBottom="@id/production_companies_label"/>
         </RelativeLayout>
 
@@ -248,10 +248,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_below="@+id/card_info"
-        android:layout_alignLeft="@+id/card_info">
+        android:layout_alignStart="@+id/card_info">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -289,8 +289,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_below="@+id/card_main">
 
         <TextView
@@ -308,8 +308,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_below="@+id/card_overview">
 
         <RelativeLayout
@@ -341,8 +341,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="100dp"
         android:layout_below="@+id/card_cast">
 

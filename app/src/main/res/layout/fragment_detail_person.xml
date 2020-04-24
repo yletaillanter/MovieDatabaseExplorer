@@ -2,11 +2,11 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/person_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    xmlns:card_view="http://schemas.android.com/tools">
+    android:fitsSystemWindows="true" >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/MyAppbar"
@@ -28,7 +28,8 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                android:contentDescription="@string/blurry_person_picture_background_cd"/>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/my_toolbar_detail"
@@ -59,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginLeft="@dimen/spacing_small"
-                android:layout_marginRight="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:elevation="2dp"
                 android:clipToPadding="false">
 
@@ -72,10 +73,12 @@
                         android:id="@+id/picture_person"
                         android:layout_width="130dp"
                         android:layout_height="192dp"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:padding="@dimen/spacing_small"
                         android:elevation="1dp"
-                        android:clipToPadding="false"/>
+                        android:clipToPadding="false"
+                        android:contentDescription="@string/person_picture_cd"
+                        tools:src="@tools:sample/avatars"/>
 
                     <TextView
                         android:id="@+id/birthdate_label"
@@ -85,17 +88,20 @@
                         android:textSize="@dimen/content_text_size"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:paddingStart="@dimen/spacing_small"
-                        android:layout_toRightOf="@+id/picture_person"
+                        android:paddingEnd="@dimen/spacing_small"
+                        android:layout_toEndOf="@+id/picture_person"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/birthdate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/content_text_size"
                         android:layout_marginTop="@dimen/spacing_small"
+                        android:layout_toEndOf="@+id/birthdate_label"
                         android:paddingStart="@dimen/spacing_small"
-                        android:layout_toRightOf="@+id/birthdate_label"/>
+                        android:paddingEnd="@dimen/spacing_small"
+                        android:textSize="@dimen/content_text_size"
+                        tools:text="@tools:sample/date/ddmmyy" />
 
                     <TextView
                         android:id="@+id/birthplace"
@@ -104,8 +110,10 @@
                         android:textSize="@dimen/content_text_size"
                         android:layout_marginTop="@dimen/spacing_small"
                         android:paddingStart="@dimen/spacing_small"
+                        android:paddingEnd="@dimen/spacing_small"
                         android:layout_below="@+id/birthdate_label"
-                        android:layout_alignLeft="@id/birthdate_label"/>
+                        android:layout_alignStart="@id/birthdate_label"
+                        tools:text="@tools:sample/cities" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -114,8 +122,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginLeft="@dimen/spacing_small"
-                android:layout_marginRight="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:elevation="2dp">
 
                 <LinearLayout
@@ -129,21 +137,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/gallery"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:contentDescription="@string/gallery_icon_cd"/>
 
                     <ImageView
                         android:id="@+id/video"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/video"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:contentDescription="@string/video_imdb_icon_cd"/>
 
                     <ImageView
                         android:id="@+id/http"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/http"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:contentDescription="@string/link_to_imdb_icon_cd"/>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -152,8 +163,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginLeft="@dimen/spacing_small"
-                android:layout_marginRight="@dimen/spacing_small">
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small">
 
                 <TextView
                     android:fontFamily="sans-serif"
@@ -161,7 +172,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/content_text_size"
-                    android:layout_margin="@dimen/spacing_small" />
+                    android:layout_margin="@dimen/spacing_small"
+                    android:lineSpacingMultiplier="1.2"
+                    tools:text="Mauris at malesuada erat. Vivamus iaculis ornare turpis eget accumsan. Integer sed lorem elit. Aliquam ut iaculis nulla. Fusce vel tellus augue. Sed eget efficitur orci."/>
 
             </androidx.cardview.widget.CardView>
 
@@ -169,8 +182,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:layout_marginLeft="@dimen/spacing_small"
-                android:layout_marginRight="@dimen/spacing_small"
+                android:layout_marginStart="@dimen/spacing_small"
+                android:layout_marginEnd="@dimen/spacing_small"
                 android:layout_marginBottom="180dp">
 
                 <RelativeLayout
@@ -180,7 +193,7 @@
                     <TextView
                         android:id="@+id/label_other_movies"
                         android:textSize="@dimen/subtitle_text_size"
-                        android:layout_marginLeft="@dimen/spacing_small"
+                        android:layout_marginStart="@dimen/spacing_small"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/spacing_huge"
                         android:gravity="center_vertical"

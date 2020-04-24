@@ -61,4 +61,13 @@
     <string name="menu_search_by_name">Rechercher par titre</string>
     <string name="menu_search_advanced">Recherche avancée</string>
     <string name="search_title">Chercher</string>
+    <string name="gallery_icon_cd">gallery icon</string>
+    <string name="video_imdb_icon_cd">to video of imdb icon</string>
+    <string name="link_to_imdb_icon_cd">link to imdb site icon</string>
+    <string name="blurry_person_picture_background_cd">blurry person picture background</string>
+    <string name="person_picture_cd">person picture</string>
+    <string name="title_of_the_movie_cd">title of the movie</string>
+    <string name="rating_star_icon_cd">rating star icon</string>
+    <string name="movie_header_image_cd">movie header image</string>
+    <string name="movie_poster_cd">movie poster</string>
 </resources>

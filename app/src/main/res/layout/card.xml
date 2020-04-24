@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/spacing_small"
-    android:layout_marginLeft="@dimen/spacing_small"
-    android:layout_marginRight="@dimen/spacing_small"
+    android:layout_marginStart="@dimen/spacing_small"
+    android:layout_marginEnd="@dimen/spacing_small"
     android:id="@+id/card">
 
     <RelativeLayout
@@ -18,7 +18,7 @@
             android:transitionName="poster_transition"
             android:layout_width="@dimen/imageview_fullist_width"
             android:layout_height="@dimen/imageview_fullist_height"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true" />
 
         <TextView
@@ -27,9 +27,9 @@
             android:textSize="@dimen/subtitle_text_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/poster"
-            android:layout_marginLeft="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small"/>
+            android:layout_toEndOf="@+id/poster"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"/>
 
         <TextView
             android:id="@+id/overview"
@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xlarge"
-            android:layout_marginRight="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
             android:layout_below="@+id/title"
-            android:layout_alignLeft="@+id/title" />
+            android:layout_alignStart="@+id/title" />
 
         <TextView
             android:id="@+id/note"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xlarge"
             android:layout_below="@+id/overview"
-            android:layout_alignLeft="@+id/overview"
+            android:layout_alignStart="@+id/overview"
             android:gravity="center_horizontal"
             android:layout_marginBottom="@dimen/spacing_small"/>
 

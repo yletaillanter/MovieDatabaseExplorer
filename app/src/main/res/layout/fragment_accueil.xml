@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small">
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,7 +30,7 @@
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/spacing_huge"
-                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_nowplaying" />
 
@@ -47,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small">
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/spacing_huge"
-                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_upcoming"/>
 
@@ -76,8 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small">
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/spacing_huge"
-                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_popular"/>
 
@@ -105,8 +105,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing_small"
-            android:layout_marginRight="@dimen/spacing_small">
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -117,7 +117,7 @@
                     android:textSize="@dimen/subtitle_text_size"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/spacing_huge"
-                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginStart="@dimen/spacing_small"
                     android:gravity="center_vertical"
                     android:text="@string/label_toprated"/>
 
