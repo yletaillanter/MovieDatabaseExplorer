@@ -7,7 +7,6 @@
     <string name="advanced_search_title">Recherche avancée</string>
     <string name="add_actor">Ajouter un acteur</string>
 
-
     <!-- LISTE GENRE -->
     <string name="genre_action">Action</string>
     <string name="genre_adventure">Aventure</string>
@@ -40,7 +39,7 @@
     <string name="favorite_title">Favoris</string>
     <string name="hint_search">Rechercher</string>
     <string name="label_actors_as">Acteur(s)</string>
-    <string name="label_ne">"Né le : "</string>
+    <string name="label_ne">Né le </string>
     <string name="label_other_movies">Autres Films</string>
     <string name="label_similar">Films Similaires</string>
     <string name="menu_film">Film</string>
@@ -48,4 +47,7 @@
     <string name="menu_search_by_name">Rechercher par titre</string>
     <string name="menu_search_advanced">Recherche avancée</string>
     <string name="search_title">Chercher</string>
+    <string name="executive_producer">Producteur</string>
+    <string name="director">Réalisateur</string>
+    <string name="writer">Scénariste</string>
 </resources>

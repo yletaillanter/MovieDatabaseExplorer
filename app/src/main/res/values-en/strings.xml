@@ -45,5 +45,8 @@
     <string name="label_genres_as">Genre(s):</string>
     <string name="hint_search_actor">Actor name</string>
     <string name="menu_film">Film</string>
+    <string name="executive_producer">Producer</string>
+    <string name="director">Director</string>
+    <string name="writer">Writer</string>
 
 </resources>

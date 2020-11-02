@@ -1,5 +1,7 @@
 package com.yoannlt.mde.moviedatabaseexplorer.detailmovie;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -79,17 +81,20 @@ public class DetailPresenter implements DetailContract.Presenter {
                 .subscribeWith(new DisposableSubscriber<CastPersonJSONResponse>() {
                     @Override
                     public void onComplete() {
-
+                        Log.d("loadCredits", "complete");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d("loadCredits", "error " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(CastPersonJSONResponse castPersonJSONResponse) {
+                        Log.i("loadCredits", "cast length: " + castPersonJSONResponse.getCast().length);
                         mView.setCasting(new ArrayList<>(Arrays.asList(castPersonJSONResponse.getCast())));
+                        Log.i("loadCredits", "crew length: " + castPersonJSONResponse.getCrew().length);
+                        mView.setCrew(new ArrayList<>(Arrays.asList(castPersonJSONResponse.getCrew())));
                     }
                 })
         );

@@ -35,6 +35,7 @@ import com.yoannlt.mde.moviedatabaseexplorer.fullList.FullListFragment;
 import com.yoannlt.mde.moviedatabaseexplorer.fullscreen.FullScreenImageViewActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.gallery.GalleryActivity;
 import com.yoannlt.mde.moviedatabaseexplorer.model.CastPerson;
+import com.yoannlt.mde.moviedatabaseexplorer.model.CrewPerson;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Movie;
 import com.yoannlt.mde.moviedatabaseexplorer.model.MovieComplete;
 import com.yoannlt.mde.moviedatabaseexplorer.model.Person;
@@ -57,6 +58,10 @@ import io.realm.RealmResults;
 
 public class DetailFragment extends Fragment implements DetailContract.View, ClickListener {
 
+    private static final String EXECUTIVE_PRODUCER = "Producer";
+    private static final String DIRECTOR = "Director";
+    private static final String WRITER = "Writer";
+    private static final String TAG = "DetailFragment";
     private final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w300";
     private final String CASTING_RECYCLER_ADAPTER = "CastingRecyclerAdapter";
 
@@ -72,6 +77,9 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     private ArrayList<CastPerson> castPersons;
     private CastingRecyclerAdapter adapterCasting;
 
+    // Crew
+    private ArrayList<CrewPerson> crewPersons = new ArrayList<>();
+
     @Nullable @BindView(R.id.MyToolbar) Toolbar toolbar;
     @Nullable @BindView(R.id.collapse_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.recycler_similar) RecyclerView recyclerView;
@@ -86,6 +94,9 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     @BindView(R.id.original_language) TextView original_language;
     @BindView(R.id.status) TextView status;
     @BindView(R.id.budget) TextView budget;
+    @BindView(R.id.director) TextView director;
+    @BindView(R.id.executive_producer) TextView producer;
+    @BindView(R.id.writer) TextView writer;
 
     @BindView(R.id.revenue_label) TextView revenueLabel;
     @BindView(R.id.revenue) TextView revenue;
@@ -160,6 +171,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
     }
 
     private void initLayoutComponents() {
+
         overview.setText(currentMovie.getOverview());
         rate.setText("" + currentMovie.getVote_average());
         language.setText(currentMovie.getOriginal_language());
@@ -168,6 +180,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         original_language.setText(currentMovie.getOriginal_language());
         status.setText(currentMovie.getStatus());
         budget.setText("" + currentMovie.getBudget());
+
         //if (currentMovie.getRevenue() == 0) {
         //    revenueLabel.setVisibility(View.GONE);
         //} else {
@@ -306,7 +319,7 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         adapterCasting.setClickListener(this);
         recyclerViewCasting.setAdapter(adapterCasting);
 
-        // Init credits call
+        // Init credits
         presenter.loadCredits(currentMovie.getId());
     }
 
@@ -337,6 +350,22 @@ public class DetailFragment extends Fragment implements DetailContract.View, Cli
         this.castPersons = cast;
         adapterCasting.replace(cast);
         adapterCasting.notifyDataSetChanged();
+    }
+
+    @Override
+    public void setCrew(@NonNull ArrayList<CrewPerson> crew) {
+        Log.i(TAG, "setCrew, size: " + crew.size());
+        this.crewPersons = crew;
+
+        for(CrewPerson crewPerson : crewPersons) {
+            Log.i("DetailFragment", "forEach crew: " + crewPerson.getName());
+            if (DIRECTOR.equals(crewPerson.getJob()))
+                director.setText(crewPerson.getName());
+            else if (EXECUTIVE_PRODUCER.equals(crewPerson.getJob()))
+                producer.setText(crewPerson.getName());
+            else if (WRITER.equals(crewPerson.getJob()))
+                writer.setText(crewPerson.getName());
+        }
     }
 
     @Override

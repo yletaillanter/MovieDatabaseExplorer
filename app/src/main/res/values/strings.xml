@@ -70,4 +70,7 @@
     <string name="rating_star_icon_cd">rating star icon</string>
     <string name="movie_header_image_cd">movie header image</string>
     <string name="movie_poster_cd">movie poster</string>
+    <string name="executive_producer">Producer:</string>
+    <string name="director">Director:</string>
+    <string name="writer">Scénariste :</string>
 </resources>
